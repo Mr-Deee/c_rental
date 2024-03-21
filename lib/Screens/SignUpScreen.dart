@@ -52,17 +52,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
     double widthDevice = MediaQuery.of(context).size.width;
     double heightDevice = MediaQuery.of(context).size.height;
     return Scaffold(
+
       body: Container(
         child: Stack(children: [
           Container(
             height: heightDevice * 0.4,
             decoration: BoxDecoration(
-              color: primaryColor,
+              color: Colors.black,
             ),
           ),
           Container(
+
             margin: EdgeInsets.only(top: heightDevice * 0.03),
-            child: Lottie.asset('assets/animations/animation.json', width: 250),
+            child: Lottie.asset('assets/animations/car-animation.json', width: 250),
           ),
           Container(
             margin: EdgeInsets.only(top: heightDevice * 0.35),

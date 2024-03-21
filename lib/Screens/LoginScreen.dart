@@ -61,10 +61,19 @@ class _LoginScreenState extends State<LoginScreen> {
               margin: EdgeInsets.only(top: heightDevice * 0.10),
               child: Column(children: [
                 Text(
+                  "Benji's",
+                  style: TextStyle(
+                    color: Color(0XFF091424),
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'RobotoMono',
+                  ),
+                ),
+                Text(
                   "Sign In",
                   style: TextStyle(
                     color: Color(0XFF091424),
-                    fontSize: 35,
+                    fontSize: 15,
                     fontWeight: FontWeight.bold,
                     fontFamily: 'RobotoMono',
                   ),
