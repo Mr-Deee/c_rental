@@ -229,11 +229,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
               .collection("Users")
               .doc(value.user!.uid)
               .set({
-            "email": value.user!.email,
-            "firstName": " ",
-            "lastName": " ",
-            "phoneNumber": " ",
-            "gender": " ",
+            "email": _emailController.text,
+            "password":  _passwordController.text,
+
           });
         }).then((value) => Navigator.pushAndRemoveUntil(
                 context,
