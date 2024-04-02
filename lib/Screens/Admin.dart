@@ -54,36 +54,56 @@ class _AdminState extends State<Admin> {
         resizeToAvoidBottomInset: false,
         body: Column(
           children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(top: 30, left: 10, right: 10),
-              height: MediaQuery.of(context).size.height * 0.14,
-              child: TextField(
-                keyboardType: TextInputType.text,
-                controller: locates,
-                decoration: InputDecoration(
-                    hintText: 'Your Preffered Location',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(17),
+            Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: FadeInDown(
+                delay: const Duration(milliseconds: 1000),
+                child: SizedBox(
+                  height: 180,
+                  width: 400,
+                  child: GestureDetector(
+                    onTap: () {
+                      // Navigator.of(context).pushAndRemoveUntil(
+                      //     MaterialPageRoute(
+                      //         builder: (context) => Artisan_portfolio()),
+                      //     (Route<dynamic> route) => true);
+                    },
+                    child: Card(
+                      elevation: 8,
+                      color: Colors.black,
+                      shadowColor: Colors.black,
+                      shape:  RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20),
+
+                          ),
+
+                          side: BorderSide(
+
+                              width: size.width, color: Colors.black54)),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top:28.0,left:7,right: 13),
+                                child: Image.asset("assets/images/audi.png",width: 53,),
+                              ),
+
+                              Padding(
+                                padding: const EdgeInsets.only(top:18.0),
+                                child: Text("Benji's Admin",style: TextStyle(fontWeight: FontWeight.bold,color:Colors.white ),),
+                              )
+                            ],
+                          ),
+
+
+
+                        ],
                       ),
                     ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: (BorderSide(width: 1.0, color: Colors.blue)),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(18),
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: (BorderSide(width: 1.0, color: Colors.blue)),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
-                      ),
-                    ),
-                    prefixIcon: IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.filter_list_rounded)),
-                    suffixIcon: IconButton(
-                        onPressed: clear, icon: Icon(Icons.pin_drop_rounded))),
+                  ),
+                ),
               ),
             ),
 
@@ -109,7 +129,7 @@ class _AdminState extends State<Admin> {
                           child: Card(
                             elevation: 8,
                             color: Colors.blue,
-                            shadowColor: Colors.black38,
+                            shadowColor: Colors.blueAccent,
                             shape:  RoundedRectangleBorder(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(20),
@@ -169,19 +189,22 @@ class _AdminState extends State<Admin> {
                                     width: size.width, color: Colors.white24)),
                             child: Column(
                               children: [
+
+                                Padding(
+                                  padding: const EdgeInsets.only(top:28.0),
+                                  child: Image.asset("assets/images/earnings.png",width: 121,),
+                                ),
                                 Padding(
                                   padding: const EdgeInsets.only(
-                                      top: 50.0, left: 10, right: 10),
+                                      top: 12.0, left: 10, right: 10),
                                   child: Text('Earnings',
                                       style: GoogleFonts.openSans(
                                         color: Colors.black,
-                                        //fontWeight: FontWeight.bold,
-                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
                                       )),
                                 ),
-                                Icon(
-                                  Icons.monetization_on_rounded,
-                                ),
+
                               ],
                             ),
                           ),
