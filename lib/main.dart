@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'Screens/AddVehicle.dart';
 import 'Screens/HomeScreen.dart';
 import 'Screens/LoginScreen.dart';
 import 'Screens/SignUpScreen.dart';
@@ -31,14 +32,14 @@ class MyApp extends StatelessWidget {
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
 debugShowCheckedModeBanner: false,
         initialRoute:
-        FirebaseAuth.instance.currentUser == null ? '/SignIn' : '/Homepage',
+        FirebaseAuth.instance.currentUser == null ? '/SignIn' : '/AddNewVehicle',
         //'/Homepage',
         routes: {
           "/SignUP": (context) => SignUpScreen(),
           // "/Admin": (context) => Adminpage(),
           "/SignIn": (context) => LoginScreen(),
           // "/Employee": (context) => employeetill(),
-          "/Homepage": (context) => HomeScreen(),
+          "/AddNewVehicle": (context) => NewVehicle(),
           //    "/addproduct":(context)=>addproduct()
         }
 
