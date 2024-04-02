@@ -121,10 +121,10 @@ class _AdminState extends State<Admin> {
                         width: 180,
                         child: GestureDetector(
                           onTap: () {
-                            // Navigator.of(context).pushAndRemoveUntil(
-                            //     MaterialPageRoute(
-                            //         builder: (context) => Artisan_portfolio()),
-                            //     (Route<dynamic> route) => true);
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) => NewVehicle()),
+                                (Route<dynamic> route) => true);
                           },
                           child: Card(
                             elevation: 8,
@@ -179,20 +179,21 @@ class _AdminState extends State<Admin> {
                           },
                           child: Card(
                             elevation: 8,
-                            shadowColor: Colors.black38,
+                            color: Colors.white,
+                            shadowColor: Colors.white,
                             shape:  RoundedRectangleBorder(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(20),
                                 ),
                                 side: BorderSide(
 
-                                    width: size.width, color: Colors.white24)),
+                                    width: size.width, color: Colors.white)),
                             child: Column(
                               children: [
 
                                 Padding(
                                   padding: const EdgeInsets.only(top:28.0),
-                                  child: Image.asset("assets/images/earnings.png",width: 121,),
+                                  child: Image.asset("assets/images/earnings.png",width: 120,),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(
@@ -219,15 +220,7 @@ class _AdminState extends State<Admin> {
 
 
 
-            // MyCard(
-            //   modelname: arg['modelname'],
-            //   price: arg['price'],
-            //   type: arg['type'],
-            //   mobilenumber: arg['mobilenumber'],
-            //   seat: arg['seat'],
-            //   vehiclenumber: arg['vehiclenumber'],
-            //   location: arg['location'],
-            // ),
+
           ],
         ),
       ),

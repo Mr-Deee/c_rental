@@ -45,11 +45,13 @@ dependencies:
   lottie:
   syncfusion_flutter_datepicker:
   smart_select:
+  image_picker:
   intl:
   font_awesome_flutter:
   animate_do: ^3.3.4
   google_fonts: ^6.2.1
   bouncing_widget: ^2.0.0
+  firebase_storage: ^11.7.0
 #  firebase_core_platform_interface:
 
 
