@@ -29,28 +29,7 @@ class _AdminState extends State<Admin> {
       child: Scaffold(
 
 
-        // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-        // floatingActionButton: FloatingActionButton.extended(
-        //   onPressed: () {
-        //     Navigator.push(
-        //         context, MaterialPageRoute(builder: (context) => NewVehicle()));
-        //   },
-        //   label: Text(
-        //     'ADD VEHICLE',
-        //     style: TextStyle(
-        //         fontStyle: FontStyle.italic,
-        //         fontWeight: FontWeight.bold,
-        //         fontSize: 15),
-        //   ),
-        //   icon: Icon(
-        //     Icons.add_rounded,
-        //     size: 30,
-        //   ),
-        //   elevation: 80,
-        //   splashColor: Colors.black,
-        //   backgroundColor: Colors.blue,
-        //   foregroundColor: Colors.black,
-        // ),
+
         resizeToAvoidBottomInset: false,
         body: Column(
           children: <Widget>[
@@ -93,11 +72,13 @@ class _AdminState extends State<Admin> {
                               Padding(
                                 padding: const EdgeInsets.only(top:18.0),
                                 child: Text("Benji's Admin",style: TextStyle(fontWeight: FontWeight.bold,color:Colors.white ),),
-                              )
+                              ),
                             ],
                           ),
 
-
+                        Row(
+                          children: [],
+                        )
 
                         ],
                       ),

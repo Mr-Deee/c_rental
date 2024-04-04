@@ -1,8 +1,9 @@
 import 'dart:io';
-
+import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class NewVehicle extends StatefulWidget {
   const NewVehicle({Key? key}) : super(key: key);
@@ -12,6 +13,7 @@ class NewVehicle extends StatefulWidget {
 }
 
 class _NewVehicleState extends State<NewVehicle> {
+  final DatabaseReference  _database = FirebaseDatabase.instance.reference();
   final modelname = TextEditingController();
   final vehiclenumber = TextEditingController();
   final mobilenumber = TextEditingController();
@@ -315,27 +317,7 @@ class _NewVehicleState extends State<NewVehicle> {
                     ),
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.only(top: 10, left: 10),
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  height: MediaQuery.of(context).size.height * 0.075,
-                  child: ElevatedButton(
-                    onPressed: addvehicle,
-                    child: Text(
-                      'Confirm',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontFamily: 'DelaGothic'),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                        enableFeedback: false,
-                        elevation: 20,
-                        backgroundColor: Colors.blue,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15))),
-                  ),
-                ),
+
                 // ElevatedButton(
                 //   onPressed: () {
                 //     _pickImage(index);
@@ -344,19 +326,17 @@ class _NewVehicleState extends State<NewVehicle> {
                 // ),
                 SizedBox(height: 10),
                 // Display selected images
-                if (_images.isNotEmpty)
-                  Column(
-                    children: [
-                      for (var image in _images)
-                        if (image != null) Image.file(image),
-                    ],
-                  ),
+
                 Container(
                   margin: EdgeInsets.only(top: 10, left: 10),
                   width: MediaQuery.of(context).size.width * 0.5,
                   height: MediaQuery.of(context).size.height * 0.075,
                   child: ElevatedButton(
-                    onPressed: addvehicle,
+                    onPressed:(){
+
+                      addvehicle();
+                      addVehicledb();
+                    },
                     child: Text(
                       'Confirm',
                       style: TextStyle(
@@ -464,4 +444,27 @@ class _NewVehicleState extends State<NewVehicle> {
       }
     }
   }
+  void addVehicledb() {
+  _database.child('vehicles').push().set({
+  'model_name': modelname.text,
+  'vehicle_number': vehiclenumber.text,
+  'mobile_number': mobilenumber.text,
+  'type': type.text,
+  'seats': int.tryParse(seat.text) ?? 0,
+  'price': double.tryParse(price.text) ?? 0.0,
+  'location': location.text,
+  }).then((_) {
+  // Reset text controllers after successful submission
+  modelname.clear();
+  vehiclenumber.clear();
+  mobilenumber.clear();
+  type.clear();
+  seat.clear();
+  price.clear();
+  location.clear();
+  }).catchError((error) {
+  // Handle errors
+  print("Failed to add vehicle: $error");
+  });
+}
 }
