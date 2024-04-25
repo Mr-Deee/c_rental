@@ -7,6 +7,7 @@ import 'Screens/AddVehicle.dart';
 import 'Screens/HomeScreen.dart';
 import 'Screens/LoginScreen.dart';
 import 'Screens/SignUpScreen.dart';
+import 'Screens/VehicleScreen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
         routes: {
           "/": (context) => CheckUserRole(),
           "/SignUP": (context) => SignUpScreen(),
-          // "/Admin": (context) => Adminpage(),
+          "/homepage": (context) => VehicleScreen(),
           "/SignIn": (context) => LoginScreen(),
           // "/Employee": (context) => employeetill(),
           "/Admin": (context) => Admin(),
@@ -67,13 +68,13 @@ class _CheckUserRoleState extends State<CheckUserRole> {
     User? user = _auth.currentUser;
     if (user != null) {
       DatabaseEvent adminSnapshot = await _databaseReference.child('Admin').once();
-      DatabaseEvent gasStationSnapshot = await _databaseReference.child('GasStation').once();
+      DatabaseEvent gasStationSnapshot = await _databaseReference.child('Clients').once();
 
       if (adminSnapshot.snapshot.value != null &&
           (adminSnapshot.snapshot.value as Map<dynamic, dynamic>).containsKey(user.uid)) {
         // User is an admin
         Future.delayed(Duration.zero, () {
-          Navigator.pushReplacementNamed(context, '/Homepage');});
+          Navigator.pushReplacementNamed(context, '/homepage');});
       } else if (gasStationSnapshot.snapshot.value != null &&
           (gasStationSnapshot.snapshot.value as Map<dynamic, dynamic>).containsKey(user.uid)) {
         // User is a gas station
