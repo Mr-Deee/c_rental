@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lottie/lottie.dart';
 
 import '../Constants/constants.dart';
+import '../main.dart';
 import 'LoginScreen.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -16,6 +18,9 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<FormState> _registerFormKey = GlobalKey<FormState>();
   var _emailController = TextEditingController();
+  var _firstnameController = TextEditingController();
+  var fullPhoneNumber = TextEditingController();
+  var _lastnameController = TextEditingController();
   var _passwordController = TextEditingController();
   var _confirmPwdController = TextEditingController();
 
@@ -265,4 +270,95 @@ class _SignUpScreenState extends State<SignUpScreen> {
           });
     }
   }
+
+  User? firebaseUser;
+  User? currentfirebaseUser;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+  Future<void> registerNewUser(BuildContext context) async {
+    // String fullPhoneNumber = '$selectedCountryCode${phonecontroller.text.trim()
+    //     .toString()}';
+
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return Dialog(
+              backgroundColor: Colors.transparent,
+              child: Container(
+                  margin: EdgeInsets.all(15.0),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20.0)
+                  ),
+                  child: Padding(
+                      padding: EdgeInsets.all(15.0),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            SizedBox(width: 6.0,),
+                            CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                  Colors.black),),
+                            SizedBox(width: 26.0,),
+                            Text("Signing up,please wait...")
+
+                          ],
+                        ),
+                      ))));
+        });
+
+
+    firebaseUser = (await _firebaseAuth
+        .createUserWithEmailAndPassword(
+        email: _emailController.text, password: _passwordController.text)
+        .catchError((errMsg) {
+      Navigator.pop(context);
+      displayToast("Error" + errMsg.toString(), context);
+    }))
+        .user;
+
+
+    if (firebaseUser != null) // user created
+
+        {
+      //save use into to database
+
+      Map userDataMap = {
+
+        "email": _emailController.text.trim().toString(),
+        "FirstName": _firstnameController.text.trim().toString(),
+        "LastName": _lastnameController.text.trim().toString(),
+        "phoneNumber": fullPhoneNumber,
+        "Password": _passwordController.text.trim().toString(),
+
+      };
+      Clientsdb.child(firebaseUser!.uid).set(userDataMap);
+      // Admin.child(firebaseUser!.uid).set(userDataMap);
+
+      currentfirebaseUser = firebaseUser;
+            Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              SignUpScreen(),
+        ),
+      );
+    } else {
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(builder: (context) {
+      //     return login();
+      //   }),
+      // );      // Navigator.pop(context);
+      // error occured - display error
+      displayToast("user has not been created", context);
+    }
+  }
+
+}
+displayToast(String message, BuildContext context) {
+  Fluttertoast.showToast(msg: message);
 }
