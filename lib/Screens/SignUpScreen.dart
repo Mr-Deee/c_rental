@@ -159,7 +159,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           width: widthDevice * 0.8,
                           height: heightDevice * 0.09,
                           child: TextButton(
-                            onPressed: firebaseRegistration,
+                            onPressed:() async {
+                              registerNewUser(context);
+                            firebaseRegistration();},
                             child: Text(
                               'Sign Up',
                               style: TextStyle(
