@@ -400,7 +400,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         context,
         MaterialPageRoute(
           builder: (context) =>
-              SignUpScreen(),
+              LoginScreen(),
         ),
       );
     } else {
