@@ -72,7 +72,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: Lottie.asset('assets/animations/car-animation.json', width: 250),
           ),
           Container(
-            margin: EdgeInsets.only(top: heightDevice * 0.35),
+            margin: EdgeInsets.only(top: heightDevice * 0.25),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(
@@ -86,6 +86,60 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   key: _registerFormKey,
                   child: Column(
                     children: [
+
+
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: widthDevice * 0.1, top: heightDevice * 0.04),
+                            child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "FirstName",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15),
+                                )),
+                          ),
+
+                      Container(
+                        width: widthDevice * 0.8,
+                        child: TextFormField(
+                          decoration:
+                          InputDecoration(hintText: "john"),
+                          keyboardType: TextInputType.emailAddress,
+                          controller: _firstnameController,
+                          validator: emailValidator,
+                        ),
+                      ),
+
+
+                      Container(
+                        margin: EdgeInsets.only(
+                            left: widthDevice * 0.1, top: heightDevice * 0.04),
+                        child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "LastName",
+                              style: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 15),
+                            )),
+                      ),
+
+                      Container(
+                        width: widthDevice * 0.8,
+                        child: TextFormField(
+                          decoration:
+                          InputDecoration(hintText: "Doe"),
+                          keyboardType: TextInputType.name,
+                          controller: _lastnameController,
+                          validator: emailValidator,
+                        ),
+                      ),
+
+
                       Container(
                         margin: EdgeInsets.only(
                             left: widthDevice * 0.1, top: heightDevice * 0.04),
@@ -161,7 +215,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           child: TextButton(
                             onPressed:() async {
                               registerNewUser(context);
-                            firebaseRegistration();},
+                              // firebaseRegistration();},
+                            },
                             child: Text(
                               'Sign Up',
                               style: TextStyle(
@@ -333,7 +388,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         "email": _emailController.text.trim().toString(),
         "FirstName": _firstnameController.text.trim().toString(),
         "LastName": _lastnameController.text.trim().toString(),
-        "phoneNumber": fullPhoneNumber,
+        // "phoneNumber": fullPhoneNumber,
         "Password": _passwordController.text.trim().toString(),
 
       };
