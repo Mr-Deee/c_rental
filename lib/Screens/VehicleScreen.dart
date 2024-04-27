@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -22,7 +23,7 @@ class _VehicleScreenState extends State<VehicleScreen> {
       .where('promotion', isNotEqualTo: 0)
       .snapshots();
   final CollectionReference vehiclesList =
-      FirebaseFirestore.instance.collection('Vehicles');
+  FirebaseFirestore.instance.collection('Vehicles');
   List vehicleList = [];
 
   fetchVehicles() async {
@@ -47,9 +48,10 @@ class _VehicleScreenState extends State<VehicleScreen> {
       await vehiclesList
           .where("brand", isEqualTo: changeWidget)
           .get()
-          .then((value) => value.docs.forEach((element) {
-                vehicleList.add(element);
-              }));
+          .then((value) =>
+          value.docs.forEach((element) {
+            vehicleList.add(element);
+          }));
       return vehicleList;
     } catch (e) {
       print(e.toString());
@@ -58,6 +60,7 @@ class _VehicleScreenState extends State<VehicleScreen> {
   }
 
   var changeWidget = "";
+
   @override
   void initState() {
     fetchVehicles();
@@ -67,16 +70,39 @@ class _VehicleScreenState extends State<VehicleScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double widthDevice = MediaQuery.of(context).size.width;
-    double heightDevice = MediaQuery.of(context).size.height;
+    double widthDevice = MediaQuery
+        .of(context)
+        .size
+        .width;
+    double heightDevice = MediaQuery
+        .of(context)
+        .size
+        .height;
     return Scaffold(
-      appBar: AppBar(elevation: 0, backgroundColor: primaryColor),
+      appBar: AppBar(elevation: 0, backgroundColor: primaryColor,
+      actions: [
+          SizedBox(height: 2.0),
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: GestureDetector(
+          onTap: () {
+            _showMyDialog(context);
+          },
+          child: Container(
+            height: 50.0,
+            width: 90.0,
+            child: Icon(Icons.logout,color: Colors.white,),
+          ),
+        ),
+      ),],),
       drawer: DrawerUser(),
       backgroundColor: const Color(0XFFF3F3F4),
       body: Container(
         child: SingleChildScrollView(
           physics: ScrollPhysics(),
-          child: Column(children: [
+          child: Column(
+              children: [
+
             Container(
               width: double.infinity,
               color: primaryColor,
@@ -96,56 +122,59 @@ class _VehicleScreenState extends State<VehicleScreen> {
                   return ListView(
                     scrollDirection: Axis.horizontal,
                     children:
-                        snapshot.data!.docs.map((DocumentSnapshot document) {
+                    snapshot.data!.docs.map((DocumentSnapshot document) {
                       Map<String, dynamic> data =
-                          document.data()! as Map<String, dynamic>;
+                      document.data()! as Map<String, dynamic>;
                       return Container(
                           width: widthDevice,
                           child: Container(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
+
                                 Container(
                                   alignment: Alignment.centerRight,
                                   margin: EdgeInsets.only(
                                       right: widthDevice * 0.06),
-                                  child: Column(children: [
-                                    Container(
-                                        margin: EdgeInsets.only(
-                                            top: heightDevice * 0.01),
-                                        child: Text(
-                                          data['brand'].toString() +
-                                              " " +
-                                              data['modelYear'].toString(),
-                                          style: TextStyle(
+                                  child: Column(
+                                      children: [
+
+                                        Container(
+                                            margin: EdgeInsets.only(
+                                                top: heightDevice * 0.01),
+                                            child: Text(
+                                              data['brand'].toString() +
+                                                  " " +
+                                                  data['modelYear'].toString(),
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontFamily: principalFont,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 22),
+                                            )),
+                                        Container(
+                                          child: Text(
+                                            data['price'].toString() +
+                                                " Dhs" +
+                                                "/day",
+                                            style: TextStyle(
                                               color: Colors.white,
                                               fontFamily: principalFont,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 22),
-                                        )),
-                                    Container(
-                                      child: Text(
-                                        data['price'].toString() +
-                                            " Dhs" +
-                                            "/day",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontFamily: principalFont,
-                                        ),
-                                      ),
-                                    )
-                                  ]),
+                                            ),
+                                          ),
+                                        )
+                                      ]),
                                 ),
                                 SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
                                   child: Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                       children: [
                                         Container(
                                           child: Image.asset(
-                                            "assets/images/bmw.png"
-                                              data['imageVoiture'].toString(),
+                                            "assets/images/bmw.png",
+                                            // data['imageVoiture'].toString(),
                                             height: heightDevice * 0.174,
                                           ),
                                         ),
@@ -153,7 +182,7 @@ class _VehicleScreenState extends State<VehicleScreen> {
                                           padding: EdgeInsets.all(10),
                                           decoration: BoxDecoration(
                                               borderRadius:
-                                                  BorderRadius.circular(90),
+                                              BorderRadius.circular(90),
                                               color: Colors.red),
                                           margin: EdgeInsets.only(
                                               right: widthDevice * 0.01),
@@ -164,19 +193,19 @@ class _VehicleScreenState extends State<VehicleScreen> {
                                                   MaterialPageRoute(
                                                     builder: (context) =>
                                                         DetailsVehicleScreen(
-                                                      data['brand'],
-                                                      data['modelYear'],
-                                                      data['speed'],
-                                                      data['carburant'],
-                                                      data['boiteVitesse'],
-                                                      data['speed'],
-                                                      data['emplacementPrise'],
-                                                      data['price'],
-                                                      data['imageVoiture'],
-                                                      data['idVoiture'],
-                                                      data['favorite'],
-                                                      data['power'],
-                                                    ),
+                                                          data['brand'],
+                                                          data['modelYear'],
+                                                          data['speed'],
+                                                          data['carburant'],
+                                                          data['boiteVitesse'],
+                                                          data['speed'],
+                                                          data['emplacementPrise'],
+                                                          data['price'],
+                                                          data['imageVoiture'],
+                                                          data['idVoiture'],
+                                                          data['favorite'],
+                                                          data['power'],
+                                                        ),
                                                   ));
                                             },
                                             child: Icon(
@@ -422,7 +451,7 @@ class _VehicleScreenState extends State<VehicleScreen> {
                               children: [
                                 Column(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Image.asset(
@@ -455,7 +484,7 @@ class _VehicleScreenState extends State<VehicleScreen> {
                                   ),
                                   child: Column(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                     children: [
                                       Container(
                                         margin: EdgeInsets.only(
@@ -495,30 +524,31 @@ class _VehicleScreenState extends State<VehicleScreen> {
                                                 Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
-                                                        builder: (context) => DetailsVehicleScreen(
-                                                            vehicleList[index]
+                                                        builder: (context) =>
+                                                            DetailsVehicleScreen(
+                                                                vehicleList[index]
                                                                 ['brand'],
-                                                            vehicleList[index]
+                                                                vehicleList[index]
                                                                 ['modelYear'],
-                                                            vehicleList[index]
+                                                                vehicleList[index]
                                                                 ['review'],
-                                                            vehicleList[index]
+                                                                vehicleList[index]
                                                                 ['carburant'],
-                                                            vehicleList[index][
+                                                                vehicleList[index][
                                                                 'boiteVitesse'],
-                                                            vehicleList[index]
+                                                                vehicleList[index]
                                                                 ['speed'],
-                                                            vehicleList[index][
+                                                                vehicleList[index][
                                                                 'emplacementPrise'],
-                                                            vehicleList[index]
+                                                                vehicleList[index]
                                                                 ['price'],
-                                                            vehicleList[index][
+                                                                vehicleList[index][
                                                                 'imageVoiture'],
-                                                            vehicleList[index]
+                                                                vehicleList[index]
                                                                 ['idVoiture'],
-                                                            vehicleList[index]
+                                                                vehicleList[index]
                                                                 ['favorite'],
-                                                            vehicleList[index]
+                                                                vehicleList[index]
                                                                 ['power'])));
                                               },
                                               child: Text(
@@ -532,11 +562,12 @@ class _VehicleScreenState extends State<VehicleScreen> {
                                                 backgroundColor: primaryColor,
                                                 shape: RoundedRectangleBorder(
                                                     borderRadius:
-                                                        BorderRadius.only(
-                                                  topLeft: Radius.circular(25),
-                                                  bottomRight:
+                                                    BorderRadius.only(
+                                                      topLeft: Radius.circular(
+                                                          25),
+                                                      bottomRight:
                                                       Radius.circular(25),
-                                                )),
+                                                    )),
                                               ),
                                             ),
                                           ),
@@ -560,4 +591,47 @@ class _VehicleScreenState extends State<VehicleScreen> {
       ),
     );
   }
+
+  void _showMyDialog(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Sign Out'),
+          backgroundColor: Colors.white,
+          content: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Text('Are you certain you want to Sign Out?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                'Yes',
+                style: TextStyle(color: Colors.black),
+              ),
+              onPressed: () {
+                FirebaseAuth.instance.signOut();
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/SignIn', (route) => false);
+              },
+            ),
+            TextButton(
+              child: Text(
+                'Cancel',
+                style: TextStyle(color: Colors.red),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }
