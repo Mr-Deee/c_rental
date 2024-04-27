@@ -1,3 +1,4 @@
+import 'package:c_rental/Screens/Admin.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -276,16 +277,16 @@ class _LoginScreenState extends State<LoginScreen> {
       await _firebaseAuth.signInWithEmailAndPassword(
           email: _emailController.text, password: _passwordController.text);
 
-      // const String adminEmail = 'admin@gmail.com';
-      // if(emailController.text==adminEmail){
-      //
-      //   Navigator.pushReplacement(
-      //       context,
-      //       MaterialPageRoute(
-      //           builder: (context) => admin()));
-      //
-      // }
-      // else
+      const String adminEmail = 'admin@gmail.com';
+      if(_emailController.text==adminEmail){
+
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Admin()));
+
+      }
+      else
       if (firebaseUser != null) {
         // AssistantMethod.getCurrentOnlineUserInfo(context);
         Navigator.of(context).pushAndRemoveUntil(
