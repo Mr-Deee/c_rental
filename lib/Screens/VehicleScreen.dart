@@ -163,7 +163,7 @@ class _VehicleScreenState extends State<VehicleScreen> {
                                                       DetailsVehicleScreen(
                                                     data['brand'],
                                                     data['modelYear'],
-                                                    data['review'],
+                                                    data['speed'],
                                                     data['carburant'],
                                                     data['boiteVitesse'],
                                                     data['speed'],
