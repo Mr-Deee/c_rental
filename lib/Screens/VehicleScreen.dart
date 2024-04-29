@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../Constants/constants.dart';
@@ -135,55 +136,58 @@ class _VehicleScreenState extends State<VehicleScreen> {
                                     )
                                   ]),
                                 ),
-                                Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                        child: Image.asset(
-                                          "assets/images/" +
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          child: Image.asset(
+                                            "assets/images/bmw.png"
                                               data['imageVoiture'].toString(),
-                                          height: heightDevice * 0.174,
-                                        ),
-                                      ),
-                                      Container(
-                                        padding: EdgeInsets.all(10),
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(90),
-                                            color: Colors.red),
-                                        margin: EdgeInsets.only(
-                                            right: widthDevice * 0.01),
-                                        child: InkWell(
-                                          onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      DetailsVehicleScreen(
-                                                    data['brand'],
-                                                    data['modelYear'],
-                                                    data['speed'],
-                                                    data['carburant'],
-                                                    data['boiteVitesse'],
-                                                    data['speed'],
-                                                    data['emplacementPrise'],
-                                                    data['price'],
-                                                    data['imageVoiture'],
-                                                    data['idVoiture'],
-                                                    data['favorite'],
-                                                    data['power'],
-                                                  ),
-                                                ));
-                                          },
-                                          child: Icon(
-                                            Icons.navigate_next_rounded,
-                                            color: Colors.white,
-                                            size: 22,
+                                            height: heightDevice * 0.174,
                                           ),
                                         ),
-                                      )
-                                    ]),
+                                        Container(
+                                          padding: EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(90),
+                                              color: Colors.red),
+                                          margin: EdgeInsets.only(
+                                              right: widthDevice * 0.01),
+                                          child: InkWell(
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        DetailsVehicleScreen(
+                                                      data['brand'],
+                                                      data['modelYear'],
+                                                      data['speed'],
+                                                      data['carburant'],
+                                                      data['boiteVitesse'],
+                                                      data['speed'],
+                                                      data['emplacementPrise'],
+                                                      data['price'],
+                                                      data['imageVoiture'],
+                                                      data['idVoiture'],
+                                                      data['favorite'],
+                                                      data['power'],
+                                                    ),
+                                                  ));
+                                            },
+                                            child: Icon(
+                                              Icons.navigate_next_rounded,
+                                              color: Colors.white,
+                                              size: 22,
+                                            ),
+                                          ),
+                                        )
+                                      ]),
+                                ),
                               ],
                             ),
                           ));
