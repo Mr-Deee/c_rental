@@ -50,8 +50,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double widthDevice = MediaQuery.of(context).size.width;
-    double heightDevice = MediaQuery.of(context).size.height;
+    double widthDevice = MediaQuery
+        .of(context)
+        .size
+        .width;
+    double heightDevice = MediaQuery
+        .of(context)
+        .size
+        .height;
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.all(20.0),
@@ -155,7 +161,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: widthDevice * 0.8,
                         height: heightDevice * 0.09,
                         child: TextButton(
-                          onPressed: firebaseSignIn,
+                          onPressed: (){
+                            loginAndAuthenticateUser(context);
+                          },
                           child: Text(
                             'Sign In',
                             style: TextStyle(
@@ -215,60 +223,80 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
 //Connexion par email/mot de passe
-  void firebaseSignIn() async {
-    _loginFormKey.currentState!.validate();
+  void loginAndAuthenticateUser(BuildContext context) async {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return Dialog(
+              backgroundColor: Colors.transparent,
+              child: Container(
+                  margin: EdgeInsets.all(15.0),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(40.0)),
+                  child: Padding(
+                      padding: EdgeInsets.all(15.0),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 6.0,
+                            ),
+                            CircularProgressIndicator(
+                              valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.black),
+                            ),
+                            SizedBox(
+                              width: 26.0,
+                            ),
+                            Text("Loging In,please wait")
+                          ],
+                        ),
+                      ))));
+        });
+
+    final User? firebaseUser = (await _firebaseAuth
+        .signInWithEmailAndPassword(
+      email: _emailController.text.toString().trim(),
+      password: _passwordController.text.toString().trim(),
+    )
+        .catchError((errMsg) {
+      Navigator.pop(context);
+      displayToast("Error" + errMsg.toString(), context);
+    }))
+        .user;
     try {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
-              email: _emailController.text, password: _passwordController.text)
-          .then((value) {
-        Navigator.pushAndRemoveUntil(
-            context,
+      UserCredential userCredential =
+      await _firebaseAuth.signInWithEmailAndPassword(
+          email: _emailController.text, password: _passwordController.text);
+
+      // const String adminEmail = 'admin@gmail.com';
+      // if(emailController.text==adminEmail){
+      //
+      //   Navigator.pushReplacement(
+      //       context,
+      //       MaterialPageRoute(
+      //           builder: (context) => admin()));
+      //
+      // }
+      // else
+      if (firebaseUser != null) {
+        // AssistantMethod.getCurrentOnlineUserInfo(context);
+        Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => VehicleScreen()),
-            (_) => false);
-      });
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
+                (Route<dynamic> route) => false);
+        displayToast("Logged-in ", context);
+      } else {
+        displayToast("Error: Cannot be signed in", context);
       }
+    } catch (e) {
+      // handle error
     }
-  }
-
-//Connexion par Google
-  Future<UserCredential> signInWithGoogle() async {
-    // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser!.authentication;
-
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => HomeScreen()));
-    // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
-  }
-
-  //Connexion par Facebook
-  Future<UserCredential> signInWithFacebook() async {
-    // Trigger the sign-in flow
-    final LoginResult loginResult = await FacebookAuth.instance.login();
-
-    // Create a credential from the access token
-    final OAuthCredential facebookAuthCredential =
-        FacebookAuthProvider.credential(loginResult.accessToken!.token);
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => HomeScreen()));
-    // Once signed in, return the UserCredential
-    return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
   }
 }
