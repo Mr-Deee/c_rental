@@ -41,11 +41,9 @@ class MyApp extends StatelessWidget {
         routes: {
           "/": (context) => CheckUserRole(),
           "/SignUP": (context) => SignUpScreen(),
-          "/homepage": (context) => VehicleScreen(),
+          "/VehicleScreen": (context) => VehicleScreen(),
           "/SignIn": (context) => LoginScreen(),
-          // "/Employee": (context) => employeetill(),
           "/Admin": (context) => Admin(),
-          //    "/addproduct":(context)=>addproduct()
         });
   }
 }
@@ -57,7 +55,7 @@ _CheckUserRoleState createState() => _CheckUserRoleState();
 class _CheckUserRoleState extends State<CheckUserRole> {
   FirebaseAuth _auth = FirebaseAuth.instance;
   DatabaseReference _databaseReference =
-  FirebaseDatabase.instance.reference();
+  FirebaseDatabase.instance.ref();
 
   @override
   void initState() {
@@ -74,17 +72,17 @@ class _CheckUserRoleState extends State<CheckUserRole> {
           (adminSnapshot.snapshot.value as Map<dynamic, dynamic>).containsKey(user.uid)) {
         // User is an admin
         Future.delayed(Duration.zero, () {
-          Navigator.pushReplacementNamed(context, '/homepage');});
+          Navigator.pushReplacementNamed(context, '/VehicleScreen');});
       } else if (gasStationSnapshot.snapshot.value != null &&
           (gasStationSnapshot.snapshot.value as Map<dynamic, dynamic>).containsKey(user.uid)) {
         // User is a gas station
 
         Future.delayed(Duration.zero, () {
-          Navigator.pushReplacementNamed(context, '/GasDash');});
+          Navigator.pushReplacementNamed(context, '/Admin');});
       } else {
         // User is not assigned a role
         Future.delayed(Duration.zero, () {
-          Navigator.pushReplacementNamed(context, '/SignIn');});
+          Navigator.pushReplacementNamed(context, '/Admin');});
       }
     } else {
       // No user logged in

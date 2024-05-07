@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_database/firebase_database.dart';
 
+import 'Admin.dart';
+import 'SignUpScreen.dart';
+
 class NewVehicle extends StatefulWidget {
   const NewVehicle({Key? key}) : super(key: key);
 
@@ -13,7 +16,7 @@ class NewVehicle extends StatefulWidget {
 }
 
 class _NewVehicleState extends State<NewVehicle> {
-  final DatabaseReference  _database = FirebaseDatabase.instance.reference();
+  final DatabaseReference _database = FirebaseDatabase.instance.reference();
   final modelname = TextEditingController();
   final vehiclenumber = TextEditingController();
   final mobilenumber = TextEditingController();
@@ -25,6 +28,7 @@ class _NewVehicleState extends State<NewVehicle> {
   List<File?> _images = [];
 
   List<String> _imageUrls = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,14 +88,14 @@ class _NewVehicleState extends State<NewVehicle> {
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderSide:
-                        (BorderSide(width: 1.0, color: Colors.black)),
+                            (BorderSide(width: 1.0, color: Colors.black)),
                         borderRadius: BorderRadius.all(
                           Radius.circular(17),
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderSide:
-                        (BorderSide(width: 1.0, color: Colors.blue)),
+                            (BorderSide(width: 1.0, color: Colors.blue)),
                         borderRadius: BorderRadius.all(
                           Radius.circular(17),
                         ),
@@ -120,14 +124,14 @@ class _NewVehicleState extends State<NewVehicle> {
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderSide:
-                        (BorderSide(width: 1.0, color: Colors.black)),
+                            (BorderSide(width: 1.0, color: Colors.black)),
                         borderRadius: BorderRadius.all(
                           Radius.circular(17),
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderSide:
-                        (BorderSide(width: 1.0, color: Colors.blue)),
+                            (BorderSide(width: 1.0, color: Colors.blue)),
                         borderRadius: BorderRadius.all(
                           Radius.circular(17),
                         ),
@@ -156,14 +160,14 @@ class _NewVehicleState extends State<NewVehicle> {
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderSide:
-                        (BorderSide(width: 1.0, color: Colors.black)),
+                            (BorderSide(width: 1.0, color: Colors.black)),
                         borderRadius: BorderRadius.all(
                           Radius.circular(17),
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderSide:
-                        (BorderSide(width: 1.0, color: Colors.blue)),
+                            (BorderSide(width: 1.0, color: Colors.blue)),
                         borderRadius: BorderRadius.all(
                           Radius.circular(17),
                         ),
@@ -192,14 +196,14 @@ class _NewVehicleState extends State<NewVehicle> {
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderSide:
-                        (BorderSide(width: 1.0, color: Colors.black)),
+                            (BorderSide(width: 1.0, color: Colors.black)),
                         borderRadius: BorderRadius.all(
                           Radius.circular(17),
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderSide:
-                        (BorderSide(width: 1.0, color: Colors.blue)),
+                            (BorderSide(width: 1.0, color: Colors.blue)),
                         borderRadius: BorderRadius.all(
                           Radius.circular(17),
                         ),
@@ -229,14 +233,14 @@ class _NewVehicleState extends State<NewVehicle> {
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderSide:
-                        (BorderSide(width: 1.0, color: Colors.black)),
+                            (BorderSide(width: 1.0, color: Colors.black)),
                         borderRadius: BorderRadius.all(
                           Radius.circular(17),
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderSide:
-                        (BorderSide(width: 1.0, color: Colors.blue)),
+                            (BorderSide(width: 1.0, color: Colors.blue)),
                         borderRadius: BorderRadius.all(
                           Radius.circular(17),
                         ),
@@ -266,14 +270,14 @@ class _NewVehicleState extends State<NewVehicle> {
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderSide:
-                        (BorderSide(width: 1.0, color: Colors.black)),
+                            (BorderSide(width: 1.0, color: Colors.black)),
                         borderRadius: BorderRadius.all(
                           Radius.circular(17),
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderSide:
-                        (BorderSide(width: 1.0, color: Colors.blue)),
+                            (BorderSide(width: 1.0, color: Colors.blue)),
                         borderRadius: BorderRadius.all(
                           Radius.circular(17),
                         ),
@@ -302,14 +306,14 @@ class _NewVehicleState extends State<NewVehicle> {
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderSide:
-                        (BorderSide(width: 1.0, color: Colors.black)),
+                            (BorderSide(width: 1.0, color: Colors.black)),
                         borderRadius: BorderRadius.all(
                           Radius.circular(17),
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderSide:
-                        (BorderSide(width: 1.0, color: Colors.blue)),
+                            (BorderSide(width: 1.0, color: Colors.blue)),
                         borderRadius: BorderRadius.all(
                           Radius.circular(17),
                         ),
@@ -332,10 +336,9 @@ class _NewVehicleState extends State<NewVehicle> {
                   width: MediaQuery.of(context).size.width * 0.5,
                   height: MediaQuery.of(context).size.height * 0.075,
                   child: ElevatedButton(
-                    onPressed:(){
-
+                    onPressed: () {
                       addvehicle();
-                      addVehicledb();
+                      // addVehicledb(_imageUrls);
                     },
                     child: Text(
                       'Confirm',
@@ -413,12 +416,13 @@ class _NewVehicleState extends State<NewVehicle> {
       ),
     );
   }
+
   void _pickImage(int index) async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {
-        if (_images.length < 3) {
+        if (_images.length < 4) {
           _images.add(File(pickedFile.path));
         } else {
           // Show error message or limit reached message
@@ -427,44 +431,84 @@ class _NewVehicleState extends State<NewVehicle> {
       });
     }
   }
-
   void addvehicle() async {
     // Upload images to Firebase Storage
     for (var imageFile in _images) {
       if (imageFile != null) {
         final storageRef =
-        firebase_storage.FirebaseStorage.instance.ref().child(
-          'vehicle_images/${DateTime
-              .now()
-              .millisecondsSinceEpoch}.jpg',
-        );
+            firebase_storage.FirebaseStorage.instance.ref().child(
+                  'vehicle_images/${modelname.text}/${DateTime.now().millisecondsSinceEpoch}.jpg',
+                );
         await storageRef.putFile(imageFile);
         final downloadURL = await storageRef.getDownloadURL();
-        _imageUrls.add(downloadURL);
+        setState(() {
+          _imageUrls.add(downloadURL); // Add download URL to the list
+        });
       }
+      addVehicledb(_imageUrls);
     }
   }
-  void addVehicledb() {
-  _database.child('vehicles').push().set({
-  'model_name': modelname.text,
-  'vehicle_number': vehiclenumber.text,
-  'mobile_number': mobilenumber.text,
-  'type': type.text,
-  'seats': int.tryParse(seat.text) ?? 0,
-  'price': double.tryParse(price.text) ?? 0.0,
-  'location': location.text,
-  }).then((_) {
-  // Reset text controllers after successful submission
-  modelname.clear();
-  vehiclenumber.clear();
-  mobilenumber.clear();
-  type.clear();
-  seat.clear();
-  price.clear();
-  location.clear();
-  }).catchError((error) {
-  // Handle errors
-  print("Failed to add vehicle: $error");
-  });
-}
+
+  void addVehicledb(List<String> imageUrls) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return Dialog(
+              backgroundColor: Colors.transparent,
+              child: Container(
+                  margin: EdgeInsets.all(15.0),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20.0)),
+                  child: Padding(
+                      padding: EdgeInsets.all(15.0),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 6.0,
+                            ),
+                            CircularProgressIndicator(
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Colors.black),
+                            ),
+                            SizedBox(
+                              width: 26.0,
+                            ),
+                            Text("Adding vehicle,please wait...")
+                          ],
+                        ),
+                      ))));
+        });
+    _database.child('vehicles').push().set({
+      'VehicleImages': _imageUrls,
+      'model_name': modelname.text,
+      'vehicle_number': vehiclenumber.text,
+      'mobile_number': mobilenumber.text,
+      'type': type.text,
+      'seats': int.tryParse(seat.text) ?? 0,
+      'price': double.tryParse(price.text) ?? 0.0,
+      'location': location.text,
+
+    }).then((_) {
+
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => Admin()),
+              (Route<dynamic> route) => false);
+      displayToast("Added Successfully ", context);
+      // modelname.clear();
+      // vehiclenumber.clear();
+      // mobilenumber.clear();
+      // type.clear();
+      // seat.clear();
+      // price.clear();
+      // location.clear();
+    }).catchError((error) {
+      // Handle errors
+      print("Failed to add vehicle: $error");
+    });
+  }
 }
