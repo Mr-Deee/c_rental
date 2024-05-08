@@ -22,10 +22,21 @@ class _HomeScreenState extends State<HomeScreen> {
   String? userEmail = "", userId = "";
   String firstName = "", lastName = "";
   List<Vehicle> vehicles = [];
+  final DatabaseReference _database = FirebaseDatabase.instance.ref();
+  List<LogoData> logos = [
+    LogoData("Toyota", "assets/images/toyota_logo.png"),
+    LogoData("BMW", "assets/images/bmw_logo.png"),
+    LogoData("Benz", "assets/imaages/maserati.png"),
+    LogoData("Nissan", "assets/nissan_logo.png"),
+    LogoData("Hyundai", "assets/hyundai_logo.png"),
+    LogoData("Ford", "assets/ford_logo.png"),
+    LogoData("Suzuki", "assets/suzuki_logo.png"),
+    LogoData("Honda", "assets/honda_logo.png"),
+  ];
 
   @override
   void initState() {
-    //doSomeAsyncStuff();
+    doSomeAsyncStuff();
     _fetchFeaturedVehicles();
 
     super.initState();
@@ -128,6 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Center(
           child: Column(children: [
         Text(userEmail!),
+        SizedBox(height: 34,),
         Expanded(
           child: ListView.builder(
             itemCount: vehicles.length,
@@ -137,27 +149,73 @@ class _HomeScreenState extends State<HomeScreen> {
                   _showRentDialog(index);
                 },
                 child: Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: NetworkImage(vehicles[index].imageUrl[1]), // Use the fetched image as the background
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-
-                  child: Column(
-                    children: <Widget>[
-
-                      ListTile(
-                        title: Text(vehicles[index].name),
-                        subtitle: Text('Speed: ${vehicles[index].speed} mph | Price Per Day: \$${vehicles[index].pricePerDay}'),
-                      ),
-                    ],
+                  height: 200, // Adjust height as needed
+                  child: PageView.builder(
+                    itemCount: vehicles[index].imageUrl.length,
+                    itemBuilder: (BuildContext context, int pageIndex) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: NetworkImage(vehicles[index].imageUrl[pageIndex]), // Use fetched images from the list
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            ListTile(
+                              title: Text(vehicles[index].name),
+                              subtitle: Text('Speed: ${vehicles[index].speed} mph | Price Per Day: \$${vehicles[index].pricePerDay}'),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   ),
                 ),
+
               );
             },
           ),
         ),
+          Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: logos
+                      .map((logo) => GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedLogo = logo.name;
+                        fetchVehicles(selectedLogo);
+                      });
+                    },
+                    child: Image.asset(
+                      logo.imageUrl,
+                      width: 50,
+                      height: 50,
+                    ),
+                  ))
+                      .toList(),
+                ),
+                if (selectedLogo.isNotEmpty) ...[
+                  SizedBox(height: 20),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: vehicles.length,
+                      itemBuilder: (context, index) {
+                        return ExpansionTile(
+                          title: Text(vehicles[index].name),
+                          children: vehicles[index]
+                              .imageUrl
+                              .map((imageUrl) => Image.network(imageUrl))
+                              .toList(),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ],
       ])),
     );
   }
@@ -191,6 +249,24 @@ class _HomeScreenState extends State<HomeScreen> {
     Navigator.pushAndRemoveUntil(context,
         MaterialPageRoute(builder: (context) => LoginScreen()), (_) => false);
   }
+
+  void fetchVehicles(String logoName) {
+    _database.child('vehicles').orderByChild('model_name').equalTo(logoName).once().then((DatabaseEvent event) {
+      vehicles.clear();
+      Map<dynamic, dynamic>? values = event.snapshot.value as Map?;
+      values?.forEach((key, value) {
+        List<String> imageUrls = [];
+        for (var imageUrl in value['VehicleImages']) {
+          imageUrls.add(imageUrl);
+        }
+        vehicles.add(Vehicle2(value['model_name'], imageUrls) as Vehicle);
+      });
+      setState(() {});
+    }).catchError((error) {
+      print("Failed to fetch vehicles: $error");
+    });
+  }
+
 }
 class Vehicle {
   final String name;
@@ -205,3 +281,17 @@ class Vehicle {
     required this.pricePerDay,
   });
 }
+class LogoData {
+  final String name;
+  final String imageUrl;
+
+  LogoData(this.name, this.imageUrl);
+}
+class Vehicle2 {
+  final String modelName;
+  final List<String> imageUrls;
+
+  Vehicle2(this.modelName, this.imageUrls);
+}
+
+
