@@ -441,9 +441,9 @@ class _NewVehicleState extends State<NewVehicle> {
                 );
         await storageRef.putFile(imageFile);
         final downloadURL = await storageRef.getDownloadURL();
-        setState(() {
+
           _imageUrls.add(downloadURL); // Add download URL to the list
-        });
+
       }
       addVehicledb();
     }
