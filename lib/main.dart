@@ -42,6 +42,7 @@ class MyApp extends StatelessWidget {
           "/": (context) => CheckUserRole(),
           "/SignUP": (context) => SignUpScreen(),
           "/VehicleScreen": (context) => VehicleScreen(),
+          "/HomeScreen": (context) => HomeScreen(),
           "/SignIn": (context) => LoginScreen(),
           "/Admin": (context) => Admin(),
         });
@@ -72,13 +73,13 @@ class _CheckUserRoleState extends State<CheckUserRole> {
           (adminSnapshot.snapshot.value as Map<dynamic, dynamic>).containsKey(user.uid)) {
         // User is an admin
         Future.delayed(Duration.zero, () {
-          Navigator.pushReplacementNamed(context, '/VehicleScreen');});
+          Navigator.pushReplacementNamed(context, '/Admin');});
       } else if (gasStationSnapshot.snapshot.value != null &&
           (gasStationSnapshot.snapshot.value as Map<dynamic, dynamic>).containsKey(user.uid)) {
         // User is a gas station
 
         Future.delayed(Duration.zero, () {
-          Navigator.pushReplacementNamed(context, '/Admin');});
+          Navigator.pushReplacementNamed(context, '/HomeScreen');});
       } else {
         // User is not assigned a role
         Future.delayed(Duration.zero, () {

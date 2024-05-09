@@ -290,7 +290,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if (firebaseUser != null) {
         // AssistantMethod.getCurrentOnlineUserInfo(context);
         Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => VehicleScreen()),
+            MaterialPageRoute(builder: (context) => HomeScreen()),
                 (Route<dynamic> route) => false);
         displayToast("Logged-in ", context);
       } else {

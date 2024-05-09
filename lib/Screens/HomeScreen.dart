@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -19,12 +21,33 @@ class _HomeScreenState extends State<HomeScreen> {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   String? userEmail = "", userId = "";
   String firstName = "", lastName = "";
+  List<Vehicle> vehicles = [];
 
   @override
   void initState() {
-    doSomeAsyncStuff();
+    //doSomeAsyncStuff();
+    _fetchFeaturedVehicles();
 
     super.initState();
+  }
+  final databaseReference = FirebaseDatabase.instance.reference();
+
+
+
+  Future<void> _fetchFeaturedVehicles() async {
+    databaseReference.child('vehicles').orderByChild('status').equalTo('featured').once().then((DatabaseEvent event) {
+      Map<dynamic, dynamic>? values = event.snapshot.value as Map?;
+      values?.forEach((key, value) {
+        setState(() {
+          vehicles.add(Vehicle(
+            name: value['model_name'],
+            imageUrl: value['VehicleImages'],
+            speed: double.parse(value['speed'].toString()),
+            pricePerDay: double.parse(value['price'].toString()),
+          ));
+        });
+      });
+    });
   }
 
   Future<void> doSomeAsyncStuff() async {
@@ -91,11 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       appBar: AppBar(
         title: Text('Hello'),
-      ),
-      body: Center(
-          child: Column(children: [
-        Text(userEmail!),
-        TextButton(
+        actions: [   TextButton(
           onPressed: signOutFromGoogle,
           child: Text(
             'Log out',
@@ -104,15 +123,85 @@ class _HomeScreenState extends State<HomeScreen> {
           style: TextButton.styleFrom(
             backgroundColor: Colors.green,
           ),
-        )
+        )],
+      ),
+      body: Center(
+          child: Column(children: [
+        Text(userEmail!),
+        Expanded(
+          child: ListView.builder(
+            itemCount: vehicles.length,
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                onTap: () {
+                  _showRentDialog(index);
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(vehicles[index].imageUrl[1]), // Use the fetched image as the background
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+
+                  child: Column(
+                    children: <Widget>[
+
+                      ListTile(
+                        title: Text(vehicles[index].name),
+                        subtitle: Text('Speed: ${vehicles[index].speed} mph | Price Per Day: \$${vehicles[index].pricePerDay}'),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
       ])),
     );
   }
-
+  void _showRentDialog(int index) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Rent Vehicle'),
+            content: Text('Do you want to rent ${vehicles[index].name}?'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  // Add your code here to rent the vehicle
+                  Navigator.of(context).pop();
+                },
+                child: Text('Rent'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('Cancel'),
+              ),
+            ],
+          );
+        },);}
   Future<void> signOutFromGoogle() async {
     await _googleSignIn.signOut();
     await _auth.signOut();
     Navigator.pushAndRemoveUntil(context,
         MaterialPageRoute(builder: (context) => LoginScreen()), (_) => false);
   }
+}
+class Vehicle {
+  final String name;
+  final  imageUrl;
+  final double speed;
+  final double pricePerDay;
+
+  Vehicle({
+    required this.name,
+    required this.imageUrl,
+    required this.speed,
+    required this.pricePerDay,
+  });
 }
