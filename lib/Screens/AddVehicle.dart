@@ -445,11 +445,11 @@ class _NewVehicleState extends State<NewVehicle> {
           _imageUrls.add(downloadURL); // Add download URL to the list
         });
       }
-      addVehicledb(_imageUrls);
+      addVehicledb();
     }
   }
 
-  void addVehicledb(List<String> imageUrls) {
+  void addVehicledb() {
     showDialog(
         context: context,
         barrierDismissible: false,
