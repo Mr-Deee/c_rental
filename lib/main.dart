@@ -3,10 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'Screens/AddVehicle.dart';
 import 'Screens/HomeScreen.dart';
 import 'Screens/LoginScreen.dart';
 import 'Screens/SignUpScreen.dart';
+import 'Users.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -15,7 +17,13 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await Future.delayed(Duration(seconds: 2)); // Ad
-  runApp(MyApp());
+  runApp((MultiProvider( providers: [
+
+  ChangeNotifierProvider<Users>(
+  create: (context) => Users(),
+  ),
+
+  ] ,child : MyApp())));
 }
 
 DatabaseReference Clientsdb = FirebaseDatabase.instance.ref().child("Clients");
