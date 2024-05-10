@@ -1,3 +1,4 @@
+import 'package:c_rental/assistantmethods.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,6 +20,14 @@ final DatabaseReference db = FirebaseDatabase.instance.reference();
 class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
   String? getSelectedVehicleId() {
     return widget.vehicleId;
+  }
+
+
+  @override
+  void initState() {
+    AssistantMethod.getCurrentOnlineUserInfo(context);
+    // TODO: implement initState
+    super.initState();
   }
   @override
   Widget build(BuildContext context) {
