@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:c_rental/Users.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 
+import '../assistantmethods.dart';
 import 'IconVehicles.dart';
 import 'LoginScreen.dart';
 import 'VehicleDetails.dart';
@@ -47,6 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
     doSomeAsyncStuff();
     _fetchFeaturedVehicles();
     _fetchAffordableVehicles();
+    AssistantMethod.getCurrentOnlineUserInfo(context);
 
     super.initState();
   }
@@ -125,6 +129,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
   @override
   Widget build(BuildContext context) {
+    final userprovider = Provider.of<Users>(context).userInfo;
+
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -134,8 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: EdgeInsets.zero,
             children: [
               new UserAccountsDrawerHeader(
-                accountName: Text(
-                  lastName,
+                accountName: Text('${userprovider?.firstname??""} + " "+ ${userprovider?.lastname??""}',
                   style: TextStyle(color: Colors.red),
                 ),
                 accountEmail: Text(
