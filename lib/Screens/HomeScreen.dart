@@ -140,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: EdgeInsets.zero,
             children: [
               new UserAccountsDrawerHeader(
-                accountName: Text('${userprovider?.firstname??""} + " "+ ${userprovider?.lastname??""}',
+                accountName: Text('${userprovider?.firstname??""}  ${userprovider?.lastname??""}',
                   style: TextStyle(color: Colors.red),
                 ),
                 accountEmail: Text(
