@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'IconVehicles.dart';
 import 'LoginScreen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,16 +23,19 @@ class _HomeScreenState extends State<HomeScreen> {
   String? userEmail = "", userId = "";
   String firstName = "", lastName = "";
   List<Vehicle> vehicles = [];
+  String selectedLogo = "";
   final DatabaseReference _database = FirebaseDatabase.instance.ref();
   List<LogoData> logos = [
-    LogoData("Toyota", "assets/images/toyota_logo.png"),
-    LogoData("BMW", "assets/images/bmw_logo.png"),
-    LogoData("Benz", "assets/imaages/maserati.png"),
-    LogoData("Nissan", "assets/nissan_logo.png"),
-    LogoData("Hyundai", "assets/hyundai_logo.png"),
-    LogoData("Ford", "assets/ford_logo.png"),
-    LogoData("Suzuki", "assets/suzuki_logo.png"),
-    LogoData("Honda", "assets/honda_logo.png"),
+    LogoData("Bmw", "assets/images/bmw.png"),
+    LogoData("Toyota", "assets/images/toyota.png"),
+    LogoData("Escalade", "assets/images/CADILAC.png"),
+    LogoData("Hyundai", "assets/images/hyundai.png"),
+    //   LogoData("Nissan", "assets/nissan_logo.png"),
+    //   LogoData("Hyundai", "assets/hyundai_logo.png"),
+    //   LogoData("Ford", "assets/ford_logo.png"),
+    //   LogoData("Suzuki", "assets/suzuki_logo.png"),
+    //   LogoData("Honda", "assets/honda_logo.png"),
+    // ];
   ];
 
   @override
@@ -41,12 +45,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
     super.initState();
   }
+
   final databaseReference = FirebaseDatabase.instance.reference();
 
-
-
   Future<void> _fetchFeaturedVehicles() async {
-    databaseReference.child('vehicles').orderByChild('status').equalTo('featured').once().then((DatabaseEvent event) {
+    databaseReference
+        .child('vehicles')
+        .orderByChild('status')
+        .equalTo('featured')
+        .once()
+        .then((DatabaseEvent event) {
       Map<dynamic, dynamic>? values = event.snapshot.value as Map?;
       values?.forEach((key, value) {
         setState(() {
@@ -85,164 +93,199 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      drawer: Drawer(
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: [
-            new UserAccountsDrawerHeader(
-              accountName: Text(
-                lastName,
-                style: TextStyle(color: Colors.red),
+        drawer: Drawer(
+          child: ListView(
+            // Important: Remove any padding from the ListView.
+            padding: EdgeInsets.zero,
+            children: [
+              new UserAccountsDrawerHeader(
+                accountName: Text(
+                  lastName,
+                  style: TextStyle(color: Colors.red),
+                ),
+                accountEmail: Text(
+                  userEmail!,
+                  style: TextStyle(color: Colors.red),
+                ),
+                decoration: BoxDecoration(color: Colors.white),
+                currentAccountPicture: new CircleAvatar(
+                  radius: 50.0,
+                  backgroundColor: const Color(0xFF778899),
+                  backgroundImage:
+                      NetworkImage("http://tineye.com/images/widgets/mona.jpg"),
+                ),
               ),
-              accountEmail: Text(
-                userEmail!,
-                style: TextStyle(color: Colors.red),
-              ),
-              decoration: BoxDecoration(color: Colors.white),
-              currentAccountPicture: new CircleAvatar(
-                radius: 50.0,
-                backgroundColor: const Color(0xFF778899),
-                backgroundImage:
-                    NetworkImage("http://tineye.com/images/widgets/mona.jpg"),
-              ),
-            ),
-            ListTile(
-              title: const Text('Item 1'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: const Text('Item 2'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      ),
-      appBar: AppBar(
-        title: Text('Hello'),
-        actions: [   TextButton(
-          onPressed: signOutFromGoogle,
-          child: Text(
-            'Log out',
-            style: TextStyle(color: Colors.white),
-          ),
-          style: TextButton.styleFrom(
-            backgroundColor: Colors.green,
-          ),
-        )],
-      ),
-      body: Center(
-          child: Column(children: [
-        Text(userEmail!),
-        SizedBox(height: 34,),
-        Expanded(
-          child: ListView.builder(
-            itemCount: vehicles.length,
-            itemBuilder: (context, index) {
-              return GestureDetector(
+              ListTile(
+                title: const Text('Item 1'),
                 onTap: () {
-                  _showRentDialog(index);
+                  Navigator.pop(context);
                 },
-                child: Container(
-                  height: 200, // Adjust height as needed
-                  child: PageView.builder(
-                    itemCount: vehicles[index].imageUrl.length,
-                    itemBuilder: (BuildContext context, int pageIndex) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: NetworkImage(vehicles[index].imageUrl[pageIndex]), // Use fetched images from the list
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        child: Column(
-                          children: <Widget>[
-                            ListTile(
-                              title: Text(vehicles[index].name),
-                              subtitle: Text('Speed: ${vehicles[index].speed} mph | Price Per Day: \$${vehicles[index].pricePerDay}'),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ),
-
-              );
-            },
-          ),
-        ),
-          Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: logos
-                      .map((logo) => GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedLogo = logo.name;
-                        fetchVehicles(selectedLogo);
-                      });
-                    },
-                    child: Image.asset(
-                      logo.imageUrl,
-                      width: 50,
-                      height: 50,
-                    ),
-                  ))
-                      .toList(),
-                ),
-                if (selectedLogo.isNotEmpty) ...[
-                  SizedBox(height: 20),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: vehicles.length,
-                      itemBuilder: (context, index) {
-                        return ExpansionTile(
-                          title: Text(vehicles[index].name),
-                          children: vehicles[index]
-                              .imageUrl
-                              .map((imageUrl) => Image.network(imageUrl))
-                              .toList(),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ],
-      ])),
-    );
-  }
-  void _showRentDialog(int index) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Rent Vehicle'),
-            content: Text('Do you want to rent ${vehicles[index].name}?'),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  // Add your code here to rent the vehicle
-                  Navigator.of(context).pop();
-                },
-                child: Text('Rent'),
               ),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
+              ListTile(
+                title: const Text('Item 2'),
+                onTap: () {
+                  Navigator.pop(context);
                 },
-                child: Text('Cancel'),
               ),
             ],
-          );
-        },);}
+          ),
+        ),
+        appBar: AppBar(
+          title: Text("Benji's"),
+          actions: [
+            TextButton(
+              onPressed: signOutFromGoogle,
+              child: Text(
+                'Log out',
+                style: TextStyle(color: Colors.white),
+              ),
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.green,
+              ),
+            )
+          ],
+        ),
+        body: Container(
+          height: screenHeight,
+          child: Column(
+              children: [
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 12, left: 18.0),
+                  child: Text(
+                    "Featured",
+                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
+            Container(
+              height: 250,
+              child: ListView.builder(
+                itemCount: vehicles.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      _showRentDialog(index);
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            // Optional: add border radius for rounded corners
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.3),
+                                // shadow color
+                                spreadRadius: 2,
+                                // spread radius
+                                blurRadius: 12,
+                                // blur radius
+                                offset:
+                                    Offset(0, 3), // changes position of shadow
+                              ),
+                            ]),
+                        height: 200, // Adjust height as needed
+                        child: PageView.builder(
+                          itemCount: vehicles[index].imageUrl.length,
+                          itemBuilder: (BuildContext context, int pageIndex) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(23),
+                                image: DecorationImage(
+                                  image: NetworkImage(
+                                      vehicles[index].imageUrl[pageIndex]),
+                                  // Use fetched images from the list
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              child: Column(
+                                children: <Widget>[
+                                  ListTile(
+                                    title: Text(vehicles[index].name),
+                                    subtitle: Text(
+                                        'Speed: ${vehicles[index].speed} mph | Price Per Day: \$${vehicles[index].pricePerDay}'),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+
+            Container(
+              height: 222,
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: logos
+                        .map((logo) => GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  selectedLogo = logo.name;
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                      builder: (context) => VehiclePage(
+                                    vehicleName: selectedLogo,
+                                  ),
+                                  ));
+                                });
+                              },
+                              child: Image.asset(
+                                logo.imageUrl,
+                                width: 50,
+                                height: 50,
+                              ),
+                            ))
+                        .toList(),
+                  ),
+
+                ],
+              ),
+            )
+          ]),
+        ));
+  }
+
+  void _showRentDialog(int index) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Rent Vehicle'),
+          content: Text('Do you want to rent ${vehicles[index].name}?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                // Add your code here to rent the vehicle
+                Navigator.of(context).pop();
+              },
+              child: Text('Rent'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Future<void> signOutFromGoogle() async {
     await _googleSignIn.signOut();
     await _auth.signOut();
@@ -251,7 +294,12 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void fetchVehicles(String logoName) {
-    _database.child('vehicles').orderByChild('model_name').equalTo(logoName).once().then((DatabaseEvent event) {
+    _database
+        .child('vehicles')
+        .orderByChild('model_name')
+        .equalTo(logoName)
+        .once()
+        .then((DatabaseEvent event) {
       vehicles.clear();
       Map<dynamic, dynamic>? values = event.snapshot.value as Map?;
       values?.forEach((key, value) {
@@ -266,11 +314,11 @@ class _HomeScreenState extends State<HomeScreen> {
       print("Failed to fetch vehicles: $error");
     });
   }
-
 }
+
 class Vehicle {
   final String name;
-  final  imageUrl;
+  final imageUrl;
   final double speed;
   final double pricePerDay;
 
@@ -281,17 +329,17 @@ class Vehicle {
     required this.pricePerDay,
   });
 }
+
 class LogoData {
   final String name;
   final String imageUrl;
 
   LogoData(this.name, this.imageUrl);
 }
+
 class Vehicle2 {
   final String modelName;
   final List<String> imageUrls;
 
   Vehicle2(this.modelName, this.imageUrls);
 }
-
-
