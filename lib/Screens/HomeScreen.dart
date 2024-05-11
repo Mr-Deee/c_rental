@@ -23,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String? userEmail = "", userId = "";
   String firstName = "", lastName = "";
   List<Vehicle> vehicles = [];
+  List<Vehicle> affordablevehicles = [];
   String selectedLogo = "";
   final DatabaseReference _database = FirebaseDatabase.instance.ref();
   List<LogoData> logos = [
@@ -69,6 +70,28 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+
+
+  Future<void> _fetchAffordableVehicles() async {
+    databaseReference
+        .child('vehicles')
+        .orderByChild('status')
+        .equalTo('affordable')
+        .once()
+        .then((DatabaseEvent event) {
+      Map<dynamic, dynamic>? values = event.snapshot.value as Map?;
+      values?.forEach((key, value) {
+        setState(() {
+          affordablevehicles.add(Vehicle(
+            name: value['model_name'],
+            imageUrl: value['VehicleImages'],
+            speed: double.parse(value['speed'].toString()),
+            pricePerDay: double.parse(value['price'].toString()),
+          ));
+        });
+      });
+    });
+  }
   Future<void> doSomeAsyncStuff() async {
     User? user = _auth.currentUser;
     setState(() {
@@ -224,7 +247,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
 
             Container(
-              height: 222,
+              height: 52,
               child: Column(
                 children: [
                   Row(
@@ -254,7 +277,67 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 ],
               ),
-            )
+            ),
+                Container(
+                  height: 344,
+                  child: ListView.builder(
+                    itemCount: vehicles.length,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                // Optional: add border radius for rounded corners
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.3),
+                                    // shadow color
+                                    spreadRadius: 2,
+                                    // spread radius
+                                    blurRadius: 12,
+                                    // blur radius
+                                    offset:
+                                    Offset(0, 3), // changes position of shadow
+                                  ),
+                                ]),
+                            height: 200, // Adjust height as needed
+                            child: PageView.builder(
+                              itemCount: affordablevehicles[index].imageUrl.length,
+                              itemBuilder: (BuildContext context, int pageIndex) {
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(23),
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                          affordablevehicles[index].imageUrl[pageIndex]),
+                                      // Use fetched images from the list
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  child: Column(
+                                    children: <Widget>[
+                                      ListTile(
+                                        title: Text(vehicles[index].name),
+                                        subtitle: Text(
+                                            'Speed: ${vehicles[index].speed} mph | Price Per Day: \$${vehicles[index].pricePerDay}'),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+
           ]),
         ));
   }
@@ -342,4 +425,46 @@ class Vehicle2 {
   final List<String> imageUrls;
 
   Vehicle2(this.modelName, this.imageUrls);
+}
+Widget _Hotdeals(Image image, String title, String value) {
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Container(
+      height: 135,
+      width: 126,
+      decoration: BoxDecoration(
+          color: Color(0xFF0047AB), borderRadius: BorderRadius.circular(23)),
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 8.0),
+        child: Column(
+          children: [
+            SizedBox(width: 10),
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: image, // Using the passed image widget
+                ),
+
+                // Text(
+                //   '$title: ',
+                //   style: TextStyle(fontWeight: FontWeight.bold),
+                // ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  value,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.white),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
 }

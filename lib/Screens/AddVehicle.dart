@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -18,8 +19,12 @@ class NewVehicle extends StatefulWidget {
 class _NewVehicleState extends State<NewVehicle> {
   final DatabaseReference _database = FirebaseDatabase.instance.reference();
   final modelname = TextEditingController();
+  final vehiclemake = TextEditingController();
+  final transmission = TextEditingController();
+  final vColor= TextEditingController();
   final vehiclenumber = TextEditingController();
   final mobilenumber = TextEditingController();
+  final status = TextEditingController();
   final type = TextEditingController();
   final price = TextEditingController();
   final seat = TextEditingController();
@@ -76,6 +81,114 @@ class _NewVehicleState extends State<NewVehicle> {
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
                       labelText: 'Model Name',
+                      suffixIcon: Icon(Icons.car_rental_rounded),
+                      floatingLabelStyle: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(17),
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            (BorderSide(width: 1.0, color: Colors.black)),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(17),
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            (BorderSide(width: 1.0, color: Colors.blue)),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(17),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 25),
+                  padding: EdgeInsets.all(10),
+                  child: TextField(
+                    controller: transmission,
+                    keyboardType: TextInputType.name,
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      labelText: 'Transmission',
+                      suffixIcon: Icon(Icons.car_rental_rounded),
+                      floatingLabelStyle: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(17),
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            (BorderSide(width: 1.0, color: Colors.black)),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(17),
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            (BorderSide(width: 1.0, color: Colors.blue)),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(17),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 25),
+                  padding: EdgeInsets.all(10),
+                  child: TextField(
+                    controller: vehiclemake,
+                    keyboardType: TextInputType.name,
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      labelText: 'Vehicle Make',
+                      suffixIcon: Icon(Icons.car_rental_rounded),
+                      floatingLabelStyle: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(17),
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            (BorderSide(width: 1.0, color: Colors.black)),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(17),
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            (BorderSide(width: 1.0, color: Colors.blue)),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(17),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 25),
+                  padding: EdgeInsets.all(10),
+                  child: TextField(
+                    controller: vColor,
+                    keyboardType: TextInputType.name,
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      labelText: 'Vehicle Color',
                       suffixIcon: Icon(Icons.car_rental_rounded),
                       floatingLabelStyle: TextStyle(
                           color: Colors.blue,
@@ -211,7 +324,7 @@ class _NewVehicleState extends State<NewVehicle> {
                     ),
                   ),
                 ),
-                Container(
+                    Container(
                   margin: EdgeInsets.only(top: 8),
                   padding: EdgeInsets.all(10),
                   child: TextField(
@@ -233,14 +346,50 @@ class _NewVehicleState extends State<NewVehicle> {
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderSide:
-                            (BorderSide(width: 1.0, color: Colors.black)),
+                        (BorderSide(width: 1.0, color: Colors.black)),
                         borderRadius: BorderRadius.all(
                           Radius.circular(17),
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderSide:
-                            (BorderSide(width: 1.0, color: Colors.blue)),
+                        (BorderSide(width: 1.0, color: Colors.blue)),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(17),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 8),
+                  padding: EdgeInsets.all(10),
+                  child: TextField(
+                    controller: status,
+                    keyboardType: TextInputType.name,
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      labelText: 'Classification',
+                      suffixIcon: Icon(Icons.flight_class),
+                      floatingLabelStyle: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(17),
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide:
+                        (BorderSide(width: 1.0, color: Colors.black)),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(17),
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                        (BorderSide(width: 1.0, color: Colors.blue)),
                         borderRadius: BorderRadius.all(
                           Radius.circular(17),
                         ),
@@ -486,8 +635,12 @@ class _NewVehicleState extends State<NewVehicle> {
     _database.child('vehicles').push().set({
       'VehicleImages': _imageUrls,
       'model_name': modelname.text,
+      'Transmission': transmission.text,
+      'vehicle_make': vehiclemake.text,
+      'vehicleColor': vColor.text,
       'vehicle_number': vehiclenumber.text,
       'mobile_number': mobilenumber.text,
+      'status':status.text,
       'type': type.text,
       'seats': int.tryParse(seat.text) ?? 0,
       'price': double.tryParse(price.text) ?? 0.0,
