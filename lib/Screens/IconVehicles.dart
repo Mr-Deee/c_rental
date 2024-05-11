@@ -104,7 +104,7 @@ class _VehiclePageState extends State<VehiclePage> {
                             ],
                           ),
                           leading: Image.network(vehicles[index]['VehicleImages']
-                              [1]), // You can display images here too
+                              [0]), // You can display images here too
                         ),
                       ),
                     );

@@ -43,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     doSomeAsyncStuff();
     _fetchFeaturedVehicles();
-
+    _fetchAffordableVehicles();
     super.initState();
   }
 
@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
     databaseReference
         .child('vehicles')
         .orderByChild('status')
-        .equalTo('featured')
+        .equalTo('Featured')
         .once()
         .then((DatabaseEvent event) {
       Map<dynamic, dynamic>? values = event.snapshot.value as Map?;
