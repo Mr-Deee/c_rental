@@ -50,7 +50,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
                         Image.asset('assets/images/ENGINE.png',
                             width: 74, height: 74),
                         'Model Number',
-                        widget.vehicleData['model_number'].toString()),
+                        widget.vehicleData['EngineCapacity']??"".toString()),
                     _buildDetailRow(
                         Image.asset('assets/images/seats.png',
                             width: 74, height: 74),

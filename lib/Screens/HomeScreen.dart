@@ -90,6 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
             seats: value['seats'].toString(),
             vehiclenumber: value['vehicle_number'],
             transmission: value['Transmission'],
+            EnginCap:value['EngineCapacity'].toString(),
           ));
         });
       });
@@ -450,6 +451,7 @@ class affordablevehicle {
   final String name;
   final String seats;
   final String vehiclenumber;
+  final String EnginCap;
   final String transmission;
   final imageUrl;
   final double speed;
@@ -459,6 +461,7 @@ class affordablevehicle {
     required this.name,
     required this.vehiclenumber,
     required this.transmission,
+    required this.EnginCap,
     required this.seats,
     required this.imageUrl,
     required this.speed,
@@ -474,6 +477,8 @@ class affordablevehicle {
       'price': pricePerDay,
       'VehicleImages': imageUrl,
       'vehicle_number': vehiclenumber,
+      'Transmission': transmission,
+      'EngineCapacity': EnginCap,
     };
   }
 }
