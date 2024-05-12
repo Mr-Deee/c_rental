@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
-  final databaseReference = FirebaseDatabase.instance.reference();
+  final databaseReference = FirebaseDatabase.instance.ref();
 
   Future<void> _fetchFeaturedVehicles() async {
     databaseReference
@@ -91,6 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
             vehiclenumber: value['vehicle_number'],
             transmission: value['Transmission'],
             EnginCap:value['EngineCapacity'].toString(),
+            Location: value['location'],
           ));
         });
       });
@@ -451,6 +452,7 @@ class affordablevehicle {
   final String name;
   final String seats;
   final String vehiclenumber;
+  final String Location;
   final String EnginCap;
   final String transmission;
   final imageUrl;
@@ -466,6 +468,7 @@ class affordablevehicle {
     required this.imageUrl,
     required this.speed,
     required this.pricePerDay,
+    required this.Location,
   });
 
   // Convert Vehicle object to a Map<String, dynamic>
