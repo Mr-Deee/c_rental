@@ -4,6 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -278,67 +279,74 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-                Container(
-                  height: 344,
-                  child: ListView.builder(
-                    itemCount: vehicles.length,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
 
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Container(
-                            decoration: BoxDecoration(
+//Affordable cars
+
+                Container(
+                  height: 284,
+                  width: 543,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal, // Make the ListView scroll horizontally
+                    children: List.generate(
+                      affordablevehicles.length,
+                          (index) {
+                        return GestureDetector(
+                          onTap: () {
+                            // Handle onTap event
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.all(15.0),
+                            child: Container(
+                              decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                // Optional: add border radius for rounded corners
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.black.withOpacity(0.3),
-                                    // shadow color
                                     spreadRadius: 2,
-                                    // spread radius
                                     blurRadius: 12,
-                                    // blur radius
-                                    offset:
-                                    Offset(0, 3), // changes position of shadow
+                                    offset: Offset(0, 3),
                                   ),
-                                ]),
-                            height: 200, // Adjust height as needed
-                            child: PageView.builder(
-                              itemCount: affordablevehicles[index].imageUrl.length,
-                              itemBuilder: (BuildContext context, int pageIndex) {
-                                return Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(23),
-                                    image: DecorationImage(
-                                      image: NetworkImage(
-                                          affordablevehicles[index].imageUrl[pageIndex]),
-                                      // Use fetched images from the list
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  child: Column(
-                                    children: <Widget>[
-                                      ListTile(
-                                        title: Text(vehicles[index].name),
-                                        subtitle: Text(
-                                            'Speed: ${vehicles[index].speed} mph | Price Per Day: \$${vehicles[index].pricePerDay}'),
+                                ],
+                              ),
+                              width: 200, // Adjust width as needed
+                              child: PageView.builder(
+                                itemCount: affordablevehicles[index].imageUrl.length,
+                                itemBuilder: (BuildContext context, int pageIndex) {
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(23),
+                                      image: DecorationImage(
+                                        image: NetworkImage(affordablevehicles[index].imageUrl[pageIndex]),
+                                        fit: BoxFit.cover,
                                       ),
-                                    ],
-                                  ),
-                                );
-                              },
+                                    ),
+                                    child: Column(
+                                      children: <Widget>[
+                                        ListTile(
+                                          title: Text(affordablevehicles[index].name),
+                                          subtitle: Text(
+                                            'Speed: ${affordablevehicles[index].speed} mph | Price Per Day: \$${affordablevehicles[index].pricePerDay}',
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
                 ),
 
-          ]),
+
+
+
+
+
+              ]),
         ));
   }
 
