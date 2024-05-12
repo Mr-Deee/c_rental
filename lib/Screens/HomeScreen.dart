@@ -91,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
             vehiclenumber: value['vehicle_number'],
             transmission: value['Transmission'],
             EnginCap:value['EngineCapacity'].toString(),
-            Location: value['location'],
+            location: value['location'].toString(),
           ));
         });
       });
@@ -452,9 +452,10 @@ class affordablevehicle {
   final String name;
   final String seats;
   final String vehiclenumber;
-  final String Location;
+  final String location;
   final String EnginCap;
   final String transmission;
+
   final imageUrl;
   final double speed;
   final double pricePerDay;
@@ -464,11 +465,12 @@ class affordablevehicle {
     required this.vehiclenumber,
     required this.transmission,
     required this.EnginCap,
+    required this.location,
     required this.seats,
     required this.imageUrl,
     required this.speed,
     required this.pricePerDay,
-    required this.Location,
+
   });
 
   // Convert Vehicle object to a Map<String, dynamic>
@@ -480,6 +482,7 @@ class affordablevehicle {
       'price': pricePerDay,
       'VehicleImages': imageUrl,
       'vehicle_number': vehiclenumber,
+      'location': location,
       'Transmission': transmission,
       'EngineCapacity': EnginCap,
     };
