@@ -22,23 +22,23 @@ class _VehiclePageState extends State<VehiclePage> {
     super.initState();
     _searchVehicles();
   }
-  Future<Map<String, dynamic>> _getVehicleDetails(String modelName) async {
-    DatabaseReference vehiclesRef =
-    FirebaseDatabase.instance.ref().child('vehicles');
-
-      DatabaseEvent event = await vehiclesRef
-        .orderByChild('model_name')
-        .equalTo(modelName)
-        .once();
-
-    Map<dynamic, dynamic>? values = event.snapshot.value as Map?;
-    if (values != null) {
-      var vehicleData = values.values.first;
-      return Map<String, dynamic>.from(vehicleData);
-    } else {
-      return {};
-    }
-  }
+  // Future<Map<String, dynamic>> _getVehicleDetails(String modelName) async {
+  //   DatabaseReference vehiclesRef =
+  //   FirebaseDatabase.instance.ref().child('vehicles');
+  //
+  //     DatabaseEvent event = await vehiclesRef
+  //       .orderByChild('model_name')
+  //       .equalTo(modelName)
+  //       .once();
+  //
+  //   Map<dynamic, dynamic>? values = event.snapshot.value as Map?;
+  //   if (values != null) {
+  //     var vehicleData = values.values.first;
+  //     return Map<String, dynamic>.from(vehicleData);
+  //   } else {
+  //     return {};
+  //   }
+  // }
 
   void _searchVehicles() {
     DatabaseReference vehiclesRef =

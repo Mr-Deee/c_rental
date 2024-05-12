@@ -7,7 +7,6 @@ import 'Screens/AddVehicle.dart';
 import 'Screens/HomeScreen.dart';
 import 'Screens/LoginScreen.dart';
 import 'Screens/SignUpScreen.dart';
-import 'Screens/VehicleScreen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -41,7 +40,6 @@ class MyApp extends StatelessWidget {
         routes: {
           "/": (context) => CheckUserRole(),
           "/SignUP": (context) => SignUpScreen(),
-          "/VehicleScreen": (context) => VehicleScreen(),
           "/HomeScreen": (context) => HomeScreen(),
           "/SignIn": (context) => LoginScreen(),
           "/Admin": (context) => Admin(),

@@ -10,6 +10,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'IconVehicles.dart';
 import 'LoginScreen.dart';
+import 'VehicleDetails.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -24,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String? userEmail = "", userId = "";
   String firstName = "", lastName = "";
   List<Vehicle> vehicles = [];
-  List<Vehicle> affordablevehicles = [];
+  List<affordablevehicle> affordablevehicles = [];
   String selectedLogo = "";
   final DatabaseReference _database = FirebaseDatabase.instance.ref();
   List<LogoData> logos = [
@@ -71,8 +72,6 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-
-
   Future<void> _fetchAffordableVehicles() async {
     databaseReference
         .child('vehicles')
@@ -83,16 +82,20 @@ class _HomeScreenState extends State<HomeScreen> {
       Map<dynamic, dynamic>? values = event.snapshot.value as Map?;
       values?.forEach((key, value) {
         setState(() {
-          affordablevehicles.add(Vehicle(
+          affordablevehicles.add(affordablevehicle(
             name: value['model_name'],
             imageUrl: value['VehicleImages'],
             speed: double.parse(value['speed'].toString()),
             pricePerDay: double.parse(value['price'].toString()),
+            seats: value['seats'].toString(),
+            vehiclenumber: value['vehicle_number'],
+            transmission: value['Transmission'],
           ));
         });
       });
     });
   }
+
   Future<void> doSomeAsyncStuff() async {
     User? user = _auth.currentUser;
     setState(() {
@@ -106,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
         setState(() {
-          lastName = documentSnapshot.get("lastName");
+          lastName = documentSnapshot.get("LastName");
         });
         print('Document data: ${documentSnapshot.get("lastName")}');
       } else {
@@ -174,8 +177,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         body: Container(
           height: screenHeight,
-          child: Column(
-              children: [
+          child: Column(children: [
             Row(
               children: [
                 Padding(
@@ -261,10 +263,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                      builder: (context) => VehiclePage(
-                                    vehicleName: selectedLogo,
-                                  ),
-                                  ));
+                                        builder: (context) => VehiclePage(
+                                          vehicleName: selectedLogo,
+                                        ),
+                                      ));
                                 });
                               },
                               child: Image.asset(
@@ -275,78 +277,101 @@ class _HomeScreenState extends State<HomeScreen> {
                             ))
                         .toList(),
                   ),
-
                 ],
               ),
             ),
 
-//Affordable cars
-
-                Container(
-                  height: 284,
-                  width: 543,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal, // Make the ListView scroll horizontally
-                    children: List.generate(
-                      affordablevehicles.length,
-                          (index) {
-                        return GestureDetector(
-                          onTap: () {
-                            // Handle onTap event
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.all(15.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.3),
-                                    spreadRadius: 2,
-                                    blurRadius: 12,
-                                    offset: Offset(0, 3),
-                                  ),
-                                ],
-                              ),
-                              width: 200, // Adjust width as needed
-                              child: PageView.builder(
-                                itemCount: affordablevehicles[index].imageUrl.length,
-                                itemBuilder: (BuildContext context, int pageIndex) {
-                                  return Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(23),
-                                      image: DecorationImage(
-                                        image: NetworkImage(affordablevehicles[index].imageUrl[pageIndex]),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    child: Column(
-                                      children: <Widget>[
-                                        ListTile(
-                                          title: Text(affordablevehicles[index].name),
-                                          subtitle: Text(
-                                            'Speed: ${affordablevehicles[index].speed} mph | Price Per Day: \$${affordablevehicles[index].pricePerDay}',
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 18.0, top: 8),
+                  child: Text(
+                    "Affordables",
+                    style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
                   ),
                 ),
+              ],
+            ),
 
+//Affordable cars
 
+            Container(
+              height: 284,
+              width: 543,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                // Make the ListView scroll horizontally
+                children: List.generate(
+                  affordablevehicles.length,
+                  (index) {
+                    return GestureDetector(
+                      onTap: () {},
+                      child: Padding(
+                        padding: EdgeInsets.all(15.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.3),
+                                spreadRadius: 2,
+                                blurRadius: 12,
+                                offset: Offset(0, 3),
+                              ),
+                            ],
+                          ),
+                          width: 200, // Adjust width as needed
+                          child: PageView.builder(
+                            itemCount:
+                                affordablevehicles[index].imageUrl.length,
+                            itemBuilder: (BuildContext context, int pageIndex) {
+                              List<Map<String, dynamic>> vehicles = [];
 
-
-
-
-              ]),
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              VehicleDetailsPage(
+                                                vehicleData:
+                                                    affordablevehicles[index]
+                                                        .toMap(),
+                                              )));
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(23),
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                          affordablevehicles[index]
+                                              .imageUrl[pageIndex]),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  child: Column(
+                                    children: <Widget>[
+                                      ListTile(
+                                        title: Text(
+                                            affordablevehicles[index].name),
+                                        subtitle: Text(
+                                          'Speed: ${affordablevehicles[index].speed} mph | Price Per Day: \$${affordablevehicles[index].pricePerDay}',
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ]),
         ));
   }
 
@@ -421,6 +446,38 @@ class Vehicle {
   });
 }
 
+class affordablevehicle {
+  final String name;
+  final String seats;
+  final String vehiclenumber;
+  final String transmission;
+  final imageUrl;
+  final double speed;
+  final double pricePerDay;
+
+  affordablevehicle({
+    required this.name,
+    required this.vehiclenumber,
+    required this.transmission,
+    required this.seats,
+    required this.imageUrl,
+    required this.speed,
+    required this.pricePerDay,
+  });
+
+  // Convert Vehicle object to a Map<String, dynamic>
+  Map<String, dynamic> toMap() {
+    return {
+      'model_name': name,
+      'seats': seats,
+      'speed': speed,
+      'price': pricePerDay,
+      'VehicleImages': imageUrl,
+      'vehicle_number': vehiclenumber,
+    };
+  }
+}
+
 class LogoData {
   final String name;
   final String imageUrl;
@@ -434,6 +491,7 @@ class Vehicle2 {
 
   Vehicle2(this.modelName, this.imageUrls);
 }
+
 Widget _Hotdeals(Image image, String title, String value) {
   return Padding(
     padding: const EdgeInsets.all(8.0),

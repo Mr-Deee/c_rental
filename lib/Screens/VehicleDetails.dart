@@ -19,7 +19,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
       appBar: AppBar(
         backgroundColor: Color(0xFF0047AB),
         title: Text(
-          widget.vehicleData['model_name'],
+          widget.vehicleData['model_name'].toString(),
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
       ),
@@ -29,10 +29,14 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-              child: Image.network(
-                widget.vehicleData['VehicleImages'][1],
-                height: 200,
-                width: 200,
+              child: Container(
+                child: widget.vehicleData != null && widget.vehicleData.containsKey('VehicleImages')
+                    ? Image.network(
+                  widget.vehicleData['VehicleImages'][0],
+                  height: 200,
+                  width: 200,
+                )
+                    : Text('No image available'), // Display a message if image data is not available
               ),
             ),
 
@@ -69,9 +73,9 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
                     'Plate Number',
                     widget.vehicleData['vehicle_number'].toString()),
                 _buildDetailRow(
-                    Image.asset('assets/images/PLATE.png', width: 74, height: 74),
+                    Image.asset('assets/images/gear2.png', width: 74, height: 74),
                     'Plate Number',
-                    widget.vehicleData['vehicle_number'].toString()),
+                    widget.vehicleData['Transmission'].toString()),
               ],
             ),
             // Add more details as needed
@@ -106,7 +110,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
                       Column(
                         children: [
                           Text(
-                            "lOCATION",
+                            widget.vehicleData['location'].toString(),
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),

@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../Constants/constants.dart';
-import 'VehicleScreen.dart';
 
 
 class ProfilUserScreen extends StatefulWidget {
@@ -228,10 +227,10 @@ class _ProfilUserScreenState extends State<ProfilUserScreen> {
       "phoneNumber": _phoneNumberController.text,
       "gender": genderValue,
     }).then((value) {
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => VehicleScreen()),
-          (_) => false);
+      // Navigator.pushAndRemoveUntil(
+      //     context,
+      //     MaterialPageRoute(builder: (context) => VehicleScreen()),
+      //     (_) => false);
     });
   }
 }
