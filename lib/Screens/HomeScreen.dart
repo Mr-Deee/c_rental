@@ -354,11 +354,30 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: Column(
                                     children: <Widget>[
                                       ListTile(
-                                        title: Text(
-                                            affordablevehicles[index].name),
-                                        subtitle: Text(
-                                          'Speed: ${affordablevehicles[index].speed} mph | Price Per Day: \$${affordablevehicles[index].pricePerDay}',
+                                        title: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+                                          children: [
+                                            Text(affordablevehicles[index].name,style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23),),
+                                          ],
                                         ),
+                                        subtitle:Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+
+                                            SizedBox(height: 174), // Adjust this value as needed
+                                            Text(
+                                                ' \$${affordablevehicles[index].pricePerDay}/Day',
+                                                style: TextStyle(fontSize: 13,fontWeight: FontWeight.bold), // Adjust font size as needed
+
+                                            ),
+                                          ],
+                                        ),
+
+
+                                        // Text(
+                                        //   'Speed: ${affordablevehicles[index].speed} mph | Price Per Day: \$${affordablevehicles[index].pricePerDay}',
+                                        // ),
                                       ),
                                     ],
                                   ),
