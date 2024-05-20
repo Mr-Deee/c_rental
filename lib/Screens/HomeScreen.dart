@@ -166,13 +166,53 @@ class _HomeScreenState extends State<HomeScreen> {
           title: Text("Benji's"),
           actions: [
             TextButton(
-              onPressed: signOutFromGoogle,
-              child: Text(
-                'Log out',
-                style: TextStyle(color: Colors.white),
-              ),
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.green,
+              onPressed: () {
+                showDialog<void>(
+                  context: context,
+                  barrierDismissible: false, // user must tap button!
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('Sign Out'),
+                      backgroundColor: Colors.white,
+                      content: SingleChildScrollView(
+                        child: Column(
+                          children: <Widget>[
+                            Text('Are you certain you want to Sign Out?'),
+                          ],
+                        ),
+                      ),
+                      actions: <Widget>[
+                        TextButton(
+                          child: Text(
+                            'Yes',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          onPressed: () {
+                            print('yes');
+                            FirebaseAuth.instance.signOut();
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, "/SignIn", (route) => false);
+                            // Navigator.of(context).pop();
+                          },
+                        ),
+                        TextButton(
+                          child: Text(
+                            'Cancel',
+                            style: TextStyle(color: Colors.red),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              child: Icon(
+                Icons.logout,
+                color: Colors.black,
+
               ),
             )
           ],
@@ -192,7 +232,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             Container(
-              height: 250,
+              height: 260,
               child: ListView.builder(
                 itemCount: vehicles.length,
                 itemBuilder: (context, index) {
@@ -218,11 +258,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Offset(0, 3), // changes position of shadow
                               ),
                             ]),
-                        height: 200, // Adjust height as needed
+                        height: 249, // Adjust height as needed
                         child: PageView.builder(
                           itemCount: vehicles[index].imageUrl.length,
                           itemBuilder: (BuildContext context, int pageIndex) {
                             return Container(
+                              height: 212,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(23),
                                 image: DecorationImage(
@@ -235,9 +276,46 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: Column(
                                 children: <Widget>[
                                   ListTile(
-                                    title: Text(vehicles[index].name),
-                                    subtitle: Text(
-                                        'Speed: ${vehicles[index].speed} mph | Price Per Day: \$${vehicles[index].pricePerDay}'),
+                                    title: Text(vehicles[index].name,style: TextStyle(fontSize: 34,fontWeight: FontWeight.bold),),
+                                    subtitle: Padding(
+                                      padding: const EdgeInsets.only(top:119),
+                                      child: Container(
+                                        height: 47,
+                                        margin: EdgeInsets.all(8.0),
+                                        padding: EdgeInsets.all(12.0),
+                                        decoration: BoxDecoration(
+                                          color: Color(0xFF0047AB),
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        child: Row(
+
+                                          children: [
+                                            Image.asset('assets/images/SPEEDO.png', width: 50, height: 84),
+                                            Text('${vehicles[index].speed} mph',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight:   FontWeight.bold,
+                                                fontSize: 16.0,
+                                              ),
+                                            ),
+
+                                            Text("      |    " ,style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 16.0,
+                                            ),),
+                                            Image.asset('assets/images/money.png', width: 50, height: 80),
+                                            Text(
+                                              ' \$${vehicles[index].pricePerDay }',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 16.0,
+                                                fontWeight: FontWeight.bold
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ),
                                   ),
                                 ],
                               ),

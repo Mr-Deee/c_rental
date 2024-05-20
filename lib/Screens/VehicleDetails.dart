@@ -33,8 +33,8 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
                 child: widget.vehicleData != null && widget.vehicleData.containsKey('VehicleImages')
                     ? Image.network(
                   widget.vehicleData['VehicleImages'][0],
-                  height: 200,
-                  width: 200,
+                  height: 250,
+                  width: 500,
                 )
                     : Text('No image available'), // Display a message if image data is not available
               ),

@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -16,6 +17,49 @@ class Admin extends StatefulWidget {
 
 class _AdminState extends State<Admin> {
   final locates = TextEditingController();
+  final DatabaseReference _vehiclesRef = FirebaseDatabase.instance.ref().child('vehicles');
+  final Query _rentedRef = FirebaseDatabase.instance.ref().child('vehicles').orderByChild("status").equalTo("Rented");
+  int availableVehiclesCount = 0;
+  int availablerentedvehicles = 0;
+  @override
+  void initState() {
+    super.initState();
+    _fetchAvailableVehiclesCount();
+    _fetchAvailableRentedVehiclesCount();
+  }
+  void _fetchAvailableVehiclesCount() {
+    _vehiclesRef.once().then((DatabaseEvent event) {
+      final data = event.snapshot.value as Map<dynamic, dynamic>?;
+      if (data != null) {
+        int count = 0;
+        data.forEach((key, value) {
+          if (value['rent'] == null) {
+            count++;
+          }
+        });
+        setState(() {
+          availableVehiclesCount = count;
+        });
+      }
+    });
+  }
+  void _fetchAvailableRentedVehiclesCount() {
+    _rentedRef.once().then((DatabaseEvent event) {
+      final data = event.snapshot.value as Map<dynamic, dynamic>?;
+      if (data != null) {
+        int count = 0;
+        data.forEach((key, value) {
+          if (value != null) {
+            count++;
+          }
+        });
+        setState(() {
+          availablerentedvehicles = count;
+        });
+      }
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +70,7 @@ class _AdminState extends State<Admin> {
         <dynamic, dynamic>{}) as Map;
     return Scaffold(
         appBar: AppBar(
-          title: Text("Admin"),
+          title: Text("Dashboard",style: TextStyle(fontWeight: FontWeight.bold),),
           actions: [
             IconButton(
               onPressed: () {
@@ -89,27 +133,84 @@ class _AdminState extends State<Admin> {
                 color: Colors.black,
                 child: Column(
                   children: [
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 28.0, left: 7, right: 13),
-                          child: Image.asset(
-                            "assets/images/audi.png",
-                            width: 53,
+                    IntrinsicHeight(
+                      child: Row(
+                        children: [
+                      
+                          IntrinsicHeight(
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left:23,top: 18.0),
+                                  child: Text(
+                                    "Available Cars",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left:23,top: 18.0),
+                                  child: Text(
+                                      availableVehiclesCount.toString(),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                      
+                              ],
+                            ),
+                          ),     
+                          Padding(
+                            padding: const EdgeInsets.only(top: 18.0),
+                            child: VerticalDivider(
+                              thickness: 2,
+
+                              width: 30,
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 18.0),
-                          child: Text(
-                            "Benji's Admin",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
+
+                          IntrinsicHeight(
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left:23,top: 18.0),
+                                  child: Text(
+                                    "Rented Cars",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left:23,top: 18.0),
+                                  child: Text(
+                                    availablerentedvehicles.toString(),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                ),
+
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.only(top: 18.0),
+                            child: VerticalDivider(
+                              thickness: 2,
+
+                              width: 30,
+                              color: Colors.white,
+                            ),
+                          ),
+
+                        ],
+                      ),
                     ),
+
                     Row(
                       children: [],
                     )
@@ -121,38 +222,42 @@ class _AdminState extends State<Admin> {
           SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
+mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(
-                    height: 180,
-                    width: 180,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                                builder: (context) => NewVehicle()),
-                            (Route<dynamic> route) => true);
-                      },
-                      child: Card(
-                        elevation: 8,
-                        color: Colors.black,
-                        shadowColor: Colors.blueAccent,
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 28.0),
-                              child: Image.asset("assets/images/audi.png"),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 10.0, left: 50, right: 30),
-                              child: Text('Add New Vehicle',
-                                  style: GoogleFonts.openSans(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                  )),
-                            ),
-                          ],
+                  Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: SizedBox(
+                      height: 180,
+                      width: 180,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (context) => NewVehicle()),
+                              (Route<dynamic> route) => true);
+                        },
+                        child: Card(
+                          elevation: 8,
+                          color: Colors.black,
+                          shadowColor: Colors.blueAccent,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 1.0),
+                                child: Image.asset("assets/images/addnew.png",width: 140,height: 102,),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 6.0, left: 50, right: 30),
+                                child: Text('Add New Vehicle',
+                                    style: GoogleFonts.openSans(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    )),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -173,10 +278,10 @@ class _AdminState extends State<Admin> {
                         shadowColor: Colors.white70,
                         child: Column(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 28.0),
-                              child: Image.asset("assets/images/audi.png"),
-                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.only(top: 28.0),
+                            //   child: Image.asset("assets/images/audi.png"),
+                            // ),
                             Padding(
                               padding: const EdgeInsets.only(
                                   top: 10.0, left: 50, right: 30),
