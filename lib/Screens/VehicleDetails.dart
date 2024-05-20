@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -10,7 +11,7 @@ class VehicleDetailsPage extends StatefulWidget {
   @override
   _VehicleDetailsPageState createState() => _VehicleDetailsPageState();
 }
-
+final DatabaseReference db = FirebaseDatabase.instance.reference();
 class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
   @override
   Widget build(BuildContext context) {
@@ -249,4 +250,60 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
       ),
     );
   }
+
+  void _showRentDialog() {
+    TextEditingController daysController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Enter Number of Days'),
+          content: TextField(
+            controller: daysController,
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(hintText: "Number of days"),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Submit'),
+              onPressed: () {
+                int days = int.parse(daysController.text);
+                rentVehicle(widget.vehicleData['vehicleId'], 'currentUserId', days);
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> rentVehicle(String vehicleId, String userId, int days) async {
+    DatabaseReference vehiclesRef = db.child('Vehicles');
+    DatabaseReference rentedRef = db.child('Rented');
+
+    // Update vehicle status
+    await vehiclesRef.child(vehicleId).update({'status': 'rented'});
+
+    // Add entry to rented table
+    await rentedRef.push().set({
+      'vehicleId': vehicleId,
+      'userId': userId,
+      'brand': widget.vehicleData['model_name']?.toString() ?? 'Unknown',
+      'modelYear': widget.vehicleData['model_year']?.toString() ?? 'Unknown',
+      'pricePerDay': widget.vehicleData['price'] ?? 0,
+      'totalPrice': (widget.vehicleData['price'] ?? 0) * days,
+      'rentalDays': days,
+      'rentedAt': ServerValue.timestamp,
+    });
+  }
 }
+
+
