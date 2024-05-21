@@ -178,25 +178,30 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
 
                   children: [
 
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Color(0xFF0047AB),
-                          borderRadius: BorderRadius.circular(10)
+                    GestureDetector(
+                      onTap: (){
+                        _showRentDialog();
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Color(0xFF0047AB),
+                            borderRadius: BorderRadius.circular(10)
 
+                        ),
+                        height: 53,
+                        width: 120,
+                        child: Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text("Rent Now",style: TextStyle(color: Colors.white),),
+                                Icon(
+                                  Icons.arrow_right_alt,
+                                  color: Colors.white,
+                                ),
+                              ],
+                            )),
                       ),
-                      height: 53,
-                      width: 120,
-                      child: Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Text("Rent Now",style: TextStyle(color: Colors.white),),
-                              Icon(
-                                Icons.arrow_right_alt,
-                                color: Colors.white,
-                              ),
-                            ],
-                          )),
                     ),
                   ],
                 )
