@@ -310,10 +310,12 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
 
     try {
       // Update vehicle status
-      await vehiclesRef.child(vehicleId).update({'status': 'rented'});
+      await vehiclesRef.child(vehicleId).update({'RentedStatus': 'rented'});
 
       // Add entry to rented table
       await rentedRef.push().set({
+        'imageUrl':widget.vehicleData['VehicleImages'].toString(),
+
         'vehicleId': vehicleId,
         'userId': userId,
         'brand': widget.vehicleData['model_name']?.toString() ?? 'Unknown',
@@ -321,7 +323,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
         'pricePerDay': widget.vehicleData['price'] ?? 0,
         'totalPrice': (widget.vehicleData['price'] ?? 0) * days,
         'rentalDays': days,
-        'rentedAt': ServerValue.timestamp,
+        'rentedAt': TimeOfDay.fromDateTime(DateTime.timestamp()),
       });
       _showSuccessMessage();
       print('Vehicle rented successfully');

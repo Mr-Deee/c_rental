@@ -54,6 +54,7 @@ dependencies:
   bouncing_widget: ^2.0.0
   firebase_storage: ^11.7.0
   firebase_database: ^10.5.0
+  cached_network_image: ^3.1.0
 #  firebase_core_platform_interface:
 
 
