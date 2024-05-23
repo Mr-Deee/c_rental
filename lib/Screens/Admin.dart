@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:c_rental/Screens/Rentals.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -269,7 +270,7 @@ mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       onTap: () {
                         Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(
-                                builder: (context) => NewVehicle()),
+                                builder: (context) => RentalVehicles()),
                             (Route<dynamic> route) => true);
                       },
                       child: Card(
