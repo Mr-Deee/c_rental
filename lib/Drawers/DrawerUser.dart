@@ -6,7 +6,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import '../Constants/constants.dart';
 import '../Screens/FavoriteScreen.dart';
 import '../Screens/LoginScreen.dart';
-import '../Screens/MyReservationScreen.dart';
 import '../Screens/ProfilUserScreen.dart';
 import '../Screens/ReportScreen.dart';
 
@@ -161,11 +160,11 @@ class _DrawerUserState extends State<DrawerUser> {
                   title: const Text('My Reservations'),
                   onTap: () {
                     Navigator.pop(context);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                MyReservationsScreen(userId)));
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) =>
+                    //             MyReservationsScreen(userId)));
                   },
                 ),
                 ListTile(
