@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -262,6 +263,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
     );
   }
 
+
   void _showRentDialog() {
     TextEditingController daysController = TextEditingController();
 
@@ -288,7 +290,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
                 int days = int.parse(daysController.text);
         String? vehicleId = widget.vehicleId;
         if (vehicleId != null && vehicleId.isNotEmpty) {
-        rentVehicle(vehicleId, 'currentUserId', days);
+        rentVehicle(vehicleId,  days);
         Navigator.of(context).pop();
         } else {
         print('Invalid vehicle ID');
@@ -304,7 +306,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
 
 // or convert DateTime to a formatted string
   String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now());
-  Future<void> rentVehicle(String vehicleId, String userId, int days) async {
+  Future<void> rentVehicle(String vehicleId,  int days) async {
     if (vehicleId == null || vehicleId.isEmpty) {
       print('Invalid vehicle ID');
       return;
@@ -319,12 +321,14 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
 
       // Add entry to rented table
       await rentedRef.push().set({
-        'imageUrl':widget.vehicleData['VehicleImages'].toString(),
+        'imageUrl':widget.vehicleData['VehicleImages'],
 
         'vehicleId': vehicleId,
-        'userId': userId,
+        'userId': "userId",
         'brand': widget.vehicleData['model_name']?.toString() ?? 'Unknown',
-        'modelYear': widget.vehicleData['model_year']?.toString() ?? 'Unknown',
+        'EngineCap': widget.vehicleData['EngineCapacity']?? 'Unknown',
+        'Seats':  widget.vehicleData['seats']?? 'Unknown',
+        'Transmission': widget.vehicleData['Transmission']?? 'Unknown',
         'pricePerDay': widget.vehicleData['price'] ?? 0,
         'totalPrice': (widget.vehicleData['price'] ?? 0) * days,
         'rentalDays': days,
