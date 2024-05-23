@@ -44,11 +44,11 @@ class _RentalVehiclesState extends State<RentalVehicles> {
         itemCount: RentedList.length,
         itemBuilder: (context, index) {
           return ListTile(
-            // leading: CachedNetworkImage(
-            //   imageUrl: RentedList[index]['imageUrl'],
-            //   placeholder: (context, url) => CircularProgressIndicator(),
-            //   errorWidget: (context, url, error) => Icon(Icons.error),
-            // ),
+            leading: CachedNetworkImage(
+              imageUrl: RentedList[index]['imageUrl'],
+              placeholder: (context, url) => CircularProgressIndicator(),
+              errorWidget: (context, url, error) => Icon(Icons.error),
+            ),
             title: Text(RentedList[index]['brand']),
             subtitle: Text(RentedList[index]['rentalDays'].toString()),
             onTap: () {
