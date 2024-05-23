@@ -18,7 +18,7 @@ class Admin extends StatefulWidget {
 class _AdminState extends State<Admin> {
   final locates = TextEditingController();
   final DatabaseReference _vehiclesRef = FirebaseDatabase.instance.ref().child('vehicles');
-  final Query _rentedRef = FirebaseDatabase.instance.ref().child('vehicles').orderByChild("status").equalTo("Rented");
+  final Query _rentedRef = FirebaseDatabase.instance.ref().child('vehicles').orderByChild("status").equalTo("rented");
   int availableVehiclesCount = 0;
   int availablerentedvehicles = 0;
   @override
@@ -141,7 +141,7 @@ class _AdminState extends State<Admin> {
                             child: Column(
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(left:23,top: 18.0),
+                                  padding: const EdgeInsets.only(left:8,top: 18.0),
                                   child: Text(
                                     "Available Cars",
                                     style: TextStyle(
@@ -150,7 +150,7 @@ class _AdminState extends State<Admin> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(left:23,top: 18.0),
+                                  padding: const EdgeInsets.only(left:8,top: 18.0),
                                   child: Text(
                                       availableVehiclesCount.toString(),
                                     style: TextStyle(
@@ -176,7 +176,7 @@ class _AdminState extends State<Admin> {
                             child: Column(
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(left:23,top: 18.0),
+                                  padding: const EdgeInsets.only(left:3,top: 18.0),
                                   child: Text(
                                     "Rented Cars",
                                     style: TextStyle(
@@ -185,7 +185,7 @@ class _AdminState extends State<Admin> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(left:23,top: 18.0),
+                                  padding: const EdgeInsets.only(left:3,top: 18.0),
                                   child: Text(
                                     availablerentedvehicles.toString(),
                                     style: TextStyle(
