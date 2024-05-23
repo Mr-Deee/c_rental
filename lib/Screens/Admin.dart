@@ -278,10 +278,10 @@ mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         shadowColor: Colors.white70,
                         child: Column(
                           children: [
-                            // Padding(
-                            //   padding: const EdgeInsets.only(top: 28.0),
-                            //   child: Image.asset("assets/images/audi.png"),
-                            // ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 19.0),
+                              child: Image.asset("assets/images/addc.png",width: 180,height: 92,),
+                            ),
                             Padding(
                               padding: const EdgeInsets.only(
                                   top: 10.0, left: 50, right: 30),
