@@ -15,9 +15,9 @@ class VehiclePage extends StatefulWidget {
 }
 
 class _VehiclePageState extends State<VehiclePage> {
-  List<Map<String, dynamic>> vehicles = [];
+  // List<Map<String, dynamic>> vehicles = [];
   bool isLoading = true;
-  List<affordablevehicle> affordablevehicles = [];
+  List<affordablevehicle> vehicles = [];
 
   @override
   void initState() {
@@ -58,7 +58,7 @@ class _VehiclePageState extends State<VehiclePage> {
       if (values != null) {
         values.forEach((key, value) {
           setState(() {
-            affordablevehicles.add(
+            vehicles.add(
               affordablevehicle(
                 id: key, // Assigning the Firebase key as ID
                 name: value['model_name'],
@@ -97,12 +97,12 @@ class _VehiclePageState extends State<VehiclePage> {
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
                       onTap: () async {
-                        String vehicleId = affordablevehicles[index].id;
+                        String vehicleId = vehicles[index].id;
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => VehicleDetailsPage(
-                              vehicleData: vehicles[index], vehicleId: vehicleId,
+                              vehicleData: vehicles[index].toMap(), vehicleId: vehicleId,
                             ),
                           ),
                         );
@@ -110,7 +110,7 @@ class _VehiclePageState extends State<VehiclePage> {
                       child: Card(
                         margin: EdgeInsets.all(10),
                         child: ListTile(
-                          title: Text(vehicles[index]['model_name']),
+                          title: Text(vehicles[index].name),
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
@@ -119,7 +119,7 @@ class _VehiclePageState extends State<VehiclePage> {
                               // Add more details as needed
                             ],
                           ),
-                          leading: Image.network(vehicles[index]['VehicleImages']
+                          leading: Image.network(vehicles[index].imageUrl
                               [0]), // You can display images here too
                         ),
                       ),
