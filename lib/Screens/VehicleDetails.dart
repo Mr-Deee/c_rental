@@ -323,11 +323,20 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
         'rentalDays': days,
         'rentedAt': ServerValue.timestamp,
       });
-
+      _showSuccessMessage();
       print('Vehicle rented successfully');
     } catch (e) {
       print('Failed to rent vehicle: $e');
     }
+  }
+
+  void _showSuccessMessage() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Vehicle rented successfully"),
+        duration: Duration(seconds: 2), // Adjust the duration as needed
+      ),
+    );
   }
 }
 
