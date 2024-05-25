@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 class VehicleDetailsPage extends StatefulWidget {
   final Map<String, dynamic> vehicleData;
   final String ?vehicleId; // Add vehicleId here
-  VehicleDetailsPage({required this.vehicleData,  this.vehicleId,  });
+  VehicleDetailsPage({required this.vehicleData,  required this.vehicleId,  });
 
 
 
@@ -285,7 +285,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
               child: Text('Submit'),
               onPressed: () {
                 int days = int.parse(daysController.text);
-        String? vehicleId = getSelectedVehicleId();
+        String? vehicleId = widget.vehicleId;
         if (vehicleId != null && vehicleId.isNotEmpty) {
         rentVehicle(vehicleId, 'currentUserId', days);
         Navigator.of(context).pop();

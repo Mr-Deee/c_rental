@@ -47,23 +47,10 @@ class _HomeScreenState extends State<HomeScreen> {
     doSomeAsyncStuff();
     _fetchFeaturedVehicles();
     _fetchAffordableVehicles();
-    _fetchVehicles();
+
     super.initState();
   }
 
-  void _fetchVehicles() async {
-    DatabaseEvent event = (await databaseReference.once()) ;
-    Map<dynamic, dynamic>? vehiclesData = event.snapshot.value as Map?;
-    List<Map<String, dynamic>> tempList = [];
-    vehiclesData?.forEach((key, value) {
-      Map<String, dynamic> vehicle = Map<String, dynamic>.from(value);
-      vehicle['id'] = key; // Add the ID to the vehicle data
-      tempList.add(vehicle);
-    });
-    setState(() {
-      vehicles1 = tempList.cast<Vehicle>();
-    });
-  }
 
   final databaseReference = FirebaseDatabase.instance.ref();
 
@@ -433,7 +420,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               VehicleDetailsPage(
                                                 vehicleData:
                                                     affordablevehicles[index]
-                                                        .toMap(),
+                                                        .toMap(), vehicleId: vehicleId,
                                               )));
                                 },
                                 child: Container(
@@ -570,7 +557,6 @@ class affordablevehicle {
   final String location;
   final String EnginCap;
   final String transmission;
-
   final imageUrl;
   final double speed;
   final double pricePerDay;
