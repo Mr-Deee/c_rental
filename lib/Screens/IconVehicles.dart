@@ -1,3 +1,4 @@
+import 'package:c_rental/Screens/HomeScreen.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ class VehiclePage extends StatefulWidget {
 class _VehiclePageState extends State<VehiclePage> {
   List<Map<String, dynamic>> vehicles = [];
   bool isLoading = true;
+  List<affordablevehicle> affordablevehicles = [];
 
   @override
   void initState() {
@@ -39,7 +41,7 @@ class _VehiclePageState extends State<VehiclePage> {
   //     return {};
   //   }
   // }
-
+ String? vehid;
   void _searchVehicles() {
     DatabaseReference vehiclesRef =
         FirebaseDatabase.instance.ref().child('vehicles');
@@ -56,7 +58,20 @@ class _VehiclePageState extends State<VehiclePage> {
       if (values != null) {
         values.forEach((key, value) {
           setState(() {
-            vehicles.add(Map<String, dynamic>.from(value));
+            affordablevehicles.add(
+              affordablevehicle(
+                id: key, // Assigning the Firebase key as ID
+                name: value['model_name'],
+                seats: value['seats'].toString(),
+                speed: double.parse(value['speed'].toString()),
+                pricePerDay: double.parse(value['price'].toString()),
+                imageUrl: value['VehicleImages'],
+                vehiclenumber: value['vehicle_number'],
+                transmission: value['Transmission'],
+                EnginCap: value['EngineCapacity'].toString(),
+                location: value['location'],
+              ),
+            );
           });
         });
       }
@@ -82,11 +97,12 @@ class _VehiclePageState extends State<VehiclePage> {
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
                       onTap: () async {
+                        String vehicleId = affordablevehicles[index].id;
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => VehicleDetailsPage(
-                              vehicleData: vehicles[index],
+                              vehicleData: vehicles[index], vehicleId: vehicleId,
                             ),
                           ),
                         );
