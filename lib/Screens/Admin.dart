@@ -18,16 +18,31 @@ class Admin extends StatefulWidget {
 
 class _AdminState extends State<Admin> {
   final locates = TextEditingController();
-  final DatabaseReference _vehiclesRef = FirebaseDatabase.instance.ref().child('vehicles');
-  final Query _rentedRef = FirebaseDatabase.instance.ref().child('vehicles').orderByChild("status").equalTo("rented");
+  final DatabaseReference _vehiclesRef =
+      FirebaseDatabase.instance.ref().child('vehicles');
+  final Query _rentedRef = FirebaseDatabase.instance
+      .ref()
+      .child('vehicles')
+      .orderByChild("RentedStatus")
+      .equalTo("rented");
+
+  final Query _clientRef = FirebaseDatabase.instance
+      .ref()
+      .child('Clients');
+
+
   int availableVehiclesCount = 0;
   int availablerentedvehicles = 0;
+  int availableclients = 0;
+
   @override
   void initState() {
     super.initState();
     _fetchAvailableVehiclesCount();
     _fetchAvailableRentedVehiclesCount();
+    _fetchAvailableClient();
   }
+
   void _fetchAvailableVehiclesCount() {
     _vehiclesRef.once().then((DatabaseEvent event) {
       final data = event.snapshot.value as Map<dynamic, dynamic>?;
@@ -44,6 +59,7 @@ class _AdminState extends State<Admin> {
       }
     });
   }
+
   void _fetchAvailableRentedVehiclesCount() {
     _rentedRef.once().then((DatabaseEvent event) {
       final data = event.snapshot.value as Map<dynamic, dynamic>?;
@@ -61,6 +77,22 @@ class _AdminState extends State<Admin> {
     });
   }
 
+  void _fetchAvailableClient() {
+    _clientRef.once().then((DatabaseEvent event) {
+      final data = event.snapshot.value as Map<dynamic, dynamic>?;
+      if (data != null) {
+        int count = 0;
+        data.forEach((key, value) {
+          if (value != null) {
+            count++;
+          }
+        });
+        setState(() {
+          availableclients = count;
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +103,10 @@ class _AdminState extends State<Admin> {
         <dynamic, dynamic>{}) as Map;
     return Scaffold(
         appBar: AppBar(
-          title: Text("Dashboard",style: TextStyle(fontWeight: FontWeight.bold),),
+          title: Text(
+            "Dashboard",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
           actions: [
             IconButton(
               onPressed: () {
@@ -137,12 +172,12 @@ class _AdminState extends State<Admin> {
                     IntrinsicHeight(
                       child: Row(
                         children: [
-                      
                           IntrinsicHeight(
                             child: Column(
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(left:8,top: 18.0),
+                                  padding:
+                                      const EdgeInsets.only(left: 8, top: 18.0),
                                   child: Text(
                                     "Available Cars",
                                     style: TextStyle(
@@ -151,33 +186,32 @@ class _AdminState extends State<Admin> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(left:8,top: 18.0),
+                                  padding:
+                                      const EdgeInsets.only(left: 8, top: 18.0),
                                   child: Text(
-                                      availableVehiclesCount.toString(),
+                                    availableVehiclesCount.toString(),
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white),
                                   ),
                                 ),
-                      
                               ],
                             ),
-                          ),     
+                          ),
                           Padding(
                             padding: const EdgeInsets.only(top: 18.0),
                             child: VerticalDivider(
                               thickness: 2,
-
                               width: 30,
                               color: Colors.white,
                             ),
                           ),
-
                           IntrinsicHeight(
                             child: Column(
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(left:3,top: 18.0),
+                                  padding:
+                                      const EdgeInsets.only(left: 3, top: 18.0),
                                   child: Text(
                                     "Rented Cars",
                                     style: TextStyle(
@@ -186,7 +220,8 @@ class _AdminState extends State<Admin> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(left:3,top: 18.0),
+                                  padding:
+                                      const EdgeInsets.only(left: 3, top: 18.0),
                                   child: Text(
                                     availablerentedvehicles.toString(),
                                     style: TextStyle(
@@ -194,7 +229,6 @@ class _AdminState extends State<Admin> {
                                         color: Colors.white),
                                   ),
                                 ),
-
                               ],
                             ),
                           ),
@@ -202,16 +236,39 @@ class _AdminState extends State<Admin> {
                             padding: const EdgeInsets.only(top: 18.0),
                             child: VerticalDivider(
                               thickness: 2,
-
                               width: 30,
                               color: Colors.white,
                             ),
                           ),
-
+                          IntrinsicHeight(
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 3, top: 18.0),
+                                  child: Text(
+                                    "Total Clients",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 3, top: 18.0),
+                                  child: Text(
+                                    availableclients.toString(),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
-
                     Row(
                       children: [],
                     )
@@ -223,7 +280,7 @@ class _AdminState extends State<Admin> {
           SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(18.0),
@@ -245,7 +302,11 @@ mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(top: 1.0),
-                                child: Image.asset("assets/images/addnew.png",width: 140,height: 102,),
+                                child: Image.asset(
+                                  "assets/images/addnew.png",
+                                  width: 140,
+                                  height: 102,
+                                ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(
@@ -281,7 +342,11 @@ mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(top: 19.0),
-                              child: Image.asset("assets/images/addc.png",width: 180,height: 92,),
+                              child: Image.asset(
+                                "assets/images/addc.png",
+                                width: 180,
+                                height: 92,
+                              ),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(

@@ -86,17 +86,17 @@ class TableDetails extends StatelessWidget {
             ),
             SizedBox(height: 16.0),
             Text(
-              'Name: ${table['name']}',
+              'Client: ${table['userName']}',
               style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 8.0),
             Text(
-              'Location: ${table['location']}',
+              'Days: ${table['rentalDays']}',
               style: TextStyle(fontSize: 16.0),
             ),
             SizedBox(height: 8.0),
             Text(
-              'Description: ${table['description']}',
+              'Total: ${table['totalPrice']}',
               style: TextStyle(fontSize: 16.0),
             ),
           ],
