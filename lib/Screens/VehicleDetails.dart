@@ -305,7 +305,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
       return;
     }
 
-    DatabaseReference vehiclesRef = db.child('Vehicles');
+    DatabaseReference vehiclesRef = db.child('vehicles');
     DatabaseReference rentedRef = db.child('Rented');
 
     try {
