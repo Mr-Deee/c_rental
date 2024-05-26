@@ -322,7 +322,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
 // or convert DateTime to a formatted string
   String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now());
   Future<void> rentVehicle(String vehicleId,  int days) async {
-    final userprovider = Provider.of<Users>(context).userInfo;
+    final userprovider = Provider.of<Users>(context,listen: false).userInfo;
 
     if (vehicleId == null || vehicleId.isEmpty) {
       print('Invalid vehicle ID');
