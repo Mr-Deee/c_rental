@@ -342,6 +342,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
 
         'vehicleId': vehicleId,
         'userName': userprovider?.lastname,
+        'Email':userprovider?.email,
         'brand': widget.vehicleData['model_name']?.toString() ?? 'Unknown',
         'EngineCap': widget.vehicleData['EngineCapacity']?? 'Unknown',
         'Seats':  widget.vehicleData['seats']?? 'Unknown',
