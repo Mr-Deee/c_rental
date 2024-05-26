@@ -5,14 +5,19 @@ import 'package:flutter/widgets.dart';
 
 class VehicleDetailsPage extends StatefulWidget {
   final Map<String, dynamic> vehicleData;
+  final String ?vehicleId; // Add vehicleId here
+  VehicleDetailsPage({required this.vehicleData,  this.vehicleId,  });
 
-  VehicleDetailsPage({required this.vehicleData});
+
 
   @override
   _VehicleDetailsPageState createState() => _VehicleDetailsPageState();
 }
 final DatabaseReference db = FirebaseDatabase.instance.reference();
 class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
+  String? getSelectedVehicleId() {
+    return widget.vehicleId;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -263,7 +268,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Enter Number of Days'),
+          title: Text('Enter Number of Days\n for ${widget.vehicleData['model_name']}'),
           content: TextField(
             controller: daysController,
             keyboardType: TextInputType.number,
@@ -280,9 +285,13 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
               child: Text('Submit'),
               onPressed: () {
                 int days = int.parse(daysController.text);
-                rentVehicle(widget.vehicleData['vehicleId'], 'currentUserId', days);
-                Navigator.of(context).pop();
-              },
+        String? vehicleId = getSelectedVehicleId();
+        if (vehicleId != null && vehicleId.isNotEmpty) {
+        rentVehicle(vehicleId, 'currentUserId', days);
+        Navigator.of(context).pop();
+        } else {
+        print('Invalid vehicle ID');
+        }}
             ),
           ],
         );
@@ -291,23 +300,34 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
   }
 
   Future<void> rentVehicle(String vehicleId, String userId, int days) async {
+    if (vehicleId == null || vehicleId.isEmpty) {
+      print('Invalid vehicle ID');
+      return;
+    }
+
     DatabaseReference vehiclesRef = db.child('Vehicles');
     DatabaseReference rentedRef = db.child('Rented');
 
-    // Update vehicle status
-    await vehiclesRef.child(vehicleId).update({'status': 'rented'});
+    try {
+      // Update vehicle status
+      await vehiclesRef.child(vehicleId).update({'status': 'rented'});
 
-    // Add entry to rented table
-    await rentedRef.push().set({
-      'vehicleId': vehicleId,
-      'userId': userId,
-      'brand': widget.vehicleData['model_name']?.toString() ?? 'Unknown',
-      'modelYear': widget.vehicleData['model_year']?.toString() ?? 'Unknown',
-      'pricePerDay': widget.vehicleData['price'] ?? 0,
-      'totalPrice': (widget.vehicleData['price'] ?? 0) * days,
-      'rentalDays': days,
-      'rentedAt': ServerValue.timestamp,
-    });
+      // Add entry to rented table
+      await rentedRef.push().set({
+        'vehicleId': vehicleId,
+        'userId': userId,
+        'brand': widget.vehicleData['model_name']?.toString() ?? 'Unknown',
+        'modelYear': widget.vehicleData['model_year']?.toString() ?? 'Unknown',
+        'pricePerDay': widget.vehicleData['price'] ?? 0,
+        'totalPrice': (widget.vehicleData['price'] ?? 0) * days,
+        'rentalDays': days,
+        'rentedAt': ServerValue.timestamp,
+      });
+
+      print('Vehicle rented successfully');
+    } catch (e) {
+      print('Failed to rent vehicle: $e');
+    }
   }
 }
 

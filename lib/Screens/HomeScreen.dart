@@ -25,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String? userEmail = "", userId = "";
   String firstName = "", lastName = "";
   List<Vehicle> vehicles = [];
+  List<Vehicle> vehicles1 = [];
   List<affordablevehicle> affordablevehicles = [];
   String selectedLogo = "";
   final DatabaseReference _database = FirebaseDatabase.instance.ref();
@@ -46,7 +47,22 @@ class _HomeScreenState extends State<HomeScreen> {
     doSomeAsyncStuff();
     _fetchFeaturedVehicles();
     _fetchAffordableVehicles();
+    _fetchVehicles();
     super.initState();
+  }
+
+  void _fetchVehicles() async {
+    DatabaseEvent event = (await databaseReference.once()) ;
+    Map<dynamic, dynamic>? vehiclesData = event.snapshot.value as Map?;
+    List<Map<String, dynamic>> tempList = [];
+    vehiclesData?.forEach((key, value) {
+      Map<String, dynamic> vehicle = Map<String, dynamic>.from(value);
+      vehicle['id'] = key; // Add the ID to the vehicle data
+      tempList.add(vehicle);
+    });
+    setState(() {
+      vehicles1 = tempList.cast<Vehicle>();
+    });
   }
 
   final databaseReference = FirebaseDatabase.instance.ref();
@@ -83,6 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
       values?.forEach((key, value) {
         setState(() {
           affordablevehicles.add(affordablevehicle(
+            id:key,
             name: value['model_name'],
             imageUrl: value['VehicleImages'],
             speed: double.parse(value['speed'].toString()),
@@ -119,7 +136,6 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     });
   }
-
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -404,11 +420,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: PageView.builder(
                             itemCount:
                                 affordablevehicles[index].imageUrl.length,
-                            itemBuilder: (BuildContext context, int pageIndex) {
-                              List<Map<String, dynamic>> vehicles = [];
+                            itemBuilder: (BuildContext context, int pageIndex ) {
 
                               return GestureDetector(
                                 onTap: () {
+                                  String vehicleId = affordablevehicles[index].id; // Assuming id is a field in the affordablevehicles model
+                                  print(vehicleId);
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -547,6 +564,7 @@ class Vehicle {
 
 class affordablevehicle {
   final String name;
+  final String id;
   final String seats;
   final String vehiclenumber;
   final String location;
@@ -559,6 +577,7 @@ class affordablevehicle {
 
   affordablevehicle({
     required this.name,
+    required this.id,
     required this.vehiclenumber,
     required this.transmission,
     required this.EnginCap,
@@ -573,6 +592,7 @@ class affordablevehicle {
   // Convert Vehicle object to a Map<String, dynamic>
   Map<String, dynamic> toMap() {
     return {
+      id:id,
       'model_name': name,
       'seats': seats,
       'speed': speed,
