@@ -44,10 +44,9 @@ class _RentalVehiclesState extends State<RentalVehicles> {
         itemCount: RentedList.length,
         itemBuilder: (context, index) {
           return ListTile(
-            leading: CachedNetworkImage(
-              imageUrl: RentedList[index]['imageUrl'],
-              placeholder: (context, url) => CircularProgressIndicator(),
-              errorWidget: (context, url, error) => Icon(Icons.error),
+            leading: Image.network(
+               RentedList[index]['imageUrl'][0],
+
             ),
             title: Text(RentedList[index]['brand']),
             subtitle: Text(RentedList[index]['rentalDays'].toString()),
@@ -82,10 +81,8 @@ class TableDetails extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CachedNetworkImage(
-              imageUrl: table['imageUrl'],
-              placeholder: (context, url) => CircularProgressIndicator(),
-              errorWidget: (context, url, error) => Icon(Icons.error),
+            Image.network(
+              table['imageUrl'][0],
             ),
             SizedBox(height: 16.0),
             Text(
