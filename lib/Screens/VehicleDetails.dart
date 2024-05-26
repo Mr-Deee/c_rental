@@ -5,6 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+
+import '../Users.dart';
 
 class VehicleDetailsPage extends StatefulWidget {
   final Map<String, dynamic> vehicleData;
@@ -31,6 +34,8 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
   }
   @override
   Widget build(BuildContext context) {
+    final userprovider = Provider.of<Users>(context).userInfo;
+
     return Scaffold(
       // backgroundColor: Color(0xFF0047AB),
       appBar: AppBar(
@@ -279,6 +284,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
+
         return AlertDialog(
           title: Text('Enter Number of Days\n for ${widget.vehicleData['model_name']}'),
           content: TextField(
@@ -316,6 +322,8 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
 // or convert DateTime to a formatted string
   String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now());
   Future<void> rentVehicle(String vehicleId,  int days) async {
+    final userprovider = Provider.of<Users>(context).userInfo;
+
     if (vehicleId == null || vehicleId.isEmpty) {
       print('Invalid vehicle ID');
       return;
@@ -333,7 +341,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
         'imageUrl':widget.vehicleData['VehicleImages'],
 
         'vehicleId': vehicleId,
-        'userId': "userId",
+        'userName': userprovider?.lastname,
         'brand': widget.vehicleData['model_name']?.toString() ?? 'Unknown',
         'EngineCap': widget.vehicleData['EngineCapacity']?? 'Unknown',
         'Seats':  widget.vehicleData['seats']?? 'Unknown',
