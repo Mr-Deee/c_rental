@@ -402,7 +402,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               borderRadius: BorderRadius.circular(10),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withOpacity(0.3),
+                                  color: Colors.transparent,
                                   spreadRadius: 2,
                                   blurRadius: 12,
                                   offset: Offset(0, 3),
@@ -436,7 +436,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         image: NetworkImage(
                                             affordablevehicles[index]
                                                 .imageUrl[pageIndex]),
-                                        fit: BoxFit.cover,
+                                        fit: BoxFit.contain,
                                       ),
                                     ),
                                     child: Column(
@@ -446,7 +446,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             
                                             children: [
-                                              Text(affordablevehicles[index].name,style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23),),
+                                              Text(affordablevehicles[index].name,style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
                                             ],
                                           ),
                                           subtitle:Column(
