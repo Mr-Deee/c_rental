@@ -55,7 +55,6 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
-
   final databaseReference = FirebaseDatabase.instance.ref();
 
   Future<void> _fetchFeaturedVehicles() async {
@@ -90,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
       values?.forEach((key, value) {
         setState(() {
           affordablevehicles.add(affordablevehicle(
-            id:key,
+            id: key,
             name: value['model_name'],
             imageUrl: value['VehicleImages'],
             speed: double.parse(value['speed'].toString()),
@@ -98,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
             seats: value['seats'].toString(),
             vehiclenumber: value['vehicle_number'],
             transmission: value['Transmission'],
-            EnginCap:value['EngineCapacity'].toString(),
+            EnginCap: value['EngineCapacity'].toString(),
             location: value['location'].toString(),
           ));
         });
@@ -127,6 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     final userprovider = Provider.of<Users>(context).userInfo;
@@ -140,7 +140,8 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: EdgeInsets.zero,
             children: [
               new UserAccountsDrawerHeader(
-                accountName: Text('${userprovider?.firstname??""}  ${userprovider?.lastname??""}',
+                accountName: Text(
+                  '${userprovider?.firstname ?? ""}  ${userprovider?.lastname ?? ""}',
                   style: TextStyle(color: Colors.red),
                 ),
                 accountEmail: Text(
@@ -220,7 +221,6 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Icon(
                 Icons.logout,
                 color: Colors.black,
-
               ),
             )
           ],
@@ -235,7 +235,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: const EdgeInsets.only(top: 12, left: 18.0),
                     child: Text(
                       "Featured",
-                      style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ],
@@ -263,8 +264,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   // spread radius
                                   blurRadius: 12,
                                   // blur radius
-                                  offset:
-                                      Offset(0, 3), // changes position of shadow
+                                  offset: Offset(
+                                      0, 3), // changes position of shadow
                                 ),
                               ]),
                           height: 249, // Adjust height as needed
@@ -285,46 +286,60 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: Column(
                                   children: <Widget>[
                                     ListTile(
-                                      title: Text(vehicles[index].name,style: TextStyle(fontSize: 34,fontWeight: FontWeight.bold),),
-                                      subtitle: Padding(
-                                        padding: const EdgeInsets.only(top:119),
-                                        child: Container(
-                                          height: 47,
-                                          margin: EdgeInsets.all(8.0),
-                                          padding: EdgeInsets.all(12.0),
-                                          decoration: BoxDecoration(
-                                            color: Color(0xFF0047AB),
-                                            borderRadius: BorderRadius.circular(8.0),
-                                          ),
-                                          child: Row(
-            
-                                            children: [
-                                              Image.asset('assets/images/SPEEDO.png', width: 30, height: 84),
-                                              Text('${vehicles[index].speed} mph',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight:   FontWeight.bold,
-                                                  fontSize: 16.0,
-                                                ),
-                                              ),
-            
-                                              Text("      |    " ,style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 16.0,
-                                              ),),
-                                              Image.asset('assets/images/money.png', width: 30, height: 80),
-                                              Text(
-                                                ' \$${vehicles[index].pricePerDay }',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.bold
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        )
+                                      title: Text(
+                                        vehicles[index].name,
+                                        style: TextStyle(
+                                            fontSize: 34,
+                                            fontWeight: FontWeight.bold),
                                       ),
+                                      subtitle: Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 119),
+                                          child: Container(
+                                            height: 47,
+                                            margin: EdgeInsets.all(8.0),
+                                            padding: EdgeInsets.all(12.0),
+                                            decoration: BoxDecoration(
+                                              color: Color(0xFF0047AB),
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                Image.asset(
+                                                    'assets/images/SPEEDO.png',
+                                                    width: 30,
+                                                    height: 84),
+                                                Text(
+                                                  '${vehicles[index].speed} mph',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16.0,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "      |    ",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 16.0,
+                                                  ),
+                                                ),
+                                                Image.asset(
+                                                    'assets/images/money.png',
+                                                    width: 30,
+                                                    height: 80),
+                                                Text(
+                                                  ' \$${vehicles[index].pricePerDay}',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 16.0,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ],
+                                            ),
+                                          )),
                                     ),
                                   ],
                                 ),
@@ -337,7 +352,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
               ),
-            
+
               Container(
                 height: 52,
                 child: Column(
@@ -369,21 +384,22 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-            
+
               Row(
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 18.0, top: 8),
                     child: Text(
                       "Affordables",
-                      style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ],
               ),
-            
-            //Affordable cars
-            
+
+              //Affordable cars
+
               Container(
                 height: 284,
                 width: 543,
@@ -413,11 +429,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: PageView.builder(
                               itemCount:
                                   affordablevehicles[index].imageUrl.length,
-                              itemBuilder: (BuildContext context, int pageIndex ) {
-            
+                              itemBuilder:
+                                  (BuildContext context, int pageIndex) {
                                 return GestureDetector(
                                   onTap: () {
-                                    String vehicleId = affordablevehicles[index].id; // Assuming id is a field in the affordablevehicles model
+                                    String vehicleId = affordablevehicles[index]
+                                        .id; // Assuming id is a field in the affordablevehicles model
                                     print(vehicleId);
                                     Navigator.push(
                                         context,
@@ -426,7 +443,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 VehicleDetailsPage(
                                                   vehicleData:
                                                       affordablevehicles[index]
-                                                          .toMap(), vehicleId: vehicleId,
+                                                          .toMap(),
+                                                  vehicleId: vehicleId,
                                                 )));
                                   },
                                   child: Container(
@@ -443,26 +461,33 @@ class _HomeScreenState extends State<HomeScreen> {
                                       children: <Widget>[
                                         ListTile(
                                           title: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
                                             children: [
-                                              Text(affordablevehicles[index].name,style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
-                                            ],
-                                          ),
-                                          subtitle:Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-            
-                                              SizedBox(height: 174), // Adjust this value as needed
                                               Text(
-                                                  ' \$${affordablevehicles[index].pricePerDay}/Day',
-                                                  style: TextStyle(fontSize: 13,fontWeight: FontWeight.bold), // Adjust font size as needed
-            
+                                                affordablevehicles[index].name,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 20),
                                               ),
                                             ],
                                           ),
-            
-            
+                                          subtitle: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              SizedBox(height: 174),
+                                              // Adjust this value as needed
+                                              Text(
+                                                ' \$${affordablevehicles[index].pricePerDay}/Day',
+                                                style: TextStyle(
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight
+                                                        .bold), // Adjust font size as needed
+                                              ),
+                                            ],
+                                          ),
+
                                           // Text(
                                           //   'Speed: ${affordablevehicles[index].speed} mph | Price Per Day: \$${affordablevehicles[index].pricePerDay}',
                                           // ),
@@ -490,21 +515,24 @@ class _HomeScreenState extends State<HomeScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Rent Vehicle'),
-          content: Text('Do you want to rent ${vehicles[index].name}?'),
+          backgroundColor: Colors.white,
+          title: Text('Rent Vehicle',style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold)),
+          content: Text('Do you want to rent ${vehicles[index].name}?',style: TextStyle(fontSize: 11),),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 // Add your code here to rent the vehicle
                 Navigator.of(context).pop();
               },
-              child: Text('Rent'),
+              child: Text('Rent',style: TextStyle(color: Colors.black),),
             ),
             TextButton(
+        //       style: ButtonStyle(
+        // backgroundColor: MaterialStateProperty.all(Colors.red),         ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancel'),
+              child: Text('Cancel',style: TextStyle(color: Colors.red),),
             ),
           ],
         );
@@ -579,13 +607,12 @@ class affordablevehicle {
     required this.imageUrl,
     required this.speed,
     required this.pricePerDay,
-
   });
 
   // Convert Vehicle object to a Map<String, dynamic>
   Map<String, dynamic> toMap() {
     return {
-      id:id,
+      id: id,
       'model_name': name,
       'seats': seats,
       'speed': speed,
