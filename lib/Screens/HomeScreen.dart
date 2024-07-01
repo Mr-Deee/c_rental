@@ -55,7 +55,6 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
-
   final databaseReference = FirebaseDatabase.instance.ref();
 
   Future<void> _fetchFeaturedVehicles() async {
@@ -90,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
       values?.forEach((key, value) {
         setState(() {
           affordablevehicles.add(affordablevehicle(
-            id:key,
+            id: key,
             name: value['model_name'],
             imageUrl: value['VehicleImages'],
             speed: double.parse(value['speed'].toString()),
@@ -98,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
             seats: value['seats'].toString(),
             vehiclenumber: value['vehicle_number'],
             transmission: value['Transmission'],
-            EnginCap:value['EngineCapacity'].toString(),
+            EnginCap: value['EngineCapacity'].toString(),
             location: value['location'].toString(),
           ));
         });
@@ -127,6 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     final userprovider = Provider.of<Users>(context).userInfo;
@@ -140,7 +140,8 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: EdgeInsets.zero,
             children: [
               new UserAccountsDrawerHeader(
-                accountName: Text('${userprovider?.firstname??""}  ${userprovider?.lastname??""}',
+                accountName: Text(
+                  '${userprovider?.firstname ?? ""}  ${userprovider?.lastname ?? ""}',
                   style: TextStyle(color: Colors.red),
                 ),
                 accountEmail: Text(
@@ -220,254 +221,127 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Icon(
                 Icons.logout,
                 color: Colors.black,
-
               ),
             )
           ],
         ),
         body: Container(
           height: screenHeight,
-          child: Column(children: [
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 12, left: 18.0),
-                  child: Text(
-                    "Featured",
-                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ],
-            ),
-            Container(
-              height: 260,
-              child: ListView.builder(
-                itemCount: vehicles.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      _showRentDialog(index);
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            // Optional: add border radius for rounded corners
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.3),
-                                // shadow color
-                                spreadRadius: 2,
-                                // spread radius
-                                blurRadius: 12,
-                                // blur radius
-                                offset:
-                                    Offset(0, 3), // changes position of shadow
-                              ),
-                            ]),
-                        height: 249, // Adjust height as needed
-                        child: PageView.builder(
-                          itemCount: vehicles[index].imageUrl.length,
-                          itemBuilder: (BuildContext context, int pageIndex) {
-                            return Container(
-                              height: 212,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(23),
-                                image: DecorationImage(
-                                  image: NetworkImage(
-                                      vehicles[index].imageUrl[pageIndex]),
-                                  // Use fetched images from the list
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              child: Column(
-                                children: <Widget>[
-                                  ListTile(
-                                    title: Text(vehicles[index].name,style: TextStyle(fontSize: 34,fontWeight: FontWeight.bold),),
-                                    subtitle: Padding(
-                                      padding: const EdgeInsets.only(top:119),
-                                      child: Container(
-                                        height: 47,
-                                        margin: EdgeInsets.all(8.0),
-                                        padding: EdgeInsets.all(12.0),
-                                        decoration: BoxDecoration(
-                                          color: Color(0xFF0047AB),
-                                          borderRadius: BorderRadius.circular(8.0),
-                                        ),
-                                        child: Row(
-
-                                          children: [
-                                            Image.asset('assets/images/SPEEDO.png', width: 50, height: 84),
-                                            Text('${vehicles[index].speed} mph',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight:   FontWeight.bold,
-                                                fontSize: 16.0,
-                                              ),
-                                            ),
-
-                                            Text("      |    " ,style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16.0,
-                                            ),),
-                                            Image.asset('assets/images/money.png', width: 50, height: 80),
-                                            Text(
-                                              ' \$${vehicles[index].pricePerDay }',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 16.0,
-                                                fontWeight: FontWeight.bold
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-
-            Container(
-              height: 52,
-              child: Column(
+          child: SingleChildScrollView(
+            child: Column(children: [
+              Row(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: logos
-                        .map((logo) => GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  selectedLogo = logo.name;
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => VehiclePage(
-                                          vehicleName: selectedLogo,
-                                        ),
-                                      ));
-                                });
-                              },
-                              child: Image.asset(
-                                logo.imageUrl,
-                                width: 50,
-                                height: 50,
-                              ),
-                            ))
-                        .toList(),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 12, left: 18.0),
+                    child: Text(
+                      "Featured",
+                      style:
+                          TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ],
               ),
-            ),
-
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 18.0, top: 8),
-                  child: Text(
-                    "Affordables",
-                    style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ],
-            ),
-
-//Affordable cars
-
-            Container(
-              height: 284,
-              width: 543,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                // Make the ListView scroll horizontally
-                children: List.generate(
-                  affordablevehicles.length,
-                  (index) {
+              Container(
+                height: 260,
+                child: ListView.builder(
+                  itemCount: vehicles.length,
+                  itemBuilder: (context, index) {
                     return GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        _showRentDialog(index);
+                      },
                       child: Padding(
-                        padding: EdgeInsets.all(15.0),
+                        padding: EdgeInsets.all(8.0),
                         child: Container(
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.3),
-                                spreadRadius: 2,
-                                blurRadius: 12,
-                                offset: Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          width: 200, // Adjust width as needed
+                              borderRadius: BorderRadius.circular(10),
+                              // Optional: add border radius for rounded corners
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.3),
+                                  // shadow color
+                                  spreadRadius: 2,
+                                  // spread radius
+                                  blurRadius: 12,
+                                  // blur radius
+                                  offset: Offset(
+                                      0, 3), // changes position of shadow
+                                ),
+                              ]),
+                          height: 249, // Adjust height as needed
                           child: PageView.builder(
-                            itemCount:
-                                affordablevehicles[index].imageUrl.length,
-                            itemBuilder: (BuildContext context, int pageIndex ) {
-
-                              return GestureDetector(
-                                onTap: () {
-                                  String vehicleId = affordablevehicles[index].id; // Assuming id is a field in the affordablevehicles model
-                                  print(vehicleId);
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              VehicleDetailsPage(
-                                                vehicleData:
-                                                    affordablevehicles[index]
-                                                        .toMap(), vehicleId: vehicleId,
-                                              )));
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(23),
-                                    image: DecorationImage(
-                                      image: NetworkImage(
-                                          affordablevehicles[index]
-                                              .imageUrl[pageIndex]),
-                                      fit: BoxFit.cover,
-                                    ),
+                            itemCount: vehicles[index].imageUrl.length,
+                            itemBuilder: (BuildContext context, int pageIndex) {
+                              return Container(
+                                height: 212,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(23),
+                                  image: DecorationImage(
+                                    image: NetworkImage(
+                                        vehicles[index].imageUrl[pageIndex]),
+                                    // Use fetched images from the list
+                                    fit: BoxFit.cover,
                                   ),
-                                  child: Column(
-                                    children: <Widget>[
-                                      ListTile(
-                                        title: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
-                                          children: [
-                                            Text(affordablevehicles[index].name,style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23),),
-                                          ],
-                                        ),
-                                        subtitle:Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-
-                                            SizedBox(height: 174), // Adjust this value as needed
-                                            Text(
-                                                ' \$${affordablevehicles[index].pricePerDay}/Day',
-                                                style: TextStyle(fontSize: 13,fontWeight: FontWeight.bold), // Adjust font size as needed
-
-                                            ),
-                                          ],
-                                        ),
-
-
-                                        // Text(
-                                        //   'Speed: ${affordablevehicles[index].speed} mph | Price Per Day: \$${affordablevehicles[index].pricePerDay}',
-                                        // ),
+                                ),
+                                child: Column(
+                                  children: <Widget>[
+                                    ListTile(
+                                      title: Text(
+                                        vehicles[index].name,
+                                        style: TextStyle(
+                                            fontSize: 34,
+                                            fontWeight: FontWeight.bold),
                                       ),
-                                    ],
-                                  ),
+                                      subtitle: Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 119),
+                                          child: Container(
+                                            height: 47,
+                                            margin: EdgeInsets.all(8.0),
+                                            padding: EdgeInsets.all(12.0),
+                                            decoration: BoxDecoration(
+                                              color: Color(0xFF0047AB),
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                Image.asset(
+                                                    'assets/images/SPEEDO.png',
+                                                    width: 30,
+                                                    height: 84),
+                                                Text(
+                                                  '${vehicles[index].speed} mph',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16.0,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "      |    ",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 16.0,
+                                                  ),
+                                                ),
+                                                Image.asset(
+                                                    'assets/images/money.png',
+                                                    width: 30,
+                                                    height: 80),
+                                                Text(
+                                                  ' \$${vehicles[index].pricePerDay}',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 16.0,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ],
+                                            ),
+                                          )),
+                                    ),
+                                  ],
                                 ),
                               );
                             },
@@ -478,8 +352,161 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
               ),
-            ),
-          ]),
+
+              Container(
+                height: 52,
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: logos
+                          .map((logo) => GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    selectedLogo = logo.name;
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => VehiclePage(
+                                            vehicleName: selectedLogo,
+                                          ),
+                                        ));
+                                  });
+                                },
+                                child: Image.asset(
+                                  logo.imageUrl,
+                                  width: 50,
+                                  height: 50,
+                                ),
+                              ))
+                          .toList(),
+                    ),
+                  ],
+                ),
+              ),
+
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 18.0, top: 8),
+                    child: Text(
+                      "Affordables",
+                      style:
+                          TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+              ),
+
+              //Affordable cars
+
+              Container(
+                height: 284,
+                width: 543,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  // Make the ListView scroll horizontally
+                  children: List.generate(
+                    affordablevehicles.length,
+                    (index) {
+                      return GestureDetector(
+                        onTap: () {},
+                        child: Padding(
+                          padding: EdgeInsets.all(15.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.transparent,
+                                  spreadRadius: 2,
+                                  blurRadius: 12,
+                                  offset: Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            width: 200, // Adjust width as needed
+                            child: PageView.builder(
+                              itemCount:
+                                  affordablevehicles[index].imageUrl.length,
+                              itemBuilder:
+                                  (BuildContext context, int pageIndex) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    String vehicleId = affordablevehicles[index]
+                                        .id; // Assuming id is a field in the affordablevehicles model
+                                    print(vehicleId);
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                VehicleDetailsPage(
+                                                  vehicleData:
+                                                      affordablevehicles[index]
+                                                          .toMap(),
+                                                  vehicleId: vehicleId,
+                                                )));
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(23),
+                                      image: DecorationImage(
+                                        image: NetworkImage(
+                                            affordablevehicles[index]
+                                                .imageUrl[pageIndex]),
+                                        fit: BoxFit.contain,
+                                      ),
+                                    ),
+                                    child: Column(
+                                      children: <Widget>[
+                                        ListTile(
+                                          title: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Text(
+                                                affordablevehicles[index].name,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 20),
+                                              ),
+                                            ],
+                                          ),
+                                          subtitle: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              SizedBox(height: 174),
+                                              // Adjust this value as needed
+                                              Text(
+                                                ' \$${affordablevehicles[index].pricePerDay}/Day',
+                                                style: TextStyle(
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight
+                                                        .bold), // Adjust font size as needed
+                                              ),
+                                            ],
+                                          ),
+
+                                          // Text(
+                                          //   'Speed: ${affordablevehicles[index].speed} mph | Price Per Day: \$${affordablevehicles[index].pricePerDay}',
+                                          // ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ]),
+          ),
         ));
   }
 
@@ -488,21 +515,24 @@ class _HomeScreenState extends State<HomeScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Rent Vehicle'),
-          content: Text('Do you want to rent ${vehicles[index].name}?'),
+          backgroundColor: Colors.white,
+          title: Text('Rent Vehicle',style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold)),
+          content: Text('Do you want to rent ${vehicles[index].name}?',style: TextStyle(fontSize: 11),),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 // Add your code here to rent the vehicle
                 Navigator.of(context).pop();
               },
-              child: Text('Rent'),
+              child: Text('Rent',style: TextStyle(color: Colors.black),),
             ),
             TextButton(
+        //       style: ButtonStyle(
+        // backgroundColor: MaterialStateProperty.all(Colors.red),         ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancel'),
+              child: Text('Cancel',style: TextStyle(color: Colors.red),),
             ),
           ],
         );
@@ -577,13 +607,12 @@ class affordablevehicle {
     required this.imageUrl,
     required this.speed,
     required this.pricePerDay,
-
   });
 
   // Convert Vehicle object to a Map<String, dynamic>
   Map<String, dynamic> toMap() {
     return {
-      id:id,
+      id: id,
       'model_name': name,
       'seats': seats,
       'speed': speed,
