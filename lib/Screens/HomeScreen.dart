@@ -137,77 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         drawer: DrawerUser(),
-    //     Drawer(
-    //       child: ListView(
-    //         // Important: Remove any padding from the ListView.
-    //         padding: EdgeInsets.zero,
-    //         children: [
-    //           new UserAccountsDrawerHeader(
-    //             accountName: Text(
-    //               '${userprovider?.firstname ?? ""}  ${userprovider?.lastname ?? ""}',
-    //               style: TextStyle(color: Colors.black),
-    //             ),
-    //             accountEmail: Text(
-    //               userEmail!,
-    //               style: TextStyle(color: Colors.grey),
-    //             ),
-    //             decoration: BoxDecoration(color: Colors.white),
-    //             currentAccountPicture: new CircleAvatar(
-    //               radius: 50.0,
-    //               backgroundColor: const Color(0xFF778899),
-    //               backgroundImage:
-    //                   NetworkImage("http://tineye.com/images/widgets/mona.jpg"),
-    //             ),
-    //           ),
-    //           ListTile(
-    //             title: Row(
-    //               children: [
-    //                 Icon(Icons.person,size: 29,),
-    //                  Padding(
-    //                    padding: const EdgeInsets.all(18.0),
-    //                    child: Text("Profile",style: TextStyle(fontSize: 20),),
-    //                  ),
-    //               ],
-    //             ),
-    //             onTap: () {
-    // Navigator.push(
-    // context,
-    // MaterialPageRoute(
-    // builder: (context) => ProfilUserScreen(),
-    // ));
-    //                 },
-    //           ),
-    //           ListTile(
-    //             title: Row(
-    //               children: [
-    //                 Icon(Icons.info,size: 29,),
-    //                  Padding(
-    //                    padding: const EdgeInsets.all(18.0),
-    //                    child: Text('About',style: TextStyle(fontSize: 20)),
-    //                  ),
-    //               ],
-    //             ),
-    //             onTap: () {
-    //               Navigator.pop(context);
-    //             },
-    //           ),
-    //           ListTile(
-    //             title: Row(
-    //               children: [
-    //                 Icon(Icons.car_rental,size: 29,),
-    //                  Padding(
-    //                    padding: const EdgeInsets.all(18.0),
-    //                    child: Text('My Rentals',style: TextStyle(fontSize: 20)),
-    //                  ),
-    //               ],
-    //             ),
-    //             onTap: () {
-    //               Navigator.pop(context);
-    //             },
-    //           ),
-    //         ],
-    //       ),
-    //     ),
+
         appBar: AppBar(
           title: Text("Benji's"),
           actions: [

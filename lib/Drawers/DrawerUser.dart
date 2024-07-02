@@ -211,16 +211,19 @@ class _DrawerUserState extends State<DrawerUser> {
                     style: TextButton.styleFrom(
                       backgroundColor: Colors.red,
                     ),
-                    child: Row(children: [
-                      Icon(
-                        Icons.logout,
-                        color: Colors.white,
-                      ),
-                      Text(
-                        "Log Out",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ]),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(children: [
+                        Icon(
+                          Icons.logout,
+                          color: Colors.white,
+                        ),
+                        Text(
+                          "Log Out",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ]),
+                    ),
                   ),
                 ),
               )
