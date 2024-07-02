@@ -49,7 +49,7 @@ class _ProfilUserScreenState extends State<ProfilUserScreen> {
           children: [
             Container(
               height: heightDevice * 0.3,
-              decoration: BoxDecoration(color: Colors.blue),
+              decoration: BoxDecoration(color: Color(0xFF0047AB)),
               child: Container(
                 margin: EdgeInsets.only(bottom: heightDevice * 0.08),
                 child: Row(
@@ -111,13 +111,15 @@ class _ProfilUserScreenState extends State<ProfilUserScreen> {
                           borderRadius: BorderRadius.circular(60),
                           boxShadow: [
                             BoxShadow(
-                                color: Colors.blue,spreadRadius: 0.2,
+                                color: Color(0xFF0047AB),
                                 offset: Offset(1, 2),
                                 blurRadius: 3
                             )
                           ]),
                       child: CircleAvatar(
                         radius: 60,
+                        backgroundColor: Colors.white,
+                        child: Image.asset("assets/images/account.png"),
                       ),
                     ),
                     Padding(
@@ -128,7 +130,8 @@ class _ProfilUserScreenState extends State<ProfilUserScreen> {
                           borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.blue,spreadRadius: 0.2,
+                            color:Color(0xFF0047AB),
+                              spreadRadius: 0.2,
                             offset: Offset(1, 2),
                             blurRadius: 3
                           )

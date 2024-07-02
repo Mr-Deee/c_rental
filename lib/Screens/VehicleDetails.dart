@@ -286,7 +286,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
       builder: (BuildContext context) {
 
         return AlertDialog(
-          title: Text('Enter Number of Days\n for ${widget.vehicleData['model_name']}'),
+          title: Text('Enter Number of Days for ${widget.vehicleData['model_name']}',style: TextStyle(fontSize: 15,),),
           content: TextField(
             controller: daysController,
             keyboardType: TextInputType.number,
