@@ -70,20 +70,10 @@ class _DrawerUserState extends State<DrawerUser> {
         children: [
           Container(
             height: heightDevice * 0.3,
-            color: primaryColor,
+            color: Color(0xFF0047AB),
             child: Column(children: [
-              Container(
-                  margin: EdgeInsets.only(
-                      top: heightDevice * 0.05, left: widthDevice * 0.06),
-                  child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Settings",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 24,
-                            fontWeight: FontWeight.w500),
-                      ))),
+              SizedBox(height: 34,),
+
               Container(
                 margin: EdgeInsets.only(
                     top: heightDevice * 0.05, left: widthDevice * 0.06),
@@ -124,6 +114,14 @@ class _DrawerUserState extends State<DrawerUser> {
                     )
                   ],
                 ),
+              ),
+
+              Text(
+                userprovider.email.toString(),
+                style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500),
               ),
             ]),
           ),

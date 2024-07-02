@@ -139,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
         drawer: DrawerUser(),
 
         appBar: AppBar(
-          title: Text("Benji's"),
+          title: Text("Benji's",style: TextStyle(color:Color(0xFF0047AB),fontWeight: FontWeight.bold),),
           actions: [
             TextButton(
               onPressed: () {
@@ -187,7 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               child: Icon(
                 Icons.logout,
-                color: Colors.black,
+                color: Color(0xFF0047AB),
               ),
             )
           ],
@@ -203,7 +203,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Text(
                       "Featured",
                       style:
-                          TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 26, fontWeight: FontWeight.bold,color:Color(0xFF0047AB)),
                     ),
                   ),
                 ],
@@ -225,7 +225,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               // Optional: add border radius for rounded corners
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withOpacity(0.3),
+                                  color: Colors.blue.withOpacity(0.3),
                                   // shadow color
                                   spreadRadius: 2,
                                   // spread radius
@@ -343,7 +343,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: Image.asset(
                                   logo.imageUrl,
                                   width: 50,
-                                  height: 50,
+                                  height: 40,
                                 ),
                               ))
                           .toList(),
@@ -359,7 +359,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Text(
                       "Affordables",
                       style:
-                          TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 23, fontWeight: FontWeight.bold,color: Color(0xFF0047AB),
+                    ),
                     ),
                   ),
                 ],
@@ -370,6 +371,8 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(
                 height: 284,
                 width: 543,
+
+
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   // Make the ListView scroll horizontally
@@ -383,12 +386,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
+                              color: Colors.white,
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.transparent,
-                                  spreadRadius: 2,
-                                  blurRadius: 12,
-                                  offset: Offset(0, 3),
+                                  color: Color(0xFF0047AB),
+                                  spreadRadius: 1,
+                                  blurRadius: 8,
+                                  offset: Offset(2, 3),
                                 ),
                               ],
                             ),
