@@ -2,12 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 
 import '../Constants/constants.dart';
 import '../Screens/FavoriteScreen.dart';
 import '../Screens/LoginScreen.dart';
 import '../Screens/ProfilUserScreen.dart';
 import '../Screens/ReportScreen.dart';
+import '../Users.dart';
 
 
 class DrawerUser extends StatefulWidget {
@@ -57,6 +59,8 @@ class _DrawerUserState extends State<DrawerUser> {
 
   @override
   Widget build(BuildContext context) {
+    final userprovider = Provider.of<Users>(context).userInfo;
+
     double widthDevice = MediaQuery.of(context).size.width;
     double heightDevice = MediaQuery.of(context).size.height;
     return Drawer(
@@ -90,8 +94,7 @@ class _DrawerUserState extends State<DrawerUser> {
                       child: CircleAvatar(
                         backgroundColor: Colors.orange,
                         radius: 34,
-                        child: Text(
-                          firstName[0].toString(),
+                        child: Text(userprovider!.firstname![0].toString()??"",
                           style: TextStyle(fontSize: 22, color: Colors.white),
                         ),
                       ),
@@ -103,14 +106,14 @@ class _DrawerUserState extends State<DrawerUser> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Hello",
+                            "${userprovider!.firstname}",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 18,
                                 fontWeight: FontWeight.w500),
                           ),
                           Text(
-                            firstName.toString() + " " + lastName.toString(),
+                            userprovider.lastname.toString(),
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 18,
@@ -127,32 +130,33 @@ class _DrawerUserState extends State<DrawerUser> {
           Container(
             child: Column(children: [
               Column(children: [
-                ListTile(
-                  title: const Text('All Cars'),
-                  leading: Icon(Icons.car_rental, color: Colors.black),
-                  onTap: () {
-                    Navigator.pop(context);
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => VehicleScreen()));
-                  },
-                ),
+                // ListTile(
+                //   title: const Text('All Cars'),
+                //   leading: Icon(Icons.car_rental, color: Colors.black),
+                //   onTap: () {
+                //     Navigator.pop(context);
+                //     Navigator.push(
+                //         context,
+                //         MaterialPageRoute(
+                //             builder: (context) => VehicleScreen()));
+                //   },
+                // ),
                 ListTile(
                   leading: Icon(Icons.person, color: Colors.black),
-                  title: const Text('Profil'),
+                  title: const Text('Profile'),
                   onTap: () {
                     Navigator.pop(context);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => ProfilUserScreen(
-                                userEmail,
-                                userId,
-                                firstName,
-                                lastName,
-                                phoneNumber,
-                                gender)));
+                                // userEmail,
+                                // userId,
+                                // firstName,
+                                // lastName,
+                                // phoneNumber,
+                                // gender
+                         )));
                   },
                 ),
                 ListTile(

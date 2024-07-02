@@ -10,9 +10,11 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 
+import '../Drawers/DrawerUser.dart';
 import '../assistantmethods.dart';
 import 'IconVehicles.dart';
 import 'LoginScreen.dart';
+import 'ProfilUserScreen.dart';
 import 'VehicleDetails.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -134,43 +136,78 @@ class _HomeScreenState extends State<HomeScreen> {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-        drawer: Drawer(
-          child: ListView(
-            // Important: Remove any padding from the ListView.
-            padding: EdgeInsets.zero,
-            children: [
-              new UserAccountsDrawerHeader(
-                accountName: Text(
-                  '${userprovider?.firstname ?? ""}  ${userprovider?.lastname ?? ""}',
-                  style: TextStyle(color: Colors.red),
-                ),
-                accountEmail: Text(
-                  userEmail!,
-                  style: TextStyle(color: Colors.red),
-                ),
-                decoration: BoxDecoration(color: Colors.white),
-                currentAccountPicture: new CircleAvatar(
-                  radius: 50.0,
-                  backgroundColor: const Color(0xFF778899),
-                  backgroundImage:
-                      NetworkImage("http://tineye.com/images/widgets/mona.jpg"),
-                ),
-              ),
-              ListTile(
-                title: const Text('Item 1'),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: const Text('Item 2'),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          ),
-        ),
+        drawer: DrawerUser(),
+    //     Drawer(
+    //       child: ListView(
+    //         // Important: Remove any padding from the ListView.
+    //         padding: EdgeInsets.zero,
+    //         children: [
+    //           new UserAccountsDrawerHeader(
+    //             accountName: Text(
+    //               '${userprovider?.firstname ?? ""}  ${userprovider?.lastname ?? ""}',
+    //               style: TextStyle(color: Colors.black),
+    //             ),
+    //             accountEmail: Text(
+    //               userEmail!,
+    //               style: TextStyle(color: Colors.grey),
+    //             ),
+    //             decoration: BoxDecoration(color: Colors.white),
+    //             currentAccountPicture: new CircleAvatar(
+    //               radius: 50.0,
+    //               backgroundColor: const Color(0xFF778899),
+    //               backgroundImage:
+    //                   NetworkImage("http://tineye.com/images/widgets/mona.jpg"),
+    //             ),
+    //           ),
+    //           ListTile(
+    //             title: Row(
+    //               children: [
+    //                 Icon(Icons.person,size: 29,),
+    //                  Padding(
+    //                    padding: const EdgeInsets.all(18.0),
+    //                    child: Text("Profile",style: TextStyle(fontSize: 20),),
+    //                  ),
+    //               ],
+    //             ),
+    //             onTap: () {
+    // Navigator.push(
+    // context,
+    // MaterialPageRoute(
+    // builder: (context) => ProfilUserScreen(),
+    // ));
+    //                 },
+    //           ),
+    //           ListTile(
+    //             title: Row(
+    //               children: [
+    //                 Icon(Icons.info,size: 29,),
+    //                  Padding(
+    //                    padding: const EdgeInsets.all(18.0),
+    //                    child: Text('About',style: TextStyle(fontSize: 20)),
+    //                  ),
+    //               ],
+    //             ),
+    //             onTap: () {
+    //               Navigator.pop(context);
+    //             },
+    //           ),
+    //           ListTile(
+    //             title: Row(
+    //               children: [
+    //                 Icon(Icons.car_rental,size: 29,),
+    //                  Padding(
+    //                    padding: const EdgeInsets.all(18.0),
+    //                    child: Text('My Rentals',style: TextStyle(fontSize: 20)),
+    //                  ),
+    //               ],
+    //             ),
+    //             onTap: () {
+    //               Navigator.pop(context);
+    //             },
+    //           ),
+    //         ],
+    //       ),
+    //     ),
         appBar: AppBar(
           title: Text("Benji's"),
           actions: [

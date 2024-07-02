@@ -1,15 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../Constants/constants.dart';
+import '../Users.dart';
 
 
 class ProfilUserScreen extends StatefulWidget {
-  final String firstName, lastName, phoneNumber, gender;
-  final String? userEmail, userId;
+  // final String? firstName, lastName, phoneNumber, gender;
+  // final String? userEmail, userId;
 
-  ProfilUserScreen(this.userEmail, this.userId, this.firstName, this.lastName,
-      this.phoneNumber, this.gender);
+  ProfilUserScreen();
+      // this.userEmail, this.userId, this.firstName, this.lastName,
+      // this.phoneNumber, this.gender);
 
   @override
   _ProfilUserScreenState createState() => _ProfilUserScreenState();
@@ -17,14 +20,14 @@ class ProfilUserScreen extends StatefulWidget {
 
 class _ProfilUserScreenState extends State<ProfilUserScreen> {
   var db = FirebaseFirestore.instance;
-  late var _emailController =
-      TextEditingController(text: widget.userEmail.toString());
-  late var _firstNameController =
-      TextEditingController(text: widget.firstName.toString());
-  late var _lastNameController =
-      TextEditingController(text: widget.lastName.toString());
-  late var _phoneNumberController =
-      TextEditingController(text: widget.phoneNumber.toString());
+  // late var _emailController =
+  //     TextEditingController(text: widget.userEmail.toString());
+  // late var _firstNameController =
+  //     TextEditingController(text: widget.firstName.toString());
+  // late var _lastNameController =
+  //     TextEditingController(text: widget.lastName.toString());
+  // late var _phoneNumberController =
+  //     TextEditingController(text: widget.phoneNumber.toString());
 
   late String genderValue = "male";
   var items = ["male", "female"];
@@ -32,6 +35,8 @@ class _ProfilUserScreenState extends State<ProfilUserScreen> {
   final GlobalKey<FormState> _editProfilForm = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    final userprovider = Provider.of<Users>(context).userInfo;
+
     double widthDevice = MediaQuery.of(context).size.width;
     double heightDevice = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -41,7 +46,7 @@ class _ProfilUserScreenState extends State<ProfilUserScreen> {
           children: [
             Container(
               height: heightDevice * 0.3,
-              decoration: BoxDecoration(color: primaryColor),
+              decoration: BoxDecoration(color: Colors.black),
               child: Container(
                 margin: EdgeInsets.only(bottom: heightDevice * 0.08),
                 child: Row(
@@ -70,7 +75,7 @@ class _ProfilUserScreenState extends State<ProfilUserScreen> {
                     Container(
                       margin: EdgeInsets.only(right: widthDevice * 0.02),
                       child: TextButton(
-                        onPressed: editProfil,
+                        onPressed: (){},
                         child: Icon(
                           Icons.save,
                           color: Colors.white,
@@ -91,52 +96,63 @@ class _ProfilUserScreenState extends State<ProfilUserScreen> {
                   topRight: Radius.circular(45),
                 ),
               ),
-              child: Form(
-                key: _editProfilForm,
+
                 child: Container(
                   width: widthDevice,
                   child: Column(
                     children: [
-                      Container(
-                        margin: EdgeInsets.only(
-                            left: widthDevice * 0.1, top: heightDevice * 0.06),
-                        child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "First Name",
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 15),
-                            )),
+                      Row(
+                        children: [
+                          Column(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(
+                                    left: widthDevice * 0.1, top: heightDevice * 0.06),
+                                child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      "First Name",
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 15),
+                                    )),
+                              ),
+                              Container(
+                                width: widthDevice * 0.8,
+                                child: Text("${userprovider?.firstname}"
+                                  //controller: _firstNameController,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                      Container(
-                        width: widthDevice * 0.8,
-                        child: TextFormField(
-                          decoration: InputDecoration(hintText: "John"),
-                          controller: _firstNameController,
-                        ),
+
+                      Column(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: widthDevice * 0.1, top: heightDevice * 0.04),
+                            child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "Last Name",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15),
+                                )),
+                          ),  Container(
+                            width: widthDevice * 0.8,
+                            child: TextFormField(
+                              decoration: InputDecoration(hintText: "Doe"),
+                              //controller: _lastNameController,
+                            ),
+                          )
+                        ],
                       ),
-                      Container(
-                        margin: EdgeInsets.only(
-                            left: widthDevice * 0.1, top: heightDevice * 0.04),
-                        child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Last Name",
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 15),
-                            )),
-                      ),
-                      Container(
-                        width: widthDevice * 0.8,
-                        child: TextFormField(
-                          decoration: InputDecoration(hintText: "Doe"),
-                          controller: _lastNameController,
-                        ),
-                      ),
+
                       Container(
                         margin: EdgeInsets.only(
                             left: widthDevice * 0.1, top: heightDevice * 0.04),
@@ -156,7 +172,7 @@ class _ProfilUserScreenState extends State<ProfilUserScreen> {
                           decoration:
                               InputDecoration(hintText: "john.doe@gmail.com"),
                           keyboardType: TextInputType.emailAddress,
-                          controller: _emailController,
+                          //controller: _emailController,
                         ),
                       ),
                       Container(
@@ -175,7 +191,7 @@ class _ProfilUserScreenState extends State<ProfilUserScreen> {
                       Container(
                         width: widthDevice * 0.8,
                         child: TextFormField(
-                          controller: _phoneNumberController,
+                          //controller: _phoneNumberController,
                         ),
                       ),
                       Container(
@@ -212,25 +228,25 @@ class _ProfilUserScreenState extends State<ProfilUserScreen> {
                   ),
                 ),
               ),
-            )
+
           ],
         ),
       ),
     ));
   }
-
-  void editProfil() async {
-    await db.collection("Users").doc(widget.userId).set({
-      "firstName": _firstNameController.text,
-      "lastName": _lastNameController.text,
-      "email": _emailController.text,
-      "phoneNumber": _phoneNumberController.text,
-      "gender": genderValue,
-    }).then((value) {
-      // Navigator.pushAndRemoveUntil(
-      //     context,
-      //     MaterialPageRoute(builder: (context) => VehicleScreen()),
-      //     (_) => false);
-    });
-  }
+  //
+  // void editProfil() async {
+  //   await db.collection("Users").doc(widget.userId).set({
+  //     "firstName": _firstNameController.text,
+  //     "lastName": _lastNameController.text,
+  //     "email": _emailController.text,
+  //     "phoneNumber": _phoneNumberController.text,
+  //     "gender": genderValue,
+  //   }).then((value) {
+  //     // Navigator.pushAndRemoveUntil(
+  //     //     context,
+  //     //     MaterialPageRoute(builder: (context) => VehicleScreen()),
+  //     //     (_) => false);
+  //   });
+  // }
 }
