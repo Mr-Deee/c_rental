@@ -56,13 +56,17 @@ class _RentalVehiclesState extends State<RentalVehicles> {
               ],
             ),
             subtitle: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('By:${RentedList[index]['userName']}'),
                 IconButton(
                   icon: Icon(Icons.check_circle,color: Colors.lightGreenAccent,),
                   onPressed: (){},
+                ),    IconButton(
+                  icon: Icon(Icons.cancel,color: Colors.redAccent,),
+                  onPressed: (){},
                 ),
-                Text(RentedList[index]['rentalDays'].toString()),
+           //     Text(RentedList[index]['rentalDays'].toString()),
               ],
             ),
             onTap: () {
