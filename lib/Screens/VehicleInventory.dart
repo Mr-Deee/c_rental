@@ -40,7 +40,32 @@ class _VehicleInventoryState extends State<VehicleInventory> {
       });
     });
   }
-
+  void _showDeleteConfirmationDialog(String vehicleId) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Confirm Deletion'),
+          content: Text('Are you sure you want to delete this vehicle?'),
+          actions: [
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Delete'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _deleteVehicle(vehicleId);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
   void _deleteVehicle(String vehicleId) {
     _databaseReference.child(vehicleId).remove().then((_) {
       FirebaseStorage.instance.ref().child('vehicle_images/$vehicleId').delete();
@@ -51,7 +76,7 @@ class _VehicleInventoryState extends State<VehicleInventory> {
     return Scaffold(
       appBar: AppBar(
 
-        title: Text(""),
+        title: Text("Vehicle Inventory"),
       ),
       body:  ListView.builder(
         itemCount: _vehicles.length,
@@ -67,7 +92,7 @@ class _VehicleInventoryState extends State<VehicleInventory> {
             subtitle: Text(vehicle['price'].toString()),
             trailing: IconButton(
               icon: Icon(Icons.delete),
-              onPressed: () => _deleteVehicle(vehicle['id']),
+              onPressed: () => _showDeleteConfirmationDialog(vehicle['id']),
             ),
           );
         },
