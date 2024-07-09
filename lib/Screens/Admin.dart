@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:c_rental/Screens/Rentals.dart';
+import 'package:c_rental/Screens/VehicleInventory.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -381,7 +382,7 @@ class _AdminState extends State<Admin> {
                         onTap: () {
                           Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
-                                  builder: (context) => NewVehicle()),
+                                  builder: (context) => VehicleInventory()),
                                   (Route<dynamic> route) => true);
                         },
                         child: Card(
@@ -401,7 +402,7 @@ class _AdminState extends State<Admin> {
                               Padding(
                                 padding: const EdgeInsets.only(
                                     top: 6.0, left: 50, right: 30),
-                                child: Text('Add New Vehicle',
+                                child: Text('Vehicle Inventory',
                                     style: GoogleFonts.openSans(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
