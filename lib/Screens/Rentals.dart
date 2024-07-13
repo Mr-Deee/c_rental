@@ -48,8 +48,27 @@ class _RentalVehiclesState extends State<RentalVehicles> {
                RentedList[index]['imageUrl'][0],
 
             ),
-            title: Text(RentedList[index]['brand']),
-            subtitle: Text(RentedList[index]['rentalDays'].toString()),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(RentedList[index]['brand']),
+                Text('${RentedList[index]['rentalDays'].toString()} days')
+              ],
+            ),
+            subtitle: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('By:${RentedList[index]['userName']}'),
+                IconButton(
+                  icon: Icon(Icons.check_circle,color: Colors.lightGreenAccent,),
+                  onPressed: (){},
+                ),    IconButton(
+                  icon: Icon(Icons.cancel,color: Colors.redAccent,),
+                  onPressed: (){},
+                ),
+           //     Text(RentedList[index]['rentalDays'].toString()),
+              ],
+            ),
             onTap: () {
               Navigator.push(
                 context,
@@ -99,6 +118,13 @@ class TableDetails extends StatelessWidget {
               'Total: ${table['totalPrice']}',
               style: TextStyle(fontSize: 16.0),
             ),
+
+            IconButton(
+              icon: Icon(Icons.check_circle,color: Colors.lightGreenAccent,),
+              onPressed: (){},
+            ),
+
+
           ],
         ),
       ),

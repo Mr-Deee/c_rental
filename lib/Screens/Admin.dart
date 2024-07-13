@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:c_rental/Screens/Rentals.dart';
+import 'package:c_rental/Screens/VehicleInventory.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -364,7 +365,98 @@ class _AdminState extends State<Admin> {
                     ),
                   ),
                 ],
-              ))
+              )
+          ),
+
+          SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: SizedBox(
+                      height: 180,
+                      width: 180,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (context) => VehicleInventory()),
+                                  (Route<dynamic> route) => true);
+                        },
+                        child: Card(
+                          elevation: 8,
+                          color: Colors.black,
+                          shadowColor: Colors.blueAccent,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 1.0),
+                                child: Image.asset(
+                                  "assets/images/addnew.png",
+                                  width: 140,
+                                  height: 102,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 6.0, left: 50, right: 30),
+                                child: Text('Vehicle Inventory',
+                                    style: GoogleFonts.openSans(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    )),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 180,
+                    width: 180,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                                builder: (context) => RentalVehicles()),
+                                (Route<dynamic> route) => true);
+                      },
+                      child: Card(
+                        elevation: 8,
+                        color: Colors.white,
+                        shadowColor: Colors.white70,
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 19.0),
+                              child: Image.asset(
+                                "assets/images/addc.png",
+                                width: 180,
+                                height: 92,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 10.0, left: 50, right: 30),
+                              child: Text('Check Rentals',
+                                  style: GoogleFonts.openSans(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  )),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              )
+          )
         ]));
   }
 }
