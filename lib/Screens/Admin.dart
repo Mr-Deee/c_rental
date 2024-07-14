@@ -160,161 +160,205 @@ class _AdminState extends State<Admin> {
             ),
           ],
         ),
-        body: Column(children: [
-          SizedBox(
-            height: 154,
-            child: Padding(
-              padding: const EdgeInsets.all(17.0),
-              child: Card(
-                elevation: 8,
-                color: Colors.black,
-                child: Column(
-                  children: [
-                    IntrinsicHeight(
-                      child: Row(
-                        children: [
-                          IntrinsicHeight(
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 8, top: 18.0),
-                                  child: Text(
-                                    "Available Cars",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white),
-                                  ),
+        body: SingleChildScrollView(
+          child: Column(children: [
+            SizedBox(
+              height: 154,
+              child: Padding(
+                padding: const EdgeInsets.all(17.0),
+                child: Card(
+                  elevation: 8,
+                  color: Colors.black,
+                  child: Column(
+                    children: [
+                      IntrinsicHeight(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              IntrinsicHeight(
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 8, top: 18.0),
+                                      child: Text(
+                                        "Available Cars",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 8, top: 18.0),
+                                      child: Text(
+                                        availableVehiclesCount.toString(),
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 8, top: 18.0),
-                                  child: Text(
-                                    availableVehiclesCount.toString(),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white),
-                                  ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 18.0),
+                                child: VerticalDivider(
+                                  thickness: 2,
+                                  width: 30,
+                                  color: Colors.white,
                                 ),
-                              ],
-                            ),
+                              ),
+                              IntrinsicHeight(
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 3, top: 18.0),
+                                      child: Text(
+                                        "Rented Cars",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 3, top: 18.0),
+                                      child: Text(
+                                        availablerentedvehicles.toString(),
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 18.0),
+                                child: VerticalDivider(
+                                  thickness: 2,
+                                  width: 30,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              IntrinsicHeight(
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 3, top: 18.0),
+                                      child: Text(
+                                        "Total Clients",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 3, top: 18.0),
+                                      child: Text(
+                                        availableclients.toString(),
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 18.0),
-                            child: VerticalDivider(
-                              thickness: 2,
-                              width: 30,
-                              color: Colors.white,
-                            ),
-                          ),
-                          IntrinsicHeight(
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 3, top: 18.0),
-                                  child: Text(
-                                    "Rented Cars",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white),
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 3, top: 18.0),
-                                  child: Text(
-                                    availablerentedvehicles.toString(),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 18.0),
-                            child: VerticalDivider(
-                              thickness: 2,
-                              width: 30,
-                              color: Colors.white,
-                            ),
-                          ),
-                          IntrinsicHeight(
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 3, top: 18.0),
-                                  child: Text(
-                                    "Total Clients",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white),
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 3, top: 18.0),
-                                  child: Text(
-                                    availableclients.toString(),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
-                    Row(
-                      children: [],
-                    )
-                  ],
+                      Row(
+                        children: [],
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(18.0),
-                    child: SizedBox(
+            SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: SizedBox(
+                        height: 180,
+                        width: 180,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) => NewVehicle()),
+                                (Route<dynamic> route) => true);
+                          },
+                          child: Card(
+                            elevation: 8,
+                            color: Colors.black,
+                            shadowColor: Colors.blueAccent,
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 1.0),
+                                  child: Image.asset(
+                                    "assets/images/addnew.png",
+                                    width: 140,
+                                    height: 102,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 6.0, left: 50, right: 30),
+                                  child: Text('Add New Vehicle',
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                      )),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
                       height: 180,
                       width: 180,
                       child: GestureDetector(
                         onTap: () {
                           Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
-                                  builder: (context) => NewVehicle()),
+                                  builder: (context) => RentalVehicles()),
                               (Route<dynamic> route) => true);
                         },
                         child: Card(
                           elevation: 8,
-                          color: Colors.black,
-                          shadowColor: Colors.blueAccent,
+                          color: Colors.white,
+                          shadowColor: Colors.white70,
                           child: Column(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(top: 1.0),
+                                padding: const EdgeInsets.only(top: 19.0),
                                 child: Image.asset(
-                                  "assets/images/addnew.png",
-                                  width: 140,
-                                  height: 102,
+                                  "assets/images/addc.png",
+                                  width: 180,
+                                  height: 92,
                                 ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(
-                                    top: 6.0, left: 50, right: 30),
-                                child: Text('Add New Vehicle',
+                                    top: 10.0, left: 50, right: 30),
+                                child: Text('Check Rentals',
                                     style: GoogleFonts.openSans(
-                                      color: Colors.white,
+                                      color: Colors.black,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16,
                                     )),
@@ -324,87 +368,87 @@ class _AdminState extends State<Admin> {
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 180,
-                    width: 180,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                                builder: (context) => RentalVehicles()),
-                            (Route<dynamic> route) => true);
-                      },
-                      child: Card(
-                        elevation: 8,
-                        color: Colors.white,
-                        shadowColor: Colors.white70,
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 19.0),
-                              child: Image.asset(
-                                "assets/images/addc.png",
-                                width: 180,
-                                height: 92,
-                              ),
+                  ],
+                )
+            ),
+          
+            SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: SizedBox(
+                        height: 180,
+                        width: 180,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) => VehicleInventory()),
+                                    (Route<dynamic> route) => true);
+                          },
+                          child: Card(
+                            elevation: 8,
+                            color: Colors.black,
+                            shadowColor: Colors.blueAccent,
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 1.0),
+                                  child: Image.asset(
+                                    "assets/images/addnew.png",
+                                    width: 140,
+                                    height: 102,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 6.0, left: 50, right: 30),
+                                  child: Text('Vehicle Inventory',
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                      )),
+                                ),
+                              ],
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 10.0, left: 50, right: 30),
-                              child: Text('Check Rentals',
-                                  style: GoogleFonts.openSans(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                  )),
-                            ),
-                          ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              )
-          ),
-
-          SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(18.0),
-                    child: SizedBox(
+                    SizedBox(
                       height: 180,
                       width: 180,
                       child: GestureDetector(
                         onTap: () {
                           Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
-                                  builder: (context) => VehicleInventory()),
+                                  builder: (context) => RentalVehicles()),
                                   (Route<dynamic> route) => true);
                         },
                         child: Card(
                           elevation: 8,
-                          color: Colors.black,
-                          shadowColor: Colors.blueAccent,
+                          color: Colors.white,
+                          shadowColor: Colors.white70,
                           child: Column(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(top: 1.0),
+                                padding: const EdgeInsets.only(top: 19.0),
                                 child: Image.asset(
-                                  "assets/images/addnew.png",
-                                  width: 140,
-                                  height: 102,
+                                  "assets/images/addc.png",
+                                  width: 180,
+                                  height: 92,
                                 ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(
-                                    top: 6.0, left: 50, right: 30),
-                                child: Text('Vehicle Inventory',
+                                    top: 10.0, left: 50, right: 30),
+                                child: Text('Check Rentals',
                                     style: GoogleFonts.openSans(
-                                      color: Colors.white,
+                                      color: Colors.black,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16,
                                     )),
@@ -414,49 +458,10 @@ class _AdminState extends State<Admin> {
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 180,
-                    width: 180,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                                builder: (context) => RentalVehicles()),
-                                (Route<dynamic> route) => true);
-                      },
-                      child: Card(
-                        elevation: 8,
-                        color: Colors.white,
-                        shadowColor: Colors.white70,
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 19.0),
-                              child: Image.asset(
-                                "assets/images/addc.png",
-                                width: 180,
-                                height: 92,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 10.0, left: 50, right: 30),
-                              child: Text('Check Rentals',
-                                  style: GoogleFonts.openSans(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                  )),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              )
-          )
-        ]));
+                  ],
+                )
+            )
+          ]),
+        ));
   }
 }
