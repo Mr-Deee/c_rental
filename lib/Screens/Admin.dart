@@ -341,7 +341,7 @@ class _AdminState extends State<Admin> {
                         },
                         child: Card(
                           elevation: 8,
-                          color: Colors.white,
+                          color: Colors.blue,
                           shadowColor: Colors.white70,
                           child: Column(
                             children: [
@@ -391,7 +391,7 @@ class _AdminState extends State<Admin> {
                           },
                           child: Card(
                             elevation: 8,
-                            color: Colors.black,
+                            color: Colors.blue,
                             shadowColor: Colors.blueAccent,
                             child: Column(
                               children: [
@@ -446,7 +446,7 @@ class _AdminState extends State<Admin> {
                               Padding(
                                 padding: const EdgeInsets.only(
                                     top: 10.0, left: 50, right: 30),
-                                child: Text('Check Rentals',
+                                child: Text('Payment & Users',
                                     style: GoogleFonts.openSans(
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,

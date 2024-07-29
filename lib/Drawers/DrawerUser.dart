@@ -5,7 +5,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 import '../Constants/constants.dart';
-import '../Screens/FavoriteScreen.dart';
 import '../Screens/LoginScreen.dart';
 import '../Screens/ProfilUserScreen.dart';
 import '../Screens/ReportScreen.dart';
@@ -169,18 +168,18 @@ class _DrawerUserState extends State<DrawerUser> {
                     //             MyReservationsScreen(userId)));
                   },
                 ),
-                ListTile(
-                  leading:
-                      Icon(Icons.favorite_rounded, color: Color(0XFFF01E1F)),
-                  title: const Text('Favourites'),
-                  onTap: () {
-                    Navigator.pop(context);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => FavoriteScreen()));
-                  },
-                ),
+                // ListTile(
+                //   leading:
+                //       Icon(Icons.favorite_rounded, color: Color(0XFFF01E1F)),
+                //   title: const Text('Favourites'),
+                //   onTap: () {
+                //     Navigator.pop(context);
+                //     Navigator.push(
+                //         context,
+                //         MaterialPageRoute(
+                //             builder: (context) => FavoriteScreen()));
+                //   },
+                // ),
                 ListTile(
                   title: const Text('Report'),
                   leading: Icon(Icons.report, color: Colors.black),
