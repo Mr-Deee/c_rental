@@ -33,7 +33,7 @@ class _PaymentandUsersState extends State<PaymentandUsers> {
       Map<dynamic, dynamic> usersMap = usersSnapshot.snapshot.value as Map<dynamic, dynamic>;
       usersMap.forEach((key, value) {
         usersData.add({
-          'name': value['name'],
+          'FirstName': value['FirstName'],
           'email': value['email'],
         });
       });
@@ -94,7 +94,7 @@ class _PaymentandUsersState extends State<PaymentandUsers> {
       itemCount: users.length,
       itemBuilder: (context, index) {
         return ListTile(
-          title: Text(users[index]['name']),
+          title: Text(users[index]['FirstName']),
           subtitle: Text(users[index]['email']),
         );
       },
@@ -102,7 +102,7 @@ class _PaymentandUsersState extends State<PaymentandUsers> {
   }
 
   Widget _buildPaymentList() {
-    double total = payments.fold(0, (sum, item) => sum + item['price']);
+    double total = payments.fold(0, (sum, item) => sum + item['totalPrice']);
     return Column(
       children: [
         Expanded(
@@ -111,7 +111,7 @@ class _PaymentandUsersState extends State<PaymentandUsers> {
             itemBuilder: (context, index) {
               return ListTile(
                 title: Text(payments[index]['rented']),
-                subtitle: Text('Price: ${payments[index]['price']}'),
+                subtitle: Text('Price: ${payments[index]['totalPrice']}'),
               );
             },
           ),

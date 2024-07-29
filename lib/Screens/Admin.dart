@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:c_rental/Screens/Rentals.dart';
 import 'package:c_rental/Screens/VehicleInventory.dart';
+import 'package:c_rental/Screens/payment%20and%20Users.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -426,7 +427,7 @@ class _AdminState extends State<Admin> {
                         onTap: () {
                           Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
-                                  builder: (context) => RentalVehicles()),
+                                  builder: (context) => PaymentandUsers()),
                                   (Route<dynamic> route) => true);
                         },
                         child: Card(
