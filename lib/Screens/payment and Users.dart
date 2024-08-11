@@ -48,6 +48,7 @@ class _PaymentandUsersState extends State<PaymentandUsers> {
           'rentedAt': value['rentedAt'],
           'totalPrice': value['totalPrice'],
           'pricePerDay': value['pricePerDay'],
+          'userName': value['userName'],
         });
       });
     }
@@ -61,12 +62,14 @@ class _PaymentandUsersState extends State<PaymentandUsers> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('Payments and Users'),
       ),
       body: Column(
         children: [
           CupertinoSegmentedControl<bool>(
+            selectedColor: Colors.blue,
             children: {
               true: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -117,10 +120,16 @@ class _PaymentandUsersState extends State<PaymentandUsers> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(payments[index]['brand']),
-                    Text(payments[index]['totalPrice'].toString()),
+                    Text('GHS${payments[index]['totalPrice'].toString()}'),
                   ],
                 ),
-                subtitle: Text(' ${payments[index]['pricePerDay']} a day'),
+                subtitle: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text('GHS${payments[index]['pricePerDay']} a day'),
+                    Text(' By${payments[index]['userName']}'),
+                  ],
+                ),
               );
             },
           ),
