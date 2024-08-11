@@ -10,8 +10,8 @@ class PaymentandUsers extends StatefulWidget {
 }
 
 class _PaymentandUsersState extends State<PaymentandUsers> {
-
   bool showUsers = true;
+  bool isLoading = true; // Add this variable to track loading state
   final DatabaseReference _databaseReference = FirebaseDatabase.instance.reference();
   List<Map<String, dynamic>> users = [];
   List<Map<String, dynamic>> payments = [];
@@ -23,6 +23,10 @@ class _PaymentandUsersState extends State<PaymentandUsers> {
   }
 
   Future<void> _fetchData() async {
+    setState(() {
+      isLoading = true; // Show loading indicator
+    });
+
     DatabaseEvent usersSnapshot = await _databaseReference.child('Clients').once();
     DatabaseEvent paymentsSnapshot = await _databaseReference.child('Rented').once();
 
@@ -56,6 +60,7 @@ class _PaymentandUsersState extends State<PaymentandUsers> {
     setState(() {
       users = usersData;
       payments = paymentsData;
+      isLoading = false; // Hide loading indicator
     });
   }
 
@@ -88,7 +93,11 @@ class _PaymentandUsersState extends State<PaymentandUsers> {
             groupValue: showUsers,
           ),
           Expanded(
-            child: showUsers ? _buildUserList() : _buildPaymentList(),
+            child: isLoading
+                ? Center(child: CupertinoActivityIndicator()) // Show dots loading indicator
+                : showUsers
+                ? _buildUserList()
+                : _buildPaymentList(),
           ),
         ],
       ),
@@ -108,7 +117,6 @@ class _PaymentandUsersState extends State<PaymentandUsers> {
   }
 
   Widget _buildPaymentList() {
-    // double total = payments.fold(0, (sum, item) => sum + item['totalPrice']);
     return Column(
       children: [
         Expanded(
@@ -127,17 +135,13 @@ class _PaymentandUsersState extends State<PaymentandUsers> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text('GHS${payments[index]['pricePerDay']} a day'),
-                    Text(' By${payments[index]['userName']}'),
+                    Text('By ${payments[index]['userName']}'),
                   ],
                 ),
               );
             },
           ),
         ),
-        // Padding(
-        //   padding: const EdgeInsets.all(16.0),
-        //   child: Text('Total: $total', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        // ),
       ],
     );
   }
