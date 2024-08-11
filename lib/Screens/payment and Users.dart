@@ -43,8 +43,11 @@ class _PaymentandUsersState extends State<PaymentandUsers> {
       Map<dynamic, dynamic> paymentsMap = paymentsSnapshot.snapshot.value as Map<dynamic, dynamic>;
       paymentsMap.forEach((key, value) {
         paymentsData.add({
-          'rented': value['rented'],
-          'price': value['price'],
+          'brand': value['brand'],
+          'rentalDays': value['rentalDays'],
+          'rentedAt': value['rentedAt'],
+          'totalPrice': value['totalPrice'],
+          'pricePerDay': value['pricePerDay'],
         });
       });
     }
@@ -102,7 +105,7 @@ class _PaymentandUsersState extends State<PaymentandUsers> {
   }
 
   Widget _buildPaymentList() {
-    double total = payments.fold(0, (sum, item) => sum + item['totalPrice']);
+    // double total = payments.fold(0, (sum, item) => sum + item['totalPrice']);
     return Column(
       children: [
         Expanded(
@@ -110,16 +113,22 @@ class _PaymentandUsersState extends State<PaymentandUsers> {
             itemCount: payments.length,
             itemBuilder: (context, index) {
               return ListTile(
-                title: Text(payments[index]['rented']),
-                subtitle: Text('Price: ${payments[index]['totalPrice']}'),
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(payments[index]['brand']),
+                    Text(payments[index]['totalPrice'].toString()),
+                  ],
+                ),
+                subtitle: Text(' ${payments[index]['pricePerDay']} a day'),
               );
             },
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text('Total: $total', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        ),
+        // Padding(
+        //   padding: const EdgeInsets.all(16.0),
+        //   child: Text('Total: $total', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        // ),
       ],
     );
   }

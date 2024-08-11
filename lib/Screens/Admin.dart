@@ -432,7 +432,7 @@ class _AdminState extends State<Admin> {
                         },
                         child: Card(
                           elevation: 8,
-                          color: Colors.white,
+                          color: Colors.black,
                           shadowColor: Colors.white70,
                           child: Column(
                             children: [
@@ -449,7 +449,7 @@ class _AdminState extends State<Admin> {
                                     top: 10.0, left: 50, right: 30),
                                 child: Text('Payment & Users',
                                     style: GoogleFonts.openSans(
-                                      color: Colors.black,
+                                      color: Colors.white,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16,
                                     )),

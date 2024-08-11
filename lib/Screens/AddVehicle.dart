@@ -37,7 +37,7 @@ class _NewVehicleState extends State<NewVehicle> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white.withOpacity(0.8),
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white.withOpacity(0),
         elevation: 0,
