@@ -19,7 +19,7 @@ class VehicleDetailsPage extends StatefulWidget {
   @override
   _VehicleDetailsPageState createState() => _VehicleDetailsPageState();
 }
-final DatabaseReference db = FirebaseDatabase.instance.reference();
+final DatabaseReference db = FirebaseDatabase.instance.ref();
 class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
   String? getSelectedVehicleId() {
     return widget.vehicleId;

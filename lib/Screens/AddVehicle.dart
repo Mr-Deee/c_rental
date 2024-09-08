@@ -17,7 +17,7 @@ class NewVehicle extends StatefulWidget {
 }
 
 class _NewVehicleState extends State<NewVehicle> {
-  final DatabaseReference _database = FirebaseDatabase.instance.reference();
+  final DatabaseReference _database = FirebaseDatabase.instance.ref();
   final modelname = TextEditingController();
   final vehiclemake = TextEditingController();
   final transmission = TextEditingController();

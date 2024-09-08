@@ -12,7 +12,7 @@ class PaymentandUsers extends StatefulWidget {
 class _PaymentandUsersState extends State<PaymentandUsers> {
   bool showUsers = true;
   bool isLoading = true; // Add this variable to track loading state
-  final DatabaseReference _databaseReference = FirebaseDatabase.instance.reference();
+  final DatabaseReference _databaseReference = FirebaseDatabase.instance.ref();
   List<Map<String, dynamic>> users = [];
   List<Map<String, dynamic>> payments = [];
 

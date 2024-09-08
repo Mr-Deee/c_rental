@@ -15,7 +15,7 @@ class VehicleInventory extends StatefulWidget {
 class _VehicleInventoryState extends State<VehicleInventory> {
 
 
-  final DatabaseReference _databaseReference = FirebaseDatabase.instance.reference().child('vehicles');
+  final DatabaseReference _databaseReference = FirebaseDatabase.instance.ref().child('vehicles');
   final List<Map<dynamic, dynamic>> _vehicles = [];
 
   @override
