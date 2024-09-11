@@ -2,7 +2,7 @@ import 'package:c_rental/Screens/Admin.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+// import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:lottie/lottie.dart';
 
 import '../Constants/constants.dart';
@@ -66,15 +66,15 @@ class _LoginScreenState extends State<LoginScreen> {
             Container(
               margin: EdgeInsets.only(top: heightDevice * 0.10),
               child: Column(children: [
-                Text(
-                  "Benji's",
-                  style: TextStyle(
-                    color: Color(0XFF091424),
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'RobotoMono',
-                  ),
-                ),
+                // Text(
+                //   "Benji's",
+                //   style: TextStyle(
+                //     color: Color(0XFF091424),
+                //     fontSize: 40,
+                //     fontWeight: FontWeight.bold,
+                //     fontFamily: 'RobotoMono',
+                //   ),
+                // ),
                 Text(
                   "Sign In",
                   style: TextStyle(
@@ -84,22 +84,22 @@ class _LoginScreenState extends State<LoginScreen> {
                     fontFamily: 'RobotoMono',
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.only(top: 10),
-                  child: Text(
-                    "Enter your credentials to continue",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 23,
-                      color: Color(0XFF091424),
-                      fontFamily: 'RobotoMono',
-                    ),
-                  ),
-                ),
+                // Container(
+                //   margin: EdgeInsets.only(top: 10),
+                //   child: Text(
+                //     "Enter your credentials to continue",
+                //     textAlign: TextAlign.center,
+                //     style: TextStyle(
+                //       fontSize: 10,
+                //       color: Color(0XFF091424),
+                //       fontFamily: 'RobotoMono',
+                //     ),
+                //   ),
+                // ),
               ]),
             ),
             Container(
-                margin: EdgeInsets.only(top: heightDevice * 0.05),
+                margin: EdgeInsets.only(top: heightDevice * 0.001),
                 child: Lottie.asset('assets/animations/car-animation.json')),
             Container(
               margin: EdgeInsets.only(top: heightDevice * 0.02),
