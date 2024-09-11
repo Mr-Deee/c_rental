@@ -112,19 +112,31 @@ class _LoginScreenState extends State<LoginScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Container(
-                              margin: EdgeInsets.only(right: 10),
-                              child: Icon(
-                                Icons.email,
-                                size: 28,
-                              )),
+                          // Container(
+                          //     margin: EdgeInsets.only(right: 10),
+                          //     child: Icon(
+                          //       Icons.email,
+                          //       size: 28,
+                          //     )),
                           SizedBox(
                             width: widthDevice * 0.7,
                             child: TextFormField(
-                              decoration: InputDecoration(hintText: "Email"),
-                              keyboardType: TextInputType.emailAddress,
-                              validator: emailValidator,
-                              controller: _emailController,
+                              decoration: InputDecoration(
+                                labelText: "Email Address", // Label text for better UX
+                                hintText: "Enter your email", // Clear hint text
+                                prefixIcon: Icon(Icons.email), // Adds an email icon
+                                border: OutlineInputBorder( // Adds an outline border
+                                  borderRadius: BorderRadius.circular(12), // Rounded corners
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.blue, width: 2), // Border style on focus
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                errorStyle: TextStyle(color: Colors.redAccent), // Error message style
+                              ),
+                              validator: emailValidator, // Custom validator function
+                              autovalidateMode: AutovalidateMode.onUserInteraction, // Validates as user types
+                              textInputAction: TextInputAction.next, // Moves to the next field
                             ),
                           ),
                         ],
@@ -136,18 +148,29 @@ class _LoginScreenState extends State<LoginScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Container(
-                            margin: EdgeInsets.only(top: 5, right: 10),
-                            child: Icon(
-                              Icons.security,
-                              size: 28,
-                            ),
-                          ),
+                          // Container(
+                          //   margin: EdgeInsets.only(top: 5, right: 10),
+                          //   child: Icon(
+                          //     Icons.security,
+                          //     size: 28,
+                          //   ),
+                          // ),
                           SizedBox(
                             width: widthDevice * 0.7,
                             child: TextFormField(
-                              decoration: InputDecoration(hintText: "Password"),
-                              controller: _passwordController,
+                              decoration: InputDecoration(
+                                labelText: "Password", // Label text for better UX
+                                hintText: "Password",// Clear hint text
+                                prefixIcon: Icon(Icons.password), // Adds an email icon
+                                border: OutlineInputBorder( // Adds an outline border
+                                  borderRadius: BorderRadius.circular(12), // Rounded corners
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.blue, width: 2), // Border style on focus
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                errorStyle: TextStyle(color: Colors.redAccent), // Error message style
+                              ),                              controller: _passwordController,
                               validator: pwdValidator,
                               obscureText: true,
                             ),
