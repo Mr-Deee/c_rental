@@ -58,12 +58,41 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     );
   }
 
+  Widget buildVideoWithOverlay(VideoPlayerController controller) {
+    return Stack(
+
+      children: [
+        controller.value.isInitialized
+            ? SizedBox.expand(
+          child: FittedBox(
+            fit: BoxFit.cover, // Cover entire available space
+            child: SizedBox(
+              width: controller.value.size.width,
+              height: controller.value.size.height,
+              child: VideoPlayer(controller),
+            ),
+          ),
+        )
+            : CircularProgressIndicator(),
+        Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.black.withOpacity(0.6), Colors.black54],
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    const bodyStyle = TextStyle(fontSize: 15.0);
+    const bodyStyle = TextStyle(fontSize: 15.0, color: Colors.black87); // White text for better contrast
     const pageDecoration = PageDecoration(
-      pageColor: Colors.white,
-      titleTextStyle: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700),
+      pageColor: Colors.black, // Dark background to blend with the video
+      titleTextStyle: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold, color: Colors.white),
       bodyTextStyle: bodyStyle,
       imageFlex: 4, // Increased imageFlex to make video larger
       bodyPadding: EdgeInsets.fromLTRB(10.0, 0.0, 16.0, 16.0),
@@ -71,82 +100,39 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     );
 
     return IntroductionScreen(
+globalBackgroundColor: Colors.black,
       key: introKey,
       pages: [
         PageViewModel(
-          title: "Choose your cylinder size",
-          body: 'Pick a maximum of two cylinders.',
-          image: _controller1.value.isInitialized
-              ? SizedBox.expand(
-            child: FittedBox(
-              fit: BoxFit.cover, // Cover entire available space
-              child: SizedBox(
-                width: _controller1.value.size.width,
-                height: _controller1.value.size.height,
-                child: VideoPlayer(_controller1),
-              ),
-            ),
-          )
-              : CircularProgressIndicator(),
+          title: "",
+          body: '.',
+          image: buildVideoWithOverlay(_controller1),
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Select LPG Station",
-          body: "Select from our database your nearest \nLPG station.",
-          image: _controller2.value.isInitialized
-              ? SizedBox.expand(
-            child: FittedBox(
-              fit: BoxFit.cover,
-              child: SizedBox(
-                width: _controller2.value.size.width,
-                height: _controller2.value.size.height,
-                child: VideoPlayer(_controller2),
-              ),
-            ),
-          )
-              : CircularProgressIndicator(),
+          title: "",
+          body: "",
+          image: buildVideoWithOverlay(_controller2),
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Secure in-app payments",
-          body: "Pay via mobile money or credit card after\ndelivery guy arrives.",
-          image: _controller3.value.isInitialized
-              ? SizedBox.expand(
-            child: FittedBox(
-              fit: BoxFit.cover,
-              child: SizedBox(
-                width: _controller3.value.size.width,
-                height: _controller3.value.size.height,
-                child: VideoPlayer(_controller3),
-              ),
-            ),
-          )
-              : CircularProgressIndicator(),
+          title: "",
+          body: "",
+          image: buildVideoWithOverlay(_controller3),
           decoration: pageDecoration,
         ),
         PageViewModel(
           title: "Delivered to your doorstep.",
           body: "Conveniently delivered right to you.",
-          image: _controller4.value.isInitialized
-              ? SizedBox.expand(
-            child: FittedBox(
-              fit: BoxFit.cover,
-              child: SizedBox(
-                width: _controller4.value.size.width,
-                height: _controller4.value.size.height,
-                child: VideoPlayer(_controller4),
-              ),
-            ),
-          )
-              : CircularProgressIndicator(),
+          image: buildVideoWithOverlay(_controller4),
           decoration: pageDecoration,
         ),
       ],
       onDone: () => _onIntroEnd(context),
       showSkipButton: true,
-      skip: const Text('Skip'),
-      next: const Icon(Icons.arrow_forward),
-      done: const Text('Done', style: TextStyle(fontWeight: FontWeight.w600)),
+      skip: const Text('Skip', style: TextStyle(color: Colors.white70)),
+      next: const Icon(Icons.arrow_forward, color: Colors.white70),
+      done: const Text('Done', style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white)),
       dotsDecorator: const DotsDecorator(
         size: Size(10.0, 10.0),
         color: Color(0xFFBDBDBD),
