@@ -56,6 +56,8 @@ dependencies:
   firebase_database: ^11.1.0
   cached_network_image: ^3.1.0
   provider: ^6.0.5
+  video_player: ^2.5.1
+  introduction_screen: ^3.0.2
 
 #  firebase_core_platform_interface:
 
@@ -86,6 +88,7 @@ flutter:
   assets:
     - assets/animations/
     - assets/images/
+    - assets/videos/
     - assets/Icons/
 
   # An image asset can refer to one or more resolution-specific "variants", see

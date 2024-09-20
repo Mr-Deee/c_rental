@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'Screens/AddVehicle.dart';
 import 'Screens/HomeScreen.dart';
 import 'Screens/LoginScreen.dart';
+import 'Screens/Onboarding.dart';
 import 'Screens/SignUpScreen.dart';
 import 'Users.dart';
 import 'firebase_options.dart';
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
         routes: {
           "/": (context) => CheckUserRole(),
           "/SignUP": (context) => SignUpScreen(),
+          "/onboarding": (context) => OnBoardingPage(),
           "/HomeScreen": (context) => HomeScreen(),
           "/SignIn": (context) => LoginScreen(),
           "/Admin": (context) => Admin(),
@@ -94,7 +96,7 @@ class _CheckUserRoleState extends State<CheckUserRole> {
     } else {
       // No user logged in
       Future.delayed(Duration.zero, () {
-        Navigator.pushReplacementNamed(context, '/SignIn');});
+        Navigator.pushReplacementNamed(context, '/onboarding');});
     }
   }
 
