@@ -83,7 +83,7 @@ class _DrawerUserState extends State<DrawerUser> {
                       child: CircleAvatar(
                         backgroundColor:Colors.grey,
                         radius: 34,
-                        child: Text(userprovider!.firstname![0].toString()??"",
+                        child: Text(userprovider!.firstname??[0].toString()??"",
                           style: TextStyle(fontSize: 22, color: Colors.white),
                         ),
                       ),

@@ -15,7 +15,7 @@ import firebase_storage
 import flutter_secure_storage_macos
 import google_sign_in_ios
 import path_provider_foundation
-import sqflite_darwin
+import sqflite
 import video_player_avfoundation
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
