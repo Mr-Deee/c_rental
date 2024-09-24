@@ -31,7 +31,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       _loadVideo('assets/videos/onboarding1.mp4'),
       _loadVideo('assets/videos/onboarding2.mp4'),
       _loadVideo('assets/videos/onboarding3.mp4'),
-      _loadVideo('assets/videos/onboarding3.mp4'), // Changed to onboarding4.mp4
+      _loadVideo('assets/videos/onboarding4.mp4'), // Changed to onboarding4.mp4
     ]);
 
     // Assign the video files to controllers
