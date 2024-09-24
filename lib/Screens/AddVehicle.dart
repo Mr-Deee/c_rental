@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_database/firebase_database.dart';
 
@@ -664,4 +665,7 @@ class _NewVehicleState extends State<NewVehicle> {
       print("Failed to add vehicle: $error");
     });
   }
+}
+displayToast(String message, BuildContext context) {
+  Fluttertoast.showToast(msg: message);
 }
