@@ -1,7 +1,7 @@
-import 'package:c_rental/Screens/SignUpScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:introduction_screen/introduction_screen.dart';
 import 'package:video_player/video_player.dart';
+import 'package:introduction_screen/introduction_screen.dart';
+import 'package:c_rental/Screens/SignUpScreen.dart';
 
 class OnBoardingPage extends StatefulWidget {
   static const String idScreen = "Onboard";
@@ -13,41 +13,50 @@ class OnBoardingPage extends StatefulWidget {
 
 class _OnBoardingPageState extends State<OnBoardingPage> {
   final introKey = GlobalKey<IntroductionScreenState>();
-  late VideoPlayerController _controller1;
-  late VideoPlayerController _controller2;
-  late VideoPlayerController _controller3;
-  late VideoPlayerController _controller4;
+
+  VideoPlayerController? _controller1;
+  VideoPlayerController? _controller2;
+  VideoPlayerController? _controller3;
+  VideoPlayerController? _controller4;
 
   @override
   void initState() {
     super.initState();
-    _controller1 = VideoPlayerController.asset('assets/videos/onboarding1.mp4')
-      ..initialize().then((_) => setState(() {}))
-      ..setLooping(true)
-      ..play();
+    _initializeVideoControllers();
+  }
 
-    _controller2 = VideoPlayerController.asset('assets/videos/onboarding2.mp4')
-      ..initialize().then((_) => setState(() {}))
-      ..setLooping(true)
-      ..play();
+  Future<void> _initializeVideoControllers() async {
+    // Load videos concurrently
+    final futures = await Future.wait([
+      _loadVideo('assets/videos/onboarding1.mp4'),
+      _loadVideo('assets/videos/onboarding2.mp4'),
+      _loadVideo('assets/videos/onboarding3.mp4'),
+      _loadVideo('assets/videos/onboarding3.mp4'), // Changed to onboarding4.mp4
+    ]);
 
-    _controller3 = VideoPlayerController.asset('assets/videos/onboarding3.mp4')
-      ..initialize().then((_) => setState(() {}))
-      ..setLooping(true)
-      ..play();
+    // Assign the video files to controllers
+    _controller1 = futures[0];
+    _controller2 = futures[1];
+    _controller3 = futures[2];
+    _controller4 = futures[3];
 
-    _controller4 = VideoPlayerController.asset('assets/videos/onboarding4.mp4')
-      ..initialize().then((_) => setState(() {}))
-      ..setLooping(true)
-      ..play();
+    setState(() {}); // Update the UI after initialization
+  }
+
+  Future<VideoPlayerController> _loadVideo(String assetPath) async {
+    final controller = VideoPlayerController.asset(assetPath);
+    await controller.initialize();
+    controller.setLooping(true);
+    controller.play();
+    return controller;
   }
 
   @override
   void dispose() {
-    _controller1.dispose();
-    _controller2.dispose();
-    _controller3.dispose();
-    _controller4.dispose();
+    _controller1?.dispose();
+    _controller2?.dispose();
+    _controller3?.dispose();
+    _controller4?.dispose();
     super.dispose();
   }
 
@@ -58,22 +67,23 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     );
   }
 
-  Widget buildVideoWithOverlay(VideoPlayerController controller) {
-    return Stack(
+  Widget buildVideoWithOverlay(VideoPlayerController? controller) {
+    if (controller == null || !controller.value.isInitialized) {
+      return Center(child: CircularProgressIndicator());
+    }
 
+    return Stack(
       children: [
-        controller.value.isInitialized
-            ? SizedBox.expand(
+        SizedBox.expand(
           child: FittedBox(
-            fit: BoxFit.cover, // Cover entire available space
+            fit: BoxFit.cover,
             child: SizedBox(
               width: controller.value.size.width,
               height: controller.value.size.height,
               child: VideoPlayer(controller),
             ),
           ),
-        )
-            : CircularProgressIndicator(),
+        ),
         Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -89,23 +99,24 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
   @override
   Widget build(BuildContext context) {
-    const bodyStyle = TextStyle(fontSize: 15.0, color: Colors.black87); // White text for better contrast
+    const bodyStyle = TextStyle(fontSize: 15.0, color: Colors.black87);
     const pageDecoration = PageDecoration(
-      pageColor: Colors.black, // Dark background to blend with the video
-      titleTextStyle: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold, color: Colors.white),
+      pageColor: Colors.black,
+      titleTextStyle:
+      TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold, color: Colors.white),
       bodyTextStyle: bodyStyle,
-      imageFlex: 4, // Increased imageFlex to make video larger
+      imageFlex: 4,
       bodyPadding: EdgeInsets.fromLTRB(10.0, 0.0, 16.0, 16.0),
       imagePadding: EdgeInsets.only(top: 10),
     );
 
     return IntroductionScreen(
-globalBackgroundColor: Colors.black,
+      globalBackgroundColor: Colors.black,
       key: introKey,
       pages: [
         PageViewModel(
           title: "",
-          body: '.',
+          body: ".",
           image: buildVideoWithOverlay(_controller1),
           decoration: pageDecoration,
         ),

@@ -6,6 +6,8 @@
     <application
         android:label="Benjis Rental"
         android:name="${applicationName}"
+        android:hardwareAccelerated="true"
+
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
