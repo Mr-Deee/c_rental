@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lottie/lottie.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 import '../Constants/constants.dart';
 import '../main.dart';
 import 'LoginScreen.dart';
@@ -61,213 +61,310 @@ class _SignUpScreenState extends State<SignUpScreen> {
       body: Container(
         child: Stack(children: [
           Container(
-            height: heightDevice * 0.4,
+            height: heightDevice,
             decoration: BoxDecoration(
-              color: Colors.black,
+              color: Colors.blueAccent,
             ),
           ),
           Container(
 
             margin: EdgeInsets.only(top: heightDevice * 0.03),
-            child: Lottie.asset('assets/animations/car-animation.json', width: 250),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: heightDevice * 0.25),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(45),
-                topRight: Radius.circular(45),
-              ),
+            child: Row(
+              children: [
+                Lottie.asset('assets/animations/car-animation.json', width: 250),
+                // Text("Benjis\n Rentals", style:GoogleFonts.akshar(
+                //   fontSize: 30,
+                //   fontStyle: FontStyle.normal,
+                // ),
+                //),
+
+
+        ],
             ),
-            child: SingleChildScrollView(
-              child: Container(
-                child: Form(
-                  key: _registerFormKey,
-                  child: Column(
-                    children: [
+          ),
+          Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: Container(
+              margin: EdgeInsets.only(top: heightDevice * 0.25),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15),
+                  topRight: Radius.circular(15),
+                  bottomLeft: Radius.circular(25)
+                ),
+              ),
+              child: SingleChildScrollView(
+                child: Container(
+                  child: Form(
+                    key: _registerFormKey,
+                    child: Column(
+                      children: [
 
 
-                          Container(
-                            margin: EdgeInsets.only(
-                                left: widthDevice * 0.1, top: heightDevice * 0.04),
-                            child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  "FirstName",
-                                  style: TextStyle(
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 15),
-                                )),
-                          ),
-
-                      Container(
-                        width: widthDevice * 0.8,
-                        child: TextFormField(
-                          decoration:
-                          InputDecoration(hintText: "john"),
-                          keyboardType: TextInputType.emailAddress,
-                          controller: _firstnameController,
-                          validator: emailValidator,
-                        ),
-                      ),
-
-
-                      Container(
-                        margin: EdgeInsets.only(
-                            left: widthDevice * 0.1, top: heightDevice * 0.04),
-                        child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "LastName",
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 15),
-                            )),
-                      ),
-
-                      Container(
-                        width: widthDevice * 0.8,
-                        child: TextFormField(
-                          decoration:
-                          InputDecoration(hintText: "Doe"),
-                          keyboardType: TextInputType.name,
-                          controller: _lastnameController,
-                          validator: emailValidator,
-                        ),
-                      ),
-
-
-                      Container(
-                        margin: EdgeInsets.only(
-                            left: widthDevice * 0.1, top: heightDevice * 0.04),
-                        child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Email",
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 15),
-                            )),
-                      ),
-                      Container(
-                        width: widthDevice * 0.8,
-                        child: TextFormField(
-                          decoration:
-                              InputDecoration(hintText: "john.doe@gmail.com"),
-                          keyboardType: TextInputType.emailAddress,
-                          controller: _emailController,
-                          validator: emailValidator,
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(
-                            left: widthDevice * 0.1, top: heightDevice * 0.04),
-                        child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Password",
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 15),
-                            )),
-                      ),
-                      Container(
-                        width: widthDevice * 0.8,
-                        child: TextFormField(
-                          decoration: InputDecoration(hintText: "********"),
-                          obscureText: true,
-                          controller: _passwordController,
-                          validator: pwdValidator,
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(
-                            left: widthDevice * 0.1, top: heightDevice * 0.04),
-                        child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Confirm Password",
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 15),
-                            )),
-                      ),
-                      Container(
-                        width: widthDevice * 0.8,
-                        child: TextFormField(
-                          decoration: InputDecoration(hintText: "********"),
-                          controller: _confirmPwdController,
-                          obscureText: true,
-                          validator: pwdValidator,
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: widthDevice * 0.1),
-                        child: SizedBox(
+                          SizedBox(height: 17,),
+                        Container(
                           width: widthDevice * 0.8,
-                          height: heightDevice * 0.09,
-                          child: TextButton(
-                            onPressed:() async {
-                              registerNewUser(context);
-                              // firebaseRegistration();},
-                            },
-                            child: Text(
-                              'Sign Up',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'RobotoMono',
-                              ),
+                          child: TextField(
+
+                            keyboardType: TextInputType.emailAddress,
+                            controller: _firstnameController,
+                            style: TextStyle(
+                              color: Colors.black87, // Text color
+                              fontSize: 16.0, // Font size
                             ),
-                            style: TextButton.styleFrom(
-                              backgroundColor: primaryColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(35.0),
+                            decoration: InputDecoration(
+                              labelText: 'First Name',
+                              labelStyle: TextStyle(
+                                color: Colors.grey[600], // Label color
+                                fontSize: 14.0, // Label font size
                               ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: widthDevice * 0.04),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Already have an account ! ",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'RobotoMono',
+                              hintText: 'First Name',
+                              hintStyle: TextStyle(
+                                color: Colors.grey[400], // Hint color
+                                fontSize: 14.0, // Hint font size
                               ),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => LoginScreen()));
-                              },
-                              child: Text(
-                                "Sign In",
-                                style: TextStyle(
-                                  color: primaryColor,
-                                  fontSize: 16,
-                                  fontFamily: 'RobotoMono',
-                                  fontWeight: FontWeight.bold,
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0), // Rounded corners
+                                borderSide: BorderSide(
+                                  color: Color(0xff98e6e6), // Border color when enabled
+                                  width: 1.0, // Border width
                                 ),
                               ),
-                            )
-                          ],
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0), // Rounded corners
+                                borderSide: BorderSide(
+                                  color: Colors.blue, // Border color when focused
+                                  width: 2.0, // Border width
+                                ),
+                              ),
+                              filled: true,
+                              fillColor: Colors.grey[100],
+                              // Background color
+                              contentPadding: EdgeInsets.symmetric(
+                                vertical: 15.0,
+                                horizontal: 20.0, // Padding inside the TextField
+                              ),
+                              prefixIcon: Icon(
+                                Icons.person, // Email icon
+                                color: Colors.grey[600],
+                              ),
+                            ),                          ),
                         ),
-                      )
-                    ],
+                        SizedBox(height: 17,),
+
+                        Container(
+                          width: widthDevice * 0.8,
+                          child: TextField(
+                            decoration: InputDecoration(
+                              labelText: 'Last Name',
+                              labelStyle: TextStyle(
+                                color: Colors.grey[600], // Label color
+                                fontSize: 14.0, // Label font size
+                              ),
+                              hintText: 'Last Name',
+                              hintStyle: TextStyle(
+                                color: Colors.grey[400], // Hint color
+                                fontSize: 14.0, // Hint font size
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0), // Rounded corners
+                                borderSide: BorderSide(
+                                  color: Color(0xff98e6e6), // Border color when enabled
+                                  width: 1.0, // Border width
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0), // Rounded corners
+                                borderSide: BorderSide(
+                                  color: Colors.blue, // Border color when focused
+                                  width: 2.0, // Border width
+                                ),
+                              ),
+                              filled: true,
+                              fillColor: Colors.grey[100],
+                              // Background color
+                              contentPadding: EdgeInsets.symmetric(
+                                vertical: 15.0,
+                                horizontal: 20.0, // Padding inside the TextField
+                              ),
+                              prefixIcon: Icon(
+                                Icons.person, // Email icon
+                                color: Colors.grey[600],
+                              ),
+                            ),
+                            keyboardType: TextInputType.name,
+                            controller: _lastnameController,
+                          //  validator: emailValidator,
+                          ),
+                        ),
+                        SizedBox(height: 17,),
+
+                        Container(
+                          width: widthDevice * 0.8,
+                          child: TextField(
+                            decoration: InputDecoration(
+                              labelText: 'Email',
+                              labelStyle: TextStyle(
+                                color: Colors.grey[600], // Label color
+                                fontSize: 14.0, // Label font size
+                              ),
+                              hintText: 'Email',
+                              hintStyle: TextStyle(
+                                color: Colors.grey[400], // Hint color
+                                fontSize: 14.0, // Hint font size
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0), // Rounded corners
+                                borderSide: BorderSide(
+                                  color: Color(0xff98e6e6), // Border color when enabled
+                                  width: 1.0, // Border width
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0), // Rounded corners
+                                borderSide: BorderSide(
+                                  color: Colors.blue, // Border color when focused
+                                  width: 2.0, // Border width
+                                ),
+                              ),
+                              filled: true,
+                              fillColor: Colors.grey[100],
+                              // Background color
+                              contentPadding: EdgeInsets.symmetric(
+                                vertical: 15.0,
+                                horizontal: 20.0, // Padding inside the TextField
+                              ),
+                              prefixIcon: Icon(
+                                Icons.email, // Email icon
+                                color: Colors.grey[600],
+                              ),
+                            ),
+                            keyboardType: TextInputType.emailAddress,
+                            controller: _emailController,
+                           // validator: emailValidator,
+                          ),
+                        ),
+                        SizedBox(height: 17,),
+
+                        Container(
+                          width: widthDevice * 0.8,
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              labelText: 'Password',
+                              labelStyle: TextStyle(
+                                color: Colors.grey[600], // Label color
+                                fontSize: 14.0, // Label font size
+                              ),
+                              hintText: 'Password',
+                              hintStyle: TextStyle(
+                                color: Colors.grey[400], // Hint color
+                                fontSize: 14.0, // Hint font size
+                              ),
+
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0), // Rounded corners
+                                borderSide: BorderSide(
+                                  color: Color(0xff98e6e6), // Border color when enabled
+                                  width: 1.0, // Border width
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0), // Rounded corners
+                                borderSide: BorderSide(
+                                  color: Colors.blue, // Border color when focused
+                                  width: 2.0, // Border width
+                                ),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0), // Rounded corners
+                                borderSide: BorderSide(
+                                  color: Colors.white, // Border color
+                                  width: 0.0, // Border width
+                                ),
+                              ),
+                              filled: true,
+                              fillColor: Colors.grey[100],
+                              // Background color
+                              contentPadding: EdgeInsets.symmetric(
+                                vertical: 15.0,
+                                horizontal: 20.0, // Padding inside the TextField
+                              ),
+                              prefixIcon: Icon(
+                                Icons.password, // Email icon
+                                color: Colors.grey[600],
+                              ),
+                            ),
+                            obscureText: true,
+                            controller: _passwordController,
+                            validator: pwdValidator,
+                          ),
+                        ),
+                        SizedBox(height: 11,),
+
+
+                        Container(
+                          // margin: EdgeInsets.only(top: widthDevice * 0.1),
+                          child: SizedBox(
+                            width: widthDevice * 0.8,
+                            height: heightDevice * 0.09,
+                            child: TextButton(
+                              onPressed:() async {
+                                registerNewUser(context);
+                                // firebaseRegistration();},
+                              },
+                              child: Text(
+                                'Sign Up',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'RobotoMono',
+                                ),
+                              ),
+                              style: TextButton.styleFrom(
+                                backgroundColor: Colors.blueAccent,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: widthDevice * 0.04),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Already have an account ! ",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'RobotoMono',
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => LoginScreen()));
+                                },
+                                child: Text(
+                                  "Sign In",
+                                  style: TextStyle(
+                                    color: primaryColor,
+                                    fontSize: 16,
+                                    fontFamily: 'RobotoMono',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),

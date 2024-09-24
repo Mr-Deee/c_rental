@@ -30,6 +30,7 @@ class _NewVehicleState extends State<NewVehicle> {
   final price = TextEditingController();
   final seat = TextEditingController();
   final location = TextEditingController();
+  String? selectedClassification;
 
   List<File?> _images = [];
 
@@ -365,10 +366,13 @@ class _NewVehicleState extends State<NewVehicle> {
                 Container(
                   margin: EdgeInsets.only(top: 8),
                   padding: EdgeInsets.all(10),
-                  child: TextField(
-                    controller: status,
-                    keyboardType: TextInputType.name,
-                    textInputAction: TextInputAction.next,
+                  child: DropdownButtonFormField<String>(
+                    value: selectedClassification, // Selected value
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        selectedClassification = newValue!;
+                      });
+                    },
                     decoration: InputDecoration(
                       labelText: 'Classification',
                       suffixIcon: Icon(Icons.flight_class),
@@ -382,22 +386,27 @@ class _NewVehicleState extends State<NewVehicle> {
                         ),
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderSide:
-                        (BorderSide(width: 1.0, color: Colors.black)),
+                        borderSide: BorderSide(width: 1.0, color: Colors.black),
                         borderRadius: BorderRadius.all(
                           Radius.circular(17),
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide:
-                        (BorderSide(width: 1.0, color: Colors.blue)),
+                        borderSide: BorderSide(width: 1.0, color: Colors.blue),
                         borderRadius: BorderRadius.all(
                           Radius.circular(17),
                         ),
                       ),
                     ),
+                    items: <String>['Featured', 'affordable', 'regular'].map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
                   ),
                 ),
+
                 Container(
                   margin: EdgeInsets.only(top: 8),
                   padding: EdgeInsets.all(10),
@@ -516,34 +525,7 @@ class _NewVehicleState extends State<NewVehicle> {
     );
   }
 
-  // void addvehicle() async {
-  //   // Upload images to Firebase Storage
-  //   for (var imageFile in _images) {
-  //     if (imageFile != null) {
-  //       // You need to implement Firebase initialization before this step
-  //       final storageRef =
-  //       firebase_storage.FirebaseStorage.instance.ref().child(
-  //         'vehicle_images/${DateTime.now().millisecondsSinceEpoch}.jpg',
-  //       );
-  //       await storageRef.putFile(imageFile);
-  //       // Get download URL of uploaded image (you can save this URL to Firestore or Realtime Database)
-  //       final String downloadURL = await storageRef.getDownloadURL();
-  //       // Here you can do something with the download URL, like saving it to Firestore
-  //       print('Download URL: $downloadURL');
-  //     }
-  //   }
-  //
-  //   // Rest of your code...
-  //   Navigator.pushReplacementNamed(context, '/homepage', arguments: {
-  //     'modelname': modelname.text,
-  //     'price': price.text,
-  //     'type': type.text,
-  //     'mobilenumber': mobilenumber.text,
-  //     'seat': seat.text,
-  //     'vehiclenumber': vehiclenumber.text,
-  //     'location': location.text,
-  //   });
-  // }
+
 
   Widget _imageSelectorContainer(int index) {
     return GestureDetector(
@@ -641,7 +623,7 @@ class _NewVehicleState extends State<NewVehicle> {
       'vehicleColor': vColor.text,
       'vehicle_number': vehiclenumber.text,
       'mobile_number': mobilenumber.text,
-      'status':status.text,
+      'status':selectedClassification!,
       'type': type.text,
       'seats': int.tryParse(seat.text) ?? 0,
       'price': double.tryParse(price.text) ?? 0.0,
@@ -653,13 +635,6 @@ class _NewVehicleState extends State<NewVehicle> {
           MaterialPageRoute(builder: (context) => Admin()),
               (Route<dynamic> route) => false);
       displayToast("Added Successfully ", context);
-      // modelname.clear();
-      // vehiclenumber.clear();
-      // mobilenumber.clear();
-      // type.clear();
-      // seat.clear();
-      // price.clear();
-      // location.clear();
     }).catchError((error) {
       // Handle errors
       print("Failed to add vehicle: $error");

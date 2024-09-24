@@ -35,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Container(
                 margin: EdgeInsets.only(top: heightDevice * 0.10),
                 child: Text(
-                  "Sign In",
+                  "",
                   style: TextStyle(
                     color: Color(0XFF091424),
                     fontSize: 15,
