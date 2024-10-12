@@ -185,7 +185,7 @@ class _AdminState extends State<Admin> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              _buildMenuOption(context, "Add New Vehicle", "assets/images/addnew.png", NewVehicle()),
+              _buildMenuOption(context, "Add New Vehicle", "assets/images/addnew.png", AddVehiclePage()),
               _buildMenuOption(context, "Check Rentals", "assets/images/addc.png", RentalVehicles()),
             ],
           ),
