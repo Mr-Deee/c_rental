@@ -37,24 +37,66 @@ class _RentalVehiclesState extends State<RentalVehicles> {
     });
   }
 
+  void _showDeleteConfirmationDialog(Map<dynamic, dynamic> vehicle) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Delete Vehicle"),
+          content: Text("Are you sure you want to delete this vehicle?"),
+          actions: [
+            TextButton(
+              child: Text("Cancel"),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+            TextButton(
+              child: Text("Delete"),
+              onPressed: () {
+                _deleteVehicle(vehicle);
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _deleteVehicle(Map<dynamic, dynamic> vehicle) {
+    String vehicleId = vehicle['id'];
+    if (vehicleId != null && vehicleId.isNotEmpty) {
+      databaseReference.child(vehicleId).remove().then((_) {
+        fetchRentedVehicles(); // Refresh the list after deletion
+      }).catchError((error) {
+        print('Delete failed: $error');
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: Colors.white,
+    return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Rented Cars'),
-        backgroundColor: Colors.blueAccent,
+        title: Text('Rented Cars', style: TextStyle(color: Colors.black)),
+        backgroundColor: Colors.blue,
+        elevation: 23,
       ),
       body: isLoading
           ? Center(child: CupertinoActivityIndicator())
           : ListView.builder(
         itemCount: rentedList.length,
         itemBuilder: (context, index) {
+          final vehicle = rentedList[index];
+
           return Card(
             color: Colors.white,
             margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
             child: ListTile(
               leading: CachedNetworkImage(
-                imageUrl: rentedList[index]['imageUrl'][0],
+                imageUrl: vehicle['imageUrl']?[0] ?? 'https://via.placeholder.com/60',
                 placeholder: (context, url) => CupertinoActivityIndicator(),
                 errorWidget: (context, url, error) => Icon(Icons.error),
                 width: 60,
@@ -64,43 +106,21 @@ class _RentalVehiclesState extends State<RentalVehicles> {
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    rentedList[index]['brand'],
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    '${rentedList[index]['rentalDays'].toString()} days',
-                    style: TextStyle(color: Colors.grey),
-                  ),
+                  Text(vehicle['brand'] ?? 'Unknown brand', style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text('${vehicle['rentalDays']?.toString() ?? 'N/A'} days', style: TextStyle(color: Colors.grey)),
                 ],
               ),
               subtitle: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('By: ${rentedList[index]['userName']}'),
-                  Row(
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.check_circle, color: Colors.lightGreenAccent),
-                        onPressed: () {
-                          // Add action here
-                        },
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.cancel, color: Colors.redAccent),
-                        onPressed: () {
-                          // Add action here
-                        },
-                      ),
-                    ],
-                  ),
+                  Text('By: ${vehicle['userName'] ?? 'Unknown user'}'),
                 ],
               ),
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => VehicleDetails(vehicle: rentedList[index]),
+                    builder: (context) => VehicleDetails(vehicle: vehicle, onUpdate: fetchRentedVehicles),
                   ),
                 );
               },
@@ -114,8 +134,42 @@ class _RentalVehiclesState extends State<RentalVehicles> {
 
 class VehicleDetails extends StatelessWidget {
   final Map<dynamic, dynamic> vehicle;
+  final Function onUpdate;
 
-  VehicleDetails({required this.vehicle});
+  VehicleDetails({required this.vehicle, required this.onUpdate});
+
+  void sendEmail(String subject, String body) {
+    // Implement your email sending logic here
+    // Example: Use a Firebase Function or an email API to send an email
+  }
+
+  void handleApprove() {
+    String subject = "Vehicle Approved";
+    String body = "Your rental vehicle ${vehicle['brand']} has been approved.";
+    sendEmail(subject, body);
+    // Optionally, you can show a success message
+  }
+
+  void handleReject(BuildContext context) {
+    String subject = "Vehicle Rejected";
+    String body = "Your rental vehicle ${vehicle['brand']} has been rejected.";
+    sendEmail(subject, body);
+    // Delete the vehicle after sending the email
+    _deleteVehicle(vehicle);
+    // Optionally, you can show a success message
+  }
+
+  void _deleteVehicle(Map<dynamic, dynamic> vehicle) {
+    String vehicleId = vehicle['id'];
+    if (vehicleId != null && vehicleId.isNotEmpty) {
+      final databaseReference = FirebaseDatabase.instance.ref().child("Rented");
+      databaseReference.child(vehicleId).remove().then((_) {
+        print('Vehicle deleted successfully.');
+      }).catchError((error) {
+        print('Delete failed: $error');
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -138,27 +192,18 @@ class VehicleDetails extends StatelessWidget {
               fit: BoxFit.cover,
             ),
             SizedBox(height: 16.0),
-            Text(
-              'Client: ${vehicle['userName']}',
-              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-            ),
+            Text('Client: ${vehicle['userName']}', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
             SizedBox(height: 8.0),
-            Text(
-              'Rental Days: ${vehicle['rentalDays']}',
-              style: TextStyle(fontSize: 16.0),
-            ),
+            Text('Rental Days: ${vehicle['rentalDays']}', style: TextStyle(fontSize: 16.0)),
             SizedBox(height: 8.0),
-            Text(
-              'Total Price: ${vehicle['totalPrice']}',
-              style: TextStyle(fontSize: 16.0, color: Colors.green),
-            ),
+            Text('Total Price: ${vehicle['totalPrice']}', style: TextStyle(fontSize: 16.0, color: Colors.green)),
             SizedBox(height: 16.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton.icon(
                   onPressed: () {
-                    // Add action here
+                    handleApprove();
                   },
                   icon: Icon(Icons.check_circle, color: Colors.white),
                   label: Text('Approve'),
@@ -167,7 +212,7 @@ class VehicleDetails extends StatelessWidget {
                 SizedBox(width: 16.0),
                 ElevatedButton.icon(
                   onPressed: () {
-                    // Add action here
+                    handleReject(context);
                   },
                   icon: Icon(Icons.cancel, color: Colors.white),
                   label: Text('Reject'),

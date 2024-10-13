@@ -89,7 +89,7 @@ class _VehicleInventoryState extends State<VehicleInventory> {
               errorWidget: (context, url, error) => Icon(Icons.error),
             ),
             title: Text(vehicle['model_name']),
-            subtitle: Text(vehicle['price'].toString()),
+            subtitle: Text(vehicle['price_per_day'].toString()),
             trailing: IconButton(
               icon: Icon(Icons.delete),
               onPressed: () => _showDeleteConfirmationDialog(vehicle['id']),

@@ -106,7 +106,7 @@ class _AdminState extends State<Admin> {
             onPressed: () {
               _showSignOutDialog(context);
             },
-            icon: const Icon(Icons.logout, color: Colors.white),
+            icon: const Icon(Icons.logout, color: Colors.black),
           ),
         ],
       ),
@@ -221,7 +221,7 @@ class _AdminState extends State<Admin> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(imagePath, width: 80, height: 80),
+                  Image.asset(imagePath, width: 60, height: 60),
                   const SizedBox(height: 8),
                   Text(
                     title,
