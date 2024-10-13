@@ -64,7 +64,7 @@ class _VehiclePageState extends State<VehiclePage> {
                 name: value['model_name'],
                 seats: value['seats'].toString(),
                 speed: double.parse(value['speed'].toString()),
-                pricePerDay: double.parse(value['price'].toString()),
+                pricePerDay: double.parse(value['price_per_day'].toString()),
                 imageUrl: value['VehicleImages'],
                 vehiclenumber: value['vehicle_number'],
                 transmission: value['Transmission'],
