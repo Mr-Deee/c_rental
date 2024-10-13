@@ -62,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _fetchFeaturedVehicles() async {
     databaseReference
         .child('vehicles')
-        .orderByChild('status')
+        .orderByChild('classification')
         .equalTo('Featured')
         .once()
         .then((DatabaseEvent event) {
@@ -73,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
             name: value['model_name'],
             imageUrl: value['VehicleImages'],
             speed: double.parse(value['speed'].toString()),
-            pricePerDay: double.parse(value['price'].toString()),
+            pricePerDay: double.parse(value['price_per_day'].toString()),
           ));
         });
       });
@@ -83,8 +83,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _fetchAffordableVehicles() async {
     databaseReference
         .child('vehicles')
-        .orderByChild('status')
-        .equalTo('affordable')
+        .orderByChild('classification')
+        .equalTo('Affordable')
         .once()
         .then((DatabaseEvent event) {
       Map<dynamic, dynamic>? values = event.snapshot.value as Map?;
@@ -95,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
             name: value['model_name'],
             imageUrl: value['VehicleImages'],
             speed: double.parse(value['speed'].toString()),
-            pricePerDay: double.parse(value['price'].toString()),
+            pricePerDay: double.parse(value['price_per_day'].toString()),
             seats: value['seats'].toString(),
             vehiclenumber: value['vehicle_number'],
             transmission: value['Transmission'],

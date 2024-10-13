@@ -21,6 +21,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
   TextEditingController vehiclemake = TextEditingController();
   TextEditingController vColor = TextEditingController();
   TextEditingController vehiclenumber = TextEditingController();
+  TextEditingController speed = TextEditingController();
   TextEditingController mobilenumber = TextEditingController();
   TextEditingController type = TextEditingController();
   TextEditingController seat = TextEditingController();
@@ -80,11 +81,12 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
 
     Map<String, dynamic> vehicleData = {
       'model_name': modelname.text,
-      'transmission': transmission.text,
+      'Transmission': transmission.text,
       'vehicle_make': vehiclemake.text,
       'color': vColor.text,
       'vehicle_number': vehiclenumber.text,
       'mobile_number': mobilenumber.text,
+      'speed': speed.text,
       'type': type.text,
       'seats': seat.text,
       'price_per_day': price.text,
@@ -178,8 +180,8 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                   _buildTextField(
                       'Vehicle Make', Icons.directions_car, vehiclemake),
                   _buildTextField('Vehicle Color', Icons.color_lens, vColor),
-                  _buildTextField(
-                      'Vehicle Number', Icons.numbers_rounded, vehiclenumber),
+                  _buildTextField('Vehicle Number', Icons.numbers_rounded, vehiclenumber),
+                  _buildTextField('Speed', Icons.numbers_rounded, speed),
                   _buildTextField('Mobile Number', Icons.phone_android_rounded,
                       mobilenumber),
                   _buildTextField('Type', Icons.class_, type),
