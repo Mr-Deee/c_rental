@@ -32,16 +32,18 @@ class _LoginScreenState extends State<LoginScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+
               Container(
-                margin: EdgeInsets.only(top: heightDevice * 0.10),
-                child: Text(
-                  "",
-                  style: TextStyle(
-                    color: Color(0XFF091424),
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'RobotoMono',
-                  ),
+                margin: EdgeInsets.only(top: heightDevice * 0.050),
+                child: Image.asset(
+                  "assets/images/logo1.png",
+                  height: 78,
+                  // style: TextStyle(
+                  //   color: Color(0XFF091424),
+                  //   fontSize: 15,
+                  //   fontWeight: FontWeight.bold,
+                  //   fontFamily: 'RobotoMono',
+                  // ),
                 ),
               ),
               Lottie.asset('assets/animations/car-animation.json', height: heightDevice * 0.25),

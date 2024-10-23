@@ -66,11 +66,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
               color: Colors.blueAccent,
             ),
           ),
+
+          Container(
+            margin: EdgeInsets.only(top: heightDevice * 0.050),
+            child: Image.asset(
+              "assets/images/logo1.png",
+              height: 78,
+              // style: TextStyle(
+              //   color: Color(0XFF091424),
+              //   fontSize: 15,
+              //   fontWeight: FontWeight.bold,
+              //   fontFamily: 'RobotoMono',
+              // ),
+            ),
+          ),
           Container(
 
-            margin: EdgeInsets.only(top: heightDevice * 0.03),
+            margin: EdgeInsets.only(top: heightDevice * 0.11),
             child: Row(
               children: [
+
                 Lottie.asset('assets/animations/car-animation.json', width: 250),
                 // Text("Benjis\n Rentals", style:GoogleFonts.akshar(
                 //   fontSize: 30,
