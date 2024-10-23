@@ -13,7 +13,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
   final ImagePicker _picker = ImagePicker();
   List<File?> images = [null, null, null];
   final DatabaseReference dbRef =
-      FirebaseDatabase.instance.ref().child('vehicles');
+  FirebaseDatabase.instance.ref().child('vehicles');
 
   // Controllers for form fields
   TextEditingController modelname = TextEditingController();
@@ -28,6 +28,8 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
   TextEditingController price = TextEditingController();
   TextEditingController location = TextEditingController();
   String? selectedClassification;
+
+  int _currentStep = 0;
 
   // Function to pick images
   Future<void> _pickImage(int index) async {
@@ -54,10 +56,9 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
 
   // Function to save vehicle data along with image URLs
   Future<void> _saveVehicleData(BuildContext context) async {
-    // Show the progress indicator
     showDialog(
       context: context,
-      barrierDismissible: false, // Prevent dismissal by tapping outside
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
           content: Row(
@@ -97,43 +98,83 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
 
     try {
       await dbRef.push().set(vehicleData);
-      Navigator.of(context).pop(); // Close the progress dialog
+      Navigator.of(context).pop();
 
-      // Show success message and navigate back
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Vehicle added successfully!'),
       ));
-      Navigator.of(context).pop(); // Navigate back to the previous page
+      Navigator.of(context).pop();
     } catch (error) {
-      Navigator.of(context).pop(); // Close the progress dialog
-
-      // Show error message
+      Navigator.of(context).pop();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Failed to add vehicle: $error'),
       ));
     }
   }
 
-  // Image selector container with styling
   Widget _imageSelectorContainer(int index) {
-    return GestureDetector(
-      onTap: () => _pickImage(index),
-      child: Container(
-        width: 100,
-        height: 100,
-        decoration: BoxDecoration(
-          color: Colors.blue[50],
-          border: Border.all(width: 2, color: Colors.blueAccent),
-          borderRadius: BorderRadius.circular(15),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: GestureDetector(
+        onTap: () => _pickImage(index),
+        child: Container(
+          width: 100,
+          height: 100,
+          decoration: BoxDecoration(
+            color: Colors.blue[50],
+            border: Border.all(width: 2, color: Colors.blueAccent),
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: images[index] != null
+              ? ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: Image.file(images[index]!, fit: BoxFit.cover),
+          )
+              : Icon(Icons.add_a_photo, size: 40, color: Colors.blueAccent),
         ),
-        child: images[index] != null
-            ? ClipRRect(
-                borderRadius: BorderRadius.circular(15),
-                child: Image.file(images[index]!, fit: BoxFit.cover),
-              )
-            : Icon(Icons.add_a_photo, size: 40, color: Colors.blueAccent),
       ),
     );
+  }
+
+  Widget _buildStepContent() {
+    switch (_currentStep) {
+      case 0:
+        return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _imageSelectorContainer(0),
+              _imageSelectorContainer(1),
+              _imageSelectorContainer(2),
+            ],
+          ),
+        );
+      case 1:
+        return Column(
+          children: [
+            _buildTextField('Model Name', Icons.car_rental_rounded, modelname),
+            _buildTextField('Transmission', Icons.settings, transmission),
+            _buildTextField('Vehicle Make', Icons.directions_car, vehiclemake),
+            _buildTextField('Vehicle Color', Icons.color_lens, vColor),
+            _buildTextField('Vehicle Number', Icons.numbers_rounded, vehiclenumber),
+            _buildTextField('Speed', Icons.numbers_rounded, speed),
+          ],
+        );
+      case 2:
+        return Column(
+          children: [
+            _buildTextField('Mobile Number', Icons.phone_android_rounded, mobilenumber),
+            _buildTextField('Type', Icons.class_, type),
+            _buildTextField('No. of Seats', Icons.chair, seat, isNumber: true),
+            _buildDropdownField(),
+            _buildTextField('Price/Day', Icons.attach_money, price, isNumber: true),
+            _buildTextField('Your Location', Icons.pin_drop, location),
+          ],
+        );
+      default:
+        return Container();
+    }
   }
 
   @override
@@ -155,61 +196,59 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
         ),
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: ListView(
-            children: [
-              Column(
-                children: <Widget>[
-                  // Image pickers
-                  Container(
-                    margin: EdgeInsets.only(top: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        _imageSelectorContainer(0),
-                        _imageSelectorContainer(1),
-                        _imageSelectorContainer(2),
-                      ],
-                    ),
-                  ),
-                  // Other input fields
-                  _buildTextField(
-                      'Model Name', Icons.car_rental_rounded, modelname),
-                  _buildTextField('Transmission', Icons.settings, transmission),
-                  _buildTextField(
-                      'Vehicle Make', Icons.directions_car, vehiclemake),
-                  _buildTextField('Vehicle Color', Icons.color_lens, vColor),
-                  _buildTextField('Vehicle Number', Icons.numbers_rounded, vehiclenumber),
-                  _buildTextField('Speed', Icons.numbers_rounded, speed),
-                  _buildTextField('Mobile Number', Icons.phone_android_rounded,
-                      mobilenumber),
-                  _buildTextField('Type', Icons.class_, type),
-                  _buildTextField('No. of Seats', Icons.chair, seat,
-                      isNumber: true),
-                  _buildDropdownField(),
-                  _buildTextField('Price/Day', Icons.attach_money, price,
-                      isNumber: true),
-                  _buildTextField('Your Location', Icons.pin_drop, location),
-                  // Submit button
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () async {
-                    await  _saveVehicleData(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                      textStyle:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    child: Text('Add Vehicle'),
-                  ),
-                ],
+        child: Theme(
+          data: ThemeData(
+            colorScheme: ColorScheme.light(
+              primary: Colors.blue, // Color for active step
+              onPrimary: Colors.white, // Text color for active step
+              secondary: Colors.green, // Color for completed steps
+              onSecondary: Colors.white, // Text color for completed steps
+              surface: Colors.grey, // Color for inactive steps
+              onSurface: Colors.black, // Text color for inactive steps
+            ),
+          ),
+          child: Stepper(
+            currentStep: _currentStep,
+            onStepContinue: () {
+              if (_currentStep < 2) {
+                setState(() {
+                  _currentStep++;
+                });
+              } else {
+                _saveVehicleData(context);
+              }
+            },
+            onStepCancel: () {
+              if (_currentStep > 0) {
+                setState(() {
+                  _currentStep--;
+                });
+              }
+            },
+            steps: [
+              Step(
+                title: Text('Upload Images'),
+                content: _buildStepContent(),
+                isActive: _currentStep == 0,
+                state: _currentStep > 0
+                    ? StepState.complete
+                    : StepState.indexed,
+              ),
+              Step(
+                title: Text('Vehicle Details'),
+                content: _buildStepContent(),
+                isActive: _currentStep == 1,
+                state: _currentStep > 1
+                    ? StepState.complete
+                    : StepState.indexed,
+              ),
+              Step(
+                title: Text('Other Information'),
+                content: _buildStepContent(),
+                isActive: _currentStep == 2,
+                state: _currentStep == 2
+                    ? StepState.indexed
+                    : StepState.complete,
               ),
             ],
           ),
@@ -267,11 +306,11 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
             borderSide: BorderSide(color: Colors.blueAccent, width: 1),
           ),
         ),
-        items: <String>['Featured', 'Affordable', 'Regular']
+        items: <String>['Featured', 'Affordable', 'General']
             .map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
-            child: Text(value, style: TextStyle(color: Colors.blueAccent)),
+            child: Text(value),
           );
         }).toList(),
       ),

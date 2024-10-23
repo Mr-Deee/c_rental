@@ -221,15 +221,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         padding: EdgeInsets.all(8.0),
                         child: Container(
                           decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [Colors.blueAccent, Colors.lightBlueAccent], // Define the gradient colors
-                              begin: Alignment.topLeft, // Starting point of the gradient
-                              end: Alignment.bottomRight, // Ending point of the gradient
-                            ),
+                            // gradient: LinearGradient(
+                            //   colors: [Colors.blueAccent, Colors.lightBlueAccent], // Define the gradient colors
+                            //   begin: Alignment.topLeft, // Starting point of the gradient
+                            //   end: Alignment.bottomRight, // Ending point of the gradient
+                            // ),
                             borderRadius: BorderRadius.circular(10), // Optional: add border radius for rounded corners
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.blue.withOpacity(0.3), // shadow color
+                                color: Colors.transparent.withOpacity(0.3), // shadow color
                                 spreadRadius: 2, // spread radius
                                 blurRadius: 12, // blur radius
                                 offset: Offset(0, 3), // changes position of shadow
