@@ -370,8 +370,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: logos
                         .map((logo) => GestureDetector(
                       onTap: () {
-                        // Handle navigation here
-                      },
+                        setState(() {
+                          selectedLogo = logo.name;
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => VehiclePage(
+                                  vehicleName: selectedLogo,
+                                ),
+                              ));
+                        });                      },
                       child: Image.asset(
                         logo.imageUrl,
                         width: 50,
@@ -405,29 +413,56 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () {
-                          // Handle navigation here
-                        },
+                          String vehicleId = affordablevehicles[index]
+                              .id; // Assuming id is a field in the affordablevehicles model
+                          print(vehicleId);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      VehicleDetailsPage(
+                                        vehicleData:
+                                        affordablevehicles[index]
+                                            .toMap(),
+                                        vehicleId: vehicleId,
+                                      )));                        },
                         child: Container(
                           margin: const EdgeInsets.all(15.0),
                           width: screenWidth * 0.6, // 60% of the screen width
+
                           decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(15),
+                            gradient: LinearGradient(
+                              colors: [Color(0xFF0047AB), Color(0xFF82B1FF)],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black12,
+                                color: Colors.black.withOpacity(0.1),
                                 blurRadius: 8,
-                                offset: Offset(2, 4),
+                                offset: Offset(0, 4),
                               ),
                             ],
                           ),
+                          // decoration: BoxDecoration(
+                          //   color: Colors.white,
+                          //   borderRadius: BorderRadius.circular(10),
+                          //   boxShadow: [
+                          //     BoxShadow(
+                          //       color: Colors.black12,
+                          //       blurRadius: 8,
+                          //       offset: Offset(2, 4),
+                          //     ),
+                          //   ],
+                          // ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(10),
                             child: Stack(
                               children: [
                                 Image.network(
                                   affordablevehicles[index].imageUrl[0],
-                                  fit: BoxFit.cover,
+                                  fit: BoxFit.contain,
                                   width: double.infinity,
                                   height: double.infinity,
                                 ),
