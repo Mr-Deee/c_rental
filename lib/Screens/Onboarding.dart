@@ -1,106 +1,189 @@
 import 'package:flutter/material.dart';
-import 'package:introduction_screen/introduction_screen.dart';
 import 'package:c_rental/Screens/SignUpScreen.dart';
 
 class OnBoardingPage extends StatefulWidget {
   OnBoardingPage({Key? key}) : super(key: key);
+
   @override
   _OnBoardingPageState createState() => _OnBoardingPageState();
 }
 
 class _OnBoardingPageState extends State<OnBoardingPage> {
-  final introKey = GlobalKey<IntroductionScreenState>();
+  final PageController _pageController = PageController();
+  int _currentPage = 0;
 
-  void _onIntroEnd(context) {
-    Navigator.of(context).pushAndRemoveUntil(
+  final List<Map<String, String>> _onboardingData = [
+    {
+      "title": "Welcome to Benji's  Rental",
+      "body": "Your trusted partner for all your car rental needs. Experience quality service and convenience like never before",
+      "image": "assets/images/esc.png",
+    },
+    {
+      "title": "Wide Range of Cars",
+      "body": "Choose from a variety of vehicles to suit your needs, whether it's for business, travel, or leisure",
+      "image": "assets/images/all.png",
+    },
+    {
+      "title": "Luxury Fleets",
+      "body": "Enjoy the best deals at the best rates with our premium selection of luxury vehicles.",
+      "image": "assets/images/luxury.png",
+    },
+    {
+      "title": "Smooth Payment",
+      "body": "Conveniently pay rental fees through our secure in-app payment system."
+          "for short-term or long-term rentals.",
+      "image": "assets/images/Payment.png",
+    },
+  ];
+
+  void _onSkip() {
+    Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (context) => SignUpScreen()),
-          (Route<dynamic> route) => false,
     );
   }
 
-  Widget buildImage(String assetPath, double height) {
-    return Center(
-      child: Image.asset(
-        assetPath,
-        fit: BoxFit.cover,
-        height: height,
-      ),
-    );
+  void _onNext() {
+    if (_currentPage < _onboardingData.length - 1) {
+      _pageController.nextPage(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    } else {
+      _onSkip();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Color(0xFF0047AB), Color(0xFF2D97FF)],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF0047AB), Color(0xFF2D97FF)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Column(
+          children: [
+            Expanded(
+              child: PageView.builder(
+                controller: _pageController,
+                onPageChanged: (index) {
+                  setState(() {
+                    _currentPage = index;
+                  });
+                },
+                itemCount: _onboardingData.length,
+                itemBuilder: (context, index) {
+                  final data = _onboardingData[index];
+                  return _buildPage(
+                    title: data["title"]!,
+                    body: data["body"]!,
+                    image: data["image"]!,
+                    isLastPage: index == _onboardingData.length - 1,
+                  );
+                },
+              ),
+            ),
+            _buildBottomControls(),
+          ],
         ),
       ),
-      child: IntroductionScreen(
-        globalBackgroundColor: Colors.transparent,
-        key: introKey,
-        pages: [
-          PageViewModel(
-            title: "Welcome to Car Rental",
-            body: "Easily find and rent cars near you.",
-            image: buildImage('assets/images/esc.png', 300.0),
-            decoration: PageDecoration(
-              titleTextStyle: TextStyle(
-                  fontSize: 28.0, fontWeight: FontWeight.bold, color: Colors.white),
-              bodyTextStyle: TextStyle(fontSize: 18.0, color: Colors.white70),
-              imageFlex: 3,
+    );
+  }
+
+  Widget _buildPage({
+    required String title,
+    required String body,
+    required String image,
+    required bool isLastPage,
+  }) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Image.asset(
+          image,
+          height: MediaQuery.of(context).size.height * 0.4,
+          fit: BoxFit.contain,
+        ),
+        const SizedBox(height: 30),
+        Text(
+          title,
+          style: const TextStyle(
+            fontSize: 28.0,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 15),
+        Text(
+          body,
+          style: const TextStyle(
+            fontSize: 18.0,
+            color: Colors.white70,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        if (isLastPage)
+          Padding(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: ElevatedButton(
+              onPressed: _onSkip,
+              style: ElevatedButton.styleFrom(
+                foregroundColor: Color(0xFF0047AB), backgroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(
+                    vertical: 12.0, horizontal: 30.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+              ),
+              child: const Text(
+                "Get Started",
+                style: TextStyle(fontSize: 16.0),
+              ),
             ),
           ),
-          PageViewModel(
-            title: "Wide Range of Cars",
-            body: "Choose from a variety of vehicles to suit your needs.",
-            image: buildImage('assets/images/onboarding2.png', 250.0),
-            decoration: PageDecoration(
-              titleTextStyle: TextStyle(
-                  fontSize: 26.0, fontWeight: FontWeight.w600, color: Colors.amber),
-              bodyTextStyle: TextStyle(fontSize: 16.0, color: Colors.white70),
-              imageFlex: 4,
+      ],
+    );
+  }
+
+  Widget _buildBottomControls() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          TextButton(
+            onPressed: _onSkip,
+            child: const Text(
+              "Skip",
+              style: TextStyle(color: Colors.white70),
             ),
           ),
-          PageViewModel(
-            title: "Affordable Prices",
-            body: "Enjoy the best deals at the best rates.",
-            image: buildImage('assets/images/onboarding3.png', 220.0),
-            decoration: PageDecoration(
-              titleTextStyle: TextStyle(
-                  fontSize: 24.0, fontWeight: FontWeight.bold, color: Colors.cyanAccent),
-              bodyTextStyle: TextStyle(fontSize: 15.0, color: Colors.white70),
-              imageFlex: 5,
+          Row(
+            children: List.generate(
+              _onboardingData.length,
+                  (index) => Container(
+                margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                width: _currentPage == index ? 12.0 : 8.0,
+                height: 8.0,
+                decoration: BoxDecoration(
+                  color: _currentPage == index ? Colors.white : Colors.white38,
+                  borderRadius: BorderRadius.circular(4.0),
+                ),
+              ),
             ),
           ),
-          PageViewModel(
-            title: "Delivered to Your Doorstep",
-            body: "Conveniently delivered right to you.",
-            image: buildImage('assets/images/onboarding4.png', 280.0),
-            decoration: PageDecoration(
-              titleTextStyle: TextStyle(
-                  fontSize: 30.0, fontWeight: FontWeight.bold, color: Colors.redAccent),
-              bodyTextStyle: TextStyle(fontSize: 20.0, color: Colors.white),
-              imageFlex: 2,
+          TextButton(
+            onPressed: _onNext,
+            child: Text(
+              _currentPage == _onboardingData.length - 1 ? "Done" : "Next",
+              style: const TextStyle(color: Colors.white70),
             ),
           ),
         ],
-        onDone: () => _onIntroEnd(context),
-        showSkipButton: true,
-        skip: const Text('Skip', style: TextStyle(color: Colors.white70)),
-        next: const Icon(Icons.arrow_forward, color: Colors.white70),
-        done: const Text('Done',
-            style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white)),
-        dotsDecorator: const DotsDecorator(
-          size: Size(10.0, 10.0),
-          color: Color(0xFFBDBDBD),
-          activeSize: Size(22.0, 10.0),
-          activeShape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(25.0)),
-          ),
-        ),
       ),
     );
   }
