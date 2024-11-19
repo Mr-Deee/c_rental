@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
@@ -69,8 +70,17 @@ class _DrawerUserState extends State<DrawerUser> {
         children: [
           Container(
             height: heightDevice * 0.3,
-            color: Color(0xFF0047AB),
-            child: Column(children: [
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0xFF0047AB), Color(0xFF186CFF)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
+
+            child: Row
+
+              (children: [
               SizedBox(height: 34,),
 
               Container(
@@ -94,50 +104,71 @@ class _DrawerUserState extends State<DrawerUser> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "${userprovider!.firstname}",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500),
+                          Row(
+                            children: [
+                              Text(
+                                "${userprovider!.firstname}",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500),
+                              ),Text(
+                                userprovider.lastname.toString(),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ],
                           ),
+
                           Text(
-                            userprovider.lastname.toString(),
+                            userprovider.email.toString(),
                             style: TextStyle(
-                                color: Colors.white,
+                                color: Colors.grey,
                                 fontSize: 18,
                                 fontWeight: FontWeight.w500),
                           ),
                         ],
                       ),
-                    )
+                    ),
+
+                    Container(
+                      margin: EdgeInsets.only(top: heightDevice * 0.11),
+                      child: SizedBox(
+
+                        child: TextButton(
+                          onPressed: signOutFromGoogle,
+                          style: TextButton.styleFrom(
+                            backgroundColor: Colors.transparent,
+                          ),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(children: [
+                              Icon(
+                                Icons.logout,
+                                color: Colors.white,
+                              ),
+
+                            ]),
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
 
-              Text(
-                userprovider.email.toString(),
-                style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500),
-              ),
+
+
+
             ]),
           ),
           Container(
             child: Column(children: [
               Column(children: [
-                // ListTile(
-                //   title: const Text('All Cars'),
-                //   leading: Icon(Icons.car_rental, color: Colors.black),
-                //   onTap: () {
-                //     Navigator.pop(context);
-                //     Navigator.push(
-                //         context,
-                //         MaterialPageRoute(
-                //             builder: (context) => VehicleScreen()));
-                //   },
-                // ),
+
+
                 ListTile(
                   leading: Icon(Icons.person, color: Colors.black),
                   title: const Text('Profile'),
@@ -168,18 +199,7 @@ class _DrawerUserState extends State<DrawerUser> {
                     //             MyReservationsScreen(userId)));
                   },
                 ),
-                // ListTile(
-                //   leading:
-                //       Icon(Icons.favorite_rounded, color: Color(0XFFF01E1F)),
-                //   title: const Text('Favourites'),
-                //   onTap: () {
-                //     Navigator.pop(context);
-                //     Navigator.push(
-                //         context,
-                //         MaterialPageRoute(
-                //             builder: (context) => FavoriteScreen()));
-                //   },
-                // ),
+
                 ListTile(
                   title: const Text('Report'),
                   leading: Icon(Icons.report, color: Colors.black),
@@ -199,31 +219,7 @@ class _DrawerUserState extends State<DrawerUser> {
                   },
                 ),
               ]),
-              Container(
-                margin: EdgeInsets.only(top: heightDevice * 0.1),
-                child: SizedBox(
-                  width: widthDevice * 0.25,
-                  child: TextButton(
-                    onPressed: signOutFromGoogle,
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colors.red,
-                    ),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(children: [
-                        Icon(
-                          Icons.logout,
-                          color: Colors.white,
-                        ),
-                        Text(
-                          "Log Out",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ]),
-                    ),
-                  ),
-                ),
-              )
+
             ]),
           ),
         ],

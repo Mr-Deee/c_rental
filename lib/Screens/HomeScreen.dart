@@ -227,123 +227,141 @@ class _HomeScreenState extends State<HomeScreen> {
                     scrollDirection: Axis.horizontal,
                     itemCount: vehicles.length,
                     itemBuilder: (context, index) {
-                      return Container(
-                            margin: const EdgeInsets.all(5.0),
-                            width: screenWidth * 0.96, // 60% of the screen width
+                      return GestureDetector(
+                        onTap: (){
+                          String vehicleId =vehicles[index]
+                              .id; // Assuming id is a field in the affordablevehicles model
+                          print(vehicleId);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      VehicleDetailsPage(
+                                        vehicleData:
+                                        vehicles[index]
+                                            .toMap(),
+                                        vehicleId: vehicleId,
+                                      )));
 
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              gradient: LinearGradient(
-                                colors: [Color(0xFF0047AB), Color(0xFF82B1FF)],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  blurRadius: 8,
-                                  offset: Offset(0, 4),
+                        },
+                        child: Container(
+                              margin: const EdgeInsets.all(5.0),
+                              width: screenWidth * 0.96, // 60% of the screen width
+
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                gradient: LinearGradient(
+                                  colors: [Color(0xFF0047AB), Color(0xFF82B1FF)],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
                                 ),
-                              ],
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Stack(
-                                children: [
-                                  Image.network(
-                                    vehicles[index].imageUrl[0],
-                                    fit: BoxFit.contain,
-                                    width: double.infinity,
-                                    height: double.infinity,
-                                  ),
-                                  Positioned(
-                                    bottom: 10,
-                                    left: 10,
-                                    right: 10,
-                                    child: Container(
-                                      padding: EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                        color: Colors.black.withOpacity(0.6),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Image.asset(
-                                                'assets/images/addc.png',
-                                                width: 24,
-                                                height: 24,
-                                              ),
-                                              SizedBox(width: 6),
-                                              Text(
-                                                '${vehicles[index].name}',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Container(
-                                            width: 1, // Thickness of the divider
-                                            height: 24, // Adjust height based on your content
-                                            color: Colors.white.withOpacity(0.5), // Divider color
-                                          ),
-                                          // First Row
-                                          Row(
-                                            children: [
-                                              Image.asset(
-                                                'assets/images/SPEEDO.png',
-                                                width: 24,
-                                                height: 24,
-                                              ),
-                                              SizedBox(width: 6),
-                                              Text(
-                                                '${vehicles[index].speed} mph',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 14,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          // Divider
-                                          Container(
-                                            width: 1, // Thickness of the divider
-                                            height: 24, // Adjust height based on your content
-                                            color: Colors.white.withOpacity(0.5), // Divider color
-                                          ),
-                                          // Second Row
-                                          Row(
-                                            children: [
-                                              Image.asset(
-                                                'assets/images/money.png',
-                                                width: 24,
-                                                height: 24,
-                                              ),
-                                              SizedBox(width: 6),
-                                              Text(
-                                                '\$${vehicles[index].pricePerDay}',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          // Divider
-                                        ],
-                                      ),
-                                    ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.1),
+                                    blurRadius: 8,
+                                    offset: Offset(0, 4),
                                   ),
                                 ],
                               ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Stack(
+                                  children: [
+                                    Image.network(
+                                      vehicles[index].imageUrl[0],
+                                      fit: BoxFit.contain,
+                                      width: double.infinity,
+                                      height: double.infinity,
+                                    ),
+                                    Positioned(
+                                      bottom: 10,
+                                      left: 10,
+                                      right: 10,
+                                      child: Container(
+                                        padding: EdgeInsets.all(10),
+                                        decoration: BoxDecoration(
+                                          color: Colors.black.withOpacity(0.6),
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Image.asset(
+                                                  'assets/images/addc.png',
+                                                  width: 24,
+                                                  height: 24,
+                                                ),
+                                                SizedBox(width: 6),
+                                                Text(
+                                                  '${vehicles[index].name}',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Container(
+                                              width: 1, // Thickness of the divider
+                                              height: 24, // Adjust height based on your content
+                                              color: Colors.white.withOpacity(0.5), // Divider color
+                                            ),
+                                            // First Row
+                                            Row(
+                                              children: [
+                                                Image.asset(
+                                                  'assets/images/SPEEDO.png',
+                                                  width: 24,
+                                                  height: 24,
+                                                ),
+                                                SizedBox(width: 6),
+                                                Text(
+                                                  '${vehicles[index].speed} mph',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            // Divider
+                                            Container(
+                                              width: 1, // Thickness of the divider
+                                              height: 24, // Adjust height based on your content
+                                              color: Colors.white.withOpacity(0.5), // Divider color
+                                            ),
+                                            // Second Row
+                                            Row(
+                                              children: [
+                                                Image.asset(
+                                                  'assets/images/money.png',
+                                                  width: 24,
+                                                  height: 24,
+                                                ),
+                                                SizedBox(width: 6),
+                                                Text(
+                                                  '\$${vehicles[index].pricePerDay}',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            // Divider
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-                          );
+                      );
 
                     },
                   ),
