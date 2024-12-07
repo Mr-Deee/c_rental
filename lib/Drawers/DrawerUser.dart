@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -78,84 +79,87 @@ class _DrawerUserState extends State<DrawerUser> {
               ),
             ),
 
-            child: Row
-
-              (children: [
+            child: Row(children: [
               SizedBox(height: 34,),
 
               Container(
                 margin: EdgeInsets.only(
                     top: heightDevice * 0.05, left: widthDevice * 0.06),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      child: CircleAvatar(
-                        backgroundColor:Colors.grey,
-                        radius: 34,
-                        child: Text(userprovider!.firstname??[0].toString()??"",
-                          style: TextStyle(fontSize: 22, color: Colors.white),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(
-                          top: heightDevice * 0.015, left: widthDevice * 0.03),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                "${userprovider!.firstname}",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500),
-                              ),Text(
-                                userprovider.lastname.toString(),
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                            ],
-                          ),
-
-                          Text(
-                            userprovider.email.toString(),
-                            style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    Container(
-                      margin: EdgeInsets.only(top: heightDevice * 0.11),
-                      child: SizedBox(
-
-                        child: TextButton(
-                          onPressed: signOutFromGoogle,
-                          style: TextButton.styleFrom(
-                            backgroundColor: Colors.transparent,
-                          ),
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(children: [
-                              Icon(
-                                Icons.logout,
-                                color: Colors.white,
-                              ),
-
-                            ]),
+                child: SingleChildScrollView(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        child: CircleAvatar(
+                          backgroundColor:Colors.grey,
+                          radius: 34,
+                          child: Text(userprovider!.firstname??[0].toString()??"",
+                            style: TextStyle(fontSize: 22, color: Colors.white),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                      Container(
+                        margin: EdgeInsets.only(
+                            top: heightDevice * 0.015, left: widthDevice * 0.03),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "${userprovider!.firstname}",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500),
+                                ),Text(
+                                  userprovider.lastname.toString(),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ],
+                            ),
+                  
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Text(
+                                userprovider.email.toString(),
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                  
+                      Container(
+                        margin: EdgeInsets.only(top: heightDevice * 0.11),
+                        child: SizedBox(
+                  
+                          child: TextButton(
+                            onPressed: signOutFromGoogle,
+                            style: TextButton.styleFrom(
+                              backgroundColor: Colors.transparent,
+                            ),
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(children: [
+                                Icon(
+                                  Icons.logout,
+                                  color: Colors.white,
+                                ),
+                  
+                              ]),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
 
@@ -215,7 +219,62 @@ class _DrawerUserState extends State<DrawerUser> {
                   title: const Text('Contact us'),
                   leading: Icon(Icons.quick_contacts_mail, color: Colors.black),
                   onTap: () {
-                    Navigator.pop(context);
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          title: Row(
+                            children: [
+                              Icon(Icons.contact_phone, color: Colors.blue.shade900),
+                              const SizedBox(width: 10),
+                              const Text(
+                                'Contact Us',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ListTile(
+                                leading: Icon(Icons.email, color: Colors.blue.shade900),
+                                title: const Text('Email'),
+                                subtitle: const Text('support@yourapp.com'),
+                              ),
+                              Divider(color: Colors.blue.shade100),
+                              ListTile(
+                                leading: Icon(Icons.phone, color: Colors.blue.shade900),
+                                title: const Text('Phone'),
+                                subtitle: const Text('+123 456 7890'),
+                              ),
+                              Divider(color: Colors.blue.shade100),
+                              ListTile(
+                                leading: Icon(Icons.location_on, color: Colors.blue.shade900),
+                                title: const Text('Address'),
+                                subtitle: const Text('123 YourApp St, YourCity, Country'),
+                              ),
+                            ],
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text(
+                                'Close',
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   },
                 ),
               ]),

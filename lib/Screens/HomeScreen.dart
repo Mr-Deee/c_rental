@@ -80,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
             vehiclenumber: value['vehicle_number'],
             transmission: value['Transmission'].toString(),
             EnginCap: value['EngineCapacity'].toString(),
-            location: value['location'].toString(),
+            location: value['location'].toString(), vehiclemake:value[ 'vehicle_make'],
           ));
         });
       });
@@ -109,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
             vehiclenumber: value['vehicle_number'],
             transmission: value['Transmission'],
             EnginCap: value['EngineCapacity'].toString(),
-            location: value['location'].toString(),
+            location: value['location'].toString(), vehiclemake: ['vehicle_make'].toString(),
           ));
         });
       });
@@ -564,6 +564,7 @@ class _HomeScreenState extends State<HomeScreen> {
 class Vehicle {
   final String name;
   final String vehiclenumber;
+  final String vehiclemake;
   final String seats;
   final String EnginCap;
   final String id;
@@ -575,6 +576,7 @@ class Vehicle {
 
   Vehicle({
     required this.id,
+    required this.vehiclemake,
     required this.name,
     required this.imageUrl,
     required this.speed,
@@ -594,6 +596,7 @@ class Vehicle {
       'seats': seats,
       'speed': speed,
       'price': pricePerDay,
+      'vehicle_make': vehiclemake,
       'VehicleImages': imageUrl,
       'vehicle_number': vehiclenumber,
       'location': location,
@@ -606,6 +609,7 @@ class Vehicle {
 class affordablevehicle {
   final String name;
   final String id;
+  final String vehiclemake;
   final String seats;
   final String vehiclenumber;
   final String location;
@@ -618,6 +622,8 @@ class affordablevehicle {
   affordablevehicle({
     required this.name,
     required this.id,
+    required this.vehiclemake,
+
     required this.vehiclenumber,
     required this.transmission,
     required this.EnginCap,
@@ -633,6 +639,8 @@ class affordablevehicle {
     return {
       id: id,
       'model_name': name,
+      'vehicle_make': vehiclemake,
+
       'seats': seats,
       'speed': speed,
       'price': pricePerDay,

@@ -24,6 +24,7 @@ class _VehiclePageState extends State<VehiclePage> {
     super.initState();
     _searchVehicles();
   }
+
   // Future<Map<String, dynamic>> _getVehicleDetails(String modelName) async {
   //   DatabaseReference vehiclesRef =
   //   FirebaseDatabase.instance.ref().child('vehicles');
@@ -41,10 +42,11 @@ class _VehiclePageState extends State<VehiclePage> {
   //     return {};
   //   }
   // }
- String? vehid;
+  String? vehid;
+
   void _searchVehicles() {
     DatabaseReference vehiclesRef =
-        FirebaseDatabase.instance.ref().child('vehicles');
+    FirebaseDatabase.instance.ref().child('vehicles');
 
     vehiclesRef
         .orderByChild('model_name')
@@ -60,7 +62,9 @@ class _VehiclePageState extends State<VehiclePage> {
           setState(() {
             vehicles.add(
               affordablevehicle(
-                id: key, // Assigning the Firebase key as ID
+                id: key,
+
+                // Assigning the Firebase key as ID
                 name: value['model_name'],
                 seats: value['seats'].toString(),
                 speed: double.parse(value['speed'].toString()),
@@ -70,6 +74,7 @@ class _VehiclePageState extends State<VehiclePage> {
                 transmission: value['Transmission'],
                 EnginCap: value['EngineCapacity'].toString(),
                 location: value['location'],
+                 vehiclemake: value['vehicle_make']
               ),
             );
           });
@@ -77,55 +82,163 @@ class _VehiclePageState extends State<VehiclePage> {
       }
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.vehicleName),
+        backgroundColor: Colors.blue.shade800,
       ),
       body: isLoading
           ? Center(
-              child: CircularProgressIndicator(),
-            )
+        child: CircularProgressIndicator(),
+      )
           : vehicles.isEmpty
-              ? Center(
-                  child: Text('No vehicles found'),
-                )
-              : ListView.builder(
-                  itemCount: vehicles.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
-                      onTap: () async {
-                        String vehicleId = vehicles[index].id;
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => VehicleDetailsPage(
-                              vehicleData: vehicles[index].toMap(), vehicleId: vehicleId,
+          ? Center(
+        child: Text(
+          'No vehicles found',
+          style: TextStyle(fontSize: 18, color: Colors.grey),
+        ),
+      )
+          : ListView.builder(
+        itemCount: vehicles.length,
+        itemBuilder: (BuildContext context, int index) {
+          return GestureDetector(
+            onTap: () async {
+              String vehicleId = vehicles[index].id;
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => VehicleDetailsPage(
+                    vehicleData: vehicles[index].toMap(),
+                    vehicleId: vehicleId,
+                  ),
+                ),
+              );
+            },
+            child:Card(
+              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+              elevation: 5,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  gradient: LinearGradient(
+                    colors: [Colors.blue.shade400, Colors.blue.shade700],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
+                child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Vehicle Image
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.network(
+                              vehicles[index].imageUrl[0],
+                              height: 120,
+                              width: 120,
+                              fit: BoxFit.cover,
                             ),
                           ),
-                        );
-                      },
-                      child: Card(
-                        margin: EdgeInsets.all(10),
-                        child: ListTile(
-                          title: Text(vehicles[index].name),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              // Text('Manufacturer: ${vehicles[index]['manufacturer']}'),
-                              // Text('Year: ${vehicles[index]['year']}'),
-                              // Add more details as needed
-                            ],
+                          const SizedBox(width: 10),
+                          // Expanded Column for Vehicle Details
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // Vehicle Name and Make
+                                Row(
+                                  children: [
+                                    Text(
+                                      vehicles[index].name,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.blue.shade900,
+                                      ),
+                                    ),
+                                    SizedBox(width: 12),
+                                    Text(
+                                      vehicles[index].vehiclemake,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.blue.shade900,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 5),
+                                // Row for Price and Location
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    // Price
+                                    Row(
+                                      children: [
+                                        Icon(Icons.monetization_on,
+                                            size: 18, color: Colors.green),
+                                        Text(
+                                          " \$${vehicles[index].pricePerDay}",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.grey.shade100,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    // Location
+                                    Text(
+                                      vehicles[index].location,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 10),
+                                // Row for Manufacturer and Other Details
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    // Manufacturer Icon and Name
+                                    // Row(
+                                    //   children: [
+                                    //     Icon(Icons.directions_car,
+                                    //         size: 18, color: Colors.blue.shade400),
+                                    //     const SizedBox(width: 5),
+                                    //     Text(
+                                    //       vehicles[index].name,
+                                    //       style: TextStyle(
+                                    //         fontSize: 14,
+                                    //         color: Colors.grey.shade700,
+                                    //       ),
+                                    //     ),
+                                    //   ],
+                                    // ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                          leading: Image.network(vehicles[index].imageUrl
-                              [0]), // You can display images here too
-                        ),
+                        ],
                       ),
-                    );
-                  },
-                ),
+                    ),
+
+              ),
+            )
+
+          );
+        },
+      ),
     );
   }
+
 }

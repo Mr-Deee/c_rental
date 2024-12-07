@@ -1,4 +1,4 @@
-import 'package:c_rental/Screens/Admin.dart';
+import 'package:c_rental/Screens/Admin/Admin.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lottie/lottie.dart';

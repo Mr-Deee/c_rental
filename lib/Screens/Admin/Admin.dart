@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'AddVehicle.dart';
+import 'ClientComplaints.dart';
 
 class Admin extends StatefulWidget {
   const Admin({super.key});
@@ -197,6 +198,52 @@ class _AdminState extends State<Admin> {
               _buildMenuOption(context, "Payment & Users", "assets/images/addc.png", PaymentandUsers()),
             ],
           ),
+
+          const SizedBox(height: 16),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+
+          FadeInLeft(
+          child: GestureDetector(
+          onTap: () {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Complaints()));
+    },
+      child: Card(
+        elevation: 8,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Container(
+          width: 380,
+          height: 100,
+          padding: const EdgeInsets.all(16),
+          child: SingleChildScrollView(
+            child: Row(
+
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Image.asset('assets/images/img.png', width: 60, height: 60),
+                const SizedBox(height: 8),
+                Text(
+                  "Client Complaints",
+                  style: GoogleFonts.openSans(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    ),
+    )
+            ],
+          )
         ],
       ),
     );
