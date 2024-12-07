@@ -50,7 +50,7 @@ dependencies:
   intl:
   font_awesome_flutter:
   animate_do: ^3.3.4
-  google_fonts: ^6.2.1
+  google_fonts:
   bouncing_widget: ^2.0.0
   firebase_storage: ^12.2.0
   firebase_database: ^11.1.0

@@ -118,13 +118,16 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 15),
-        Text(
-          body,
-          style: const TextStyle(
-            fontSize: 18.0,
-            color: Colors.white70,
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Text(
+            body,
+            style: const TextStyle(
+              fontSize: 18.0,
+              color: Colors.white70,
+            ),
+            textAlign: TextAlign.center,
           ),
-          textAlign: TextAlign.center,
         ),
         if (isLastPage)
           Padding(

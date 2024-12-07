@@ -57,276 +57,96 @@ class _SignUpScreenState extends State<SignUpScreen> {
     double widthDevice = MediaQuery.of(context).size.width;
     double heightDevice = MediaQuery.of(context).size.height;
     return Scaffold(
-
       body: Container(
-        child: Stack(children: [
-          Container(
-            height: heightDevice,
-            decoration: BoxDecoration(
-              color: Colors.blueAccent,
-            ),
-          ),
-
-          Container(
-            margin: EdgeInsets.only(top: heightDevice * 0.050),
-            child: Image.asset(
-              "assets/images/logo1.png",
-              height: 78,
-              // style: TextStyle(
-              //   color: Color(0XFF091424),
-              //   fontSize: 15,
-              //   fontWeight: FontWeight.bold,
-              //   fontFamily: 'RobotoMono',
-              // ),
-            ),
-          ),
-          Container(
-
-            margin: EdgeInsets.only(top: heightDevice * 0.11),
-            child: Row(
-              children: [
-
-                Lottie.asset('assets/animations/car-animation.json', width: 250),
-                // Text("Benjis\n Rentals", style:GoogleFonts.akshar(
-                //   fontSize: 30,
-                //   fontStyle: FontStyle.normal,
-                // ),
-                //),
-
-
-        ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(18.0),
-            child: Container(
-              margin: EdgeInsets.only(top: heightDevice * 0.25),
+        child: Stack(
+          children: [
+            // Background Container
+            Container(
+              height: heightDevice,
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(15),
-                  topRight: Radius.circular(15),
-                  bottomLeft: Radius.circular(25)
+                color: Colors.blueAccent,
+              ),
+            ),
+            // Logo Positioned
+            Positioned(
+              top: heightDevice * 0.10,
+              left: 0,
+              right: 0,
+              child: Align(
+                alignment: Alignment.center,
+                child: Image.asset(
+                  "assets/images/logo1.png",
+                  height: 88,
                 ),
               ),
-              child: SingleChildScrollView(
+            ),
+            // Animation Positioned
+            Positioned(
+              top: heightDevice * 0.18, // Adjust based on height spacing
+              left: 0,
+              right: 0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Lottie.asset(
+                    'assets/animations/car-animation.json',
+                    width: 257,
+                  ),
+                ],
+              ),
+            ),
+            // Form Positioned
+            Positioned(
+              top: heightDevice * 0.35, // Adjust spacing for even alignment
+              left: 0,
+              right: 0,
+              child: Padding(
+                padding: const EdgeInsets.all(18.0),
                 child: Container(
-                  child: Form(
-                    key: _registerFormKey,
-                    child: Column(
-                      children: [
-
-
-                          SizedBox(height: 17,),
-                        Container(
-                          width: widthDevice * 0.8,
-                          child: TextField(
-
-                            keyboardType: TextInputType.emailAddress,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(15),
+                      topRight: Radius.circular(15),
+                      bottomLeft: Radius.circular(25),
+                    ),
+                  ),
+                  child: SingleChildScrollView(
+                    child: Form(
+                      key: _registerFormKey,
+                      child: Column(
+                        children: [
+                          SizedBox(height: 17),
+                          _buildTextField(
                             controller: _firstnameController,
-                            style: TextStyle(
-                              color: Colors.black87, // Text color
-                              fontSize: 16.0, // Font size
-                            ),
-                            decoration: InputDecoration(
-                              labelText: 'First Name',
-                              labelStyle: TextStyle(
-                                color: Colors.grey[600], // Label color
-                                fontSize: 14.0, // Label font size
-                              ),
-                              hintText: 'First Name',
-                              hintStyle: TextStyle(
-                                color: Colors.grey[400], // Hint color
-                                fontSize: 14.0, // Hint font size
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0), // Rounded corners
-                                borderSide: BorderSide(
-                                  color: Color(0xff98e6e6), // Border color when enabled
-                                  width: 1.0, // Border width
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0), // Rounded corners
-                                borderSide: BorderSide(
-                                  color: Colors.blue, // Border color when focused
-                                  width: 2.0, // Border width
-                                ),
-                              ),
-                              filled: true,
-                              fillColor: Colors.grey[100],
-                              // Background color
-                              contentPadding: EdgeInsets.symmetric(
-                                vertical: 15.0,
-                                horizontal: 20.0, // Padding inside the TextField
-                              ),
-                              prefixIcon: Icon(
-                                Icons.person, // Email icon
-                                color: Colors.grey[600],
-                              ),
-                            ),                          ),
-                        ),
-                        SizedBox(height: 17,),
-
-                        Container(
-                          width: widthDevice * 0.8,
-                          child: TextField(
-                            decoration: InputDecoration(
-                              labelText: 'Last Name',
-                              labelStyle: TextStyle(
-                                color: Colors.grey[600], // Label color
-                                fontSize: 14.0, // Label font size
-                              ),
-                              hintText: 'Last Name',
-                              hintStyle: TextStyle(
-                                color: Colors.grey[400], // Hint color
-                                fontSize: 14.0, // Hint font size
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0), // Rounded corners
-                                borderSide: BorderSide(
-                                  color: Color(0xff98e6e6), // Border color when enabled
-                                  width: 1.0, // Border width
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0), // Rounded corners
-                                borderSide: BorderSide(
-                                  color: Colors.blue, // Border color when focused
-                                  width: 2.0, // Border width
-                                ),
-                              ),
-                              filled: true,
-                              fillColor: Colors.grey[100],
-                              // Background color
-                              contentPadding: EdgeInsets.symmetric(
-                                vertical: 15.0,
-                                horizontal: 20.0, // Padding inside the TextField
-                              ),
-                              prefixIcon: Icon(
-                                Icons.person, // Email icon
-                                color: Colors.grey[600],
-                              ),
-                            ),
-                            keyboardType: TextInputType.name,
+                            label: "First Name",
+                            icon: Icons.person, widthDevice: widthDevice/0.98
+                          ),
+                          SizedBox(height: 17),
+                          _buildTextField(
                             controller: _lastnameController,
-                          //  validator: emailValidator,
+                            label: "Last Name",
+                            icon: Icons.person, widthDevice: widthDevice/0.98,
                           ),
-                        ),
-                        SizedBox(height: 17,),
-
-                        Container(
-                          width: widthDevice * 0.8,
-                          child: TextField(
-                            decoration: InputDecoration(
-                              labelText: 'Email',
-                              labelStyle: TextStyle(
-                                color: Colors.grey[600], // Label color
-                                fontSize: 14.0, // Label font size
-                              ),
-                              hintText: 'Email',
-                              hintStyle: TextStyle(
-                                color: Colors.grey[400], // Hint color
-                                fontSize: 14.0, // Hint font size
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0), // Rounded corners
-                                borderSide: BorderSide(
-                                  color: Color(0xff98e6e6), // Border color when enabled
-                                  width: 1.0, // Border width
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0), // Rounded corners
-                                borderSide: BorderSide(
-                                  color: Colors.blue, // Border color when focused
-                                  width: 2.0, // Border width
-                                ),
-                              ),
-                              filled: true,
-                              fillColor: Colors.grey[100],
-                              // Background color
-                              contentPadding: EdgeInsets.symmetric(
-                                vertical: 15.0,
-                                horizontal: 20.0, // Padding inside the TextField
-                              ),
-                              prefixIcon: Icon(
-                                Icons.email, // Email icon
-                                color: Colors.grey[600],
-                              ),
-                            ),
-                            keyboardType: TextInputType.emailAddress,
+                          SizedBox(height: 17),
+                          _buildTextField(
                             controller: _emailController,
-                           // validator: emailValidator,
+                            label: "Email",
+                            icon: Icons.email,
+                            keyboardType: TextInputType.emailAddress, widthDevice: widthDevice/0.98,
                           ),
-                        ),
-                        SizedBox(height: 17,),
-
-                        Container(
-                          width: widthDevice * 0.8,
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              labelText: 'Password',
-                              labelStyle: TextStyle(
-                                color: Colors.grey[600], // Label color
-                                fontSize: 14.0, // Label font size
-                              ),
-                              hintText: 'Password',
-                              hintStyle: TextStyle(
-                                color: Colors.grey[400], // Hint color
-                                fontSize: 14.0, // Hint font size
-                              ),
-
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0), // Rounded corners
-                                borderSide: BorderSide(
-                                  color: Color(0xff98e6e6), // Border color when enabled
-                                  width: 1.0, // Border width
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0), // Rounded corners
-                                borderSide: BorderSide(
-                                  color: Colors.blue, // Border color when focused
-                                  width: 2.0, // Border width
-                                ),
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0), // Rounded corners
-                                borderSide: BorderSide(
-                                  color: Colors.white, // Border color
-                                  width: 0.0, // Border width
-                                ),
-                              ),
-                              filled: true,
-                              fillColor: Colors.grey[100],
-                              // Background color
-                              contentPadding: EdgeInsets.symmetric(
-                                vertical: 15.0,
-                                horizontal: 20.0, // Padding inside the TextField
-                              ),
-                              prefixIcon: Icon(
-                                Icons.password, // Email icon
-                                color: Colors.grey[600],
-                              ),
-                            ),
-                            obscureText: true,
-                            controller: _passwordController,
-                            validator: pwdValidator,
+                          SizedBox(height: 17),
+                          _buildPasswordField(
+                            controller: _passwordController, 
+                            widthDevice: widthDevice/0.98,
                           ),
-                        ),
-                        SizedBox(height: 11,),
-
-
-                        Container(
-                          // margin: EdgeInsets.only(top: widthDevice * 0.1),
-                          child: SizedBox(
+                          SizedBox(height: 20),
+                          SizedBox(
                             width: widthDevice * 0.8,
                             height: heightDevice * 0.09,
                             child: TextButton(
-                              onPressed:() async {
+                              onPressed: () async {
                                 registerNewUser(context);
-                                // firebaseRegistration();},
                               },
                               child: Text(
                                 'Sign Up',
@@ -345,14 +165,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                             ),
                           ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: widthDevice * 0.04),
-                          child: Row(
+                          SizedBox(height: heightDevice * 0.03),
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "Already have an account ! ",
+                                "Already have an account?",
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontFamily: 'RobotoMono',
@@ -377,15 +195,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               )
                             ],
                           ),
-                        )
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-        ]),
+          ],
+        )
       ),
     );
   }
@@ -404,8 +222,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               .doc(value.user!.uid)
               .set({
             "email": _emailController.text,
-            "password":  _passwordController.text,
-
+            "password": _passwordController.text,
           });
         }).then((value) => Navigator.pushAndRemoveUntil(
                 context,
@@ -459,60 +276,59 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   width: double.infinity,
                   decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(20.0)
-                  ),
+                      borderRadius: BorderRadius.circular(20.0)),
                   child: Padding(
                       padding: EdgeInsets.all(15.0),
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
                           children: [
-                            SizedBox(width: 6.0,),
+                            SizedBox(
+                              width: 6.0,
+                            ),
                             CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                  Colors.black),),
-                            SizedBox(width: 26.0,),
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Colors.black),
+                            ),
+                            SizedBox(
+                              width: 26.0,
+                            ),
                             Text("Signing up,please wait...")
-
                           ],
                         ),
                       ))));
         });
 
-
     firebaseUser = (await _firebaseAuth
-        .createUserWithEmailAndPassword(
-        email: _emailController.text, password: _passwordController.text)
-        .catchError((errMsg) {
+            .createUserWithEmailAndPassword(
+                email: _emailController.text,
+                password: _passwordController.text)
+            .catchError((errMsg) {
       Navigator.pop(context);
       displayToast("Error" + errMsg.toString(), context);
     }))
         .user;
 
-
     if (firebaseUser != null) // user created
 
-        {
+    {
       //save use into to database
 
       Map userDataMap = {
-
         "email": _emailController.text.trim().toString(),
         "FirstName": _firstnameController.text.trim().toString(),
         "LastName": _lastnameController.text.trim().toString(),
         // "phoneNumber": fullPhoneNumber,
         "Password": _passwordController.text.trim().toString(),
-
       };
       Clientsdb.child(firebaseUser!.uid).set(userDataMap);
       // Admin.child(firebaseUser!.uid).set(userDataMap);
 
       currentfirebaseUser = firebaseUser;
-            Navigator.push(
+      Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) =>
-              LoginScreen(),
+          builder: (context) => LoginScreen(),
         ),
       );
     } else {
@@ -526,8 +342,57 @@ class _SignUpScreenState extends State<SignUpScreen> {
       displayToast("user has not been created", context);
     }
   }
-
 }
+
+
+// Helper Method for TextFields
+Widget _buildTextField({
+  required TextEditingController controller,
+  required String label,
+  required IconData icon,
+  required double widthDevice, // Add widthDevice as a required parameter
+  TextInputType keyboardType = TextInputType.text,
+}) {
+
+
+  return Container(
+     width: widthDevice * 0.8,
+    child: TextField(
+      controller: controller,
+      keyboardType: keyboardType,
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: TextStyle(color: Colors.grey[600], fontSize: 14.0),
+        hintText: label,
+        hintStyle: TextStyle(color: Colors.grey[400], fontSize: 14.0),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide(color: Color(0xff98e6e6), width: 1.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide(color: Colors.blue, width: 2.0),
+        ),
+        filled: true,
+        fillColor: Colors.grey[100],
+        prefixIcon: Icon(icon, color: Colors.grey[600]),
+      ),
+    ),
+  );
+}
+
+// Helper Method for Password Field
+Widget _buildPasswordField({required TextEditingController controller,  required double widthDevice, // Add widthDevice as a required parameter
+}) {
+  return _buildTextField(
+    controller: controller,
+    label: "Password",
+    icon: Icons.password, widthDevice: widthDevice,
+    
+  );
+}
+
+
 displayToast(String message, BuildContext context) {
   Fluttertoast.showToast(msg: message);
 }
