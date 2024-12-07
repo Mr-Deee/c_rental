@@ -231,7 +231,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         onTap: (){
                           String vehicleId =vehicles[index]
                               .id; // Assuming id is a field in the affordablevehicles model
-                          print(vehicleId);
+                          print(ved);
                           Navigator.push(
                               context,
                               MaterialPageRoute(
