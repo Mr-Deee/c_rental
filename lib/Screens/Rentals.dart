@@ -18,22 +18,29 @@ class _RentalVehiclesState extends State<RentalVehicles> {
   @override
   void initState() {
     super.initState();
-    fetchRentedVehicles();
+    _setupRealtimeListener();
   }
 
-  void fetchRentedVehicles() {
-    databaseReference.once().then((DatabaseEvent event) {
-      List<Map<dynamic, dynamic>> tempList = [];
-      Map<dynamic, dynamic>? values = event.snapshot.value as Map?;
+  void _setupRealtimeListener() {
+    databaseReference.onValue.listen((DatabaseEvent event) {
+      if (event.snapshot.value != null) {
+        List<Map<dynamic, dynamic>> tempList = [];
+        final Map<dynamic, dynamic> values = event.snapshot.value as Map;
 
-      values?.forEach((key, value) {
-        tempList.add(value);
-      });
+        values.forEach((key, value) {
+          tempList.add(value as Map<dynamic, dynamic>);
+        });
 
-      setState(() {
-        rentedList = tempList;
-        isLoading = false;
-      });
+        setState(() {
+          rentedList = tempList;
+          isLoading = false;
+        });
+      } else {
+        setState(() {
+          rentedList = [];
+          isLoading = false;
+        });
+      }
     });
   }
 
@@ -65,12 +72,10 @@ class _RentalVehiclesState extends State<RentalVehicles> {
   }
 
   void _deleteVehicle(Map<dynamic, dynamic> vehicle) {
-    String vehicleId = vehicle['id'];
+    String? vehicleId = vehicle['id'];
     if (vehicleId != null && vehicleId.isNotEmpty) {
-      databaseReference.child(vehicleId).remove().then((_) {
-        fetchRentedVehicles(); // Refresh the list after deletion
-      }).catchError((error) {
-        print('Delete failed: $error');
+      databaseReference.child(vehicleId).remove().catchError((error) {
+        debugPrint('Delete failed: $error');
       });
     }
   }
@@ -86,6 +91,13 @@ class _RentalVehiclesState extends State<RentalVehicles> {
       ),
       body: isLoading
           ? Center(child: CupertinoActivityIndicator())
+          : rentedList.isEmpty
+          ? Center(
+        child: Text(
+          "No rented vehicles found.",
+          style: TextStyle(fontSize: 16, color: Colors.grey),
+        ),
+      )
           : ListView.builder(
         itemCount: rentedList.length,
         itemBuilder: (context, index) {
@@ -120,7 +132,10 @@ class _RentalVehiclesState extends State<RentalVehicles> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => VehicleDetails(vehicle: vehicle, onUpdate: fetchRentedVehicles),
+                    builder: (context) => VehicleDetails(
+                      vehicle: vehicle,
+                      onUpdate: () {},
+                    ),
                   ),
                 );
               },
@@ -140,33 +155,27 @@ class VehicleDetails extends StatelessWidget {
 
   void sendEmail(String subject, String body) {
     // Implement your email sending logic here
-    // Example: Use a Firebase Function or an email API to send an email
   }
 
   void handleApprove() {
     String subject = "Vehicle Approved";
     String body = "Your rental vehicle ${vehicle['brand']} has been approved.";
     sendEmail(subject, body);
-    // Optionally, you can show a success message
   }
 
   void handleReject(BuildContext context) {
     String subject = "Vehicle Rejected";
     String body = "Your rental vehicle ${vehicle['brand']} has been rejected.";
     sendEmail(subject, body);
-    // Delete the vehicle after sending the email
     _deleteVehicle(vehicle);
-    // Optionally, you can show a success message
   }
 
   void _deleteVehicle(Map<dynamic, dynamic> vehicle) {
-    String vehicleId = vehicle['id'];
+    String? vehicleId = vehicle['id'];
     if (vehicleId != null && vehicleId.isNotEmpty) {
       final databaseReference = FirebaseDatabase.instance.ref().child("Rented");
-      databaseReference.child(vehicleId).remove().then((_) {
-        print('Vehicle deleted successfully.');
-      }).catchError((error) {
-        print('Delete failed: $error');
+      databaseReference.child(vehicleId).remove().catchError((error) {
+        debugPrint('Delete failed: $error');
       });
     }
   }
@@ -202,18 +211,14 @@ class VehicleDetails extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton.icon(
-                  onPressed: () {
-                    handleApprove();
-                  },
+                  onPressed: handleApprove,
                   icon: Icon(Icons.check_circle, color: Colors.white),
                   label: Text('Approve'),
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
                 ),
                 SizedBox(width: 16.0),
                 ElevatedButton.icon(
-                  onPressed: () {
-                    handleReject(context);
-                  },
+                  onPressed: () => handleReject(context),
                   icon: Icon(Icons.cancel, color: Colors.white),
                   label: Text('Reject'),
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.red),

@@ -101,6 +101,7 @@ class _AdminState extends State<Admin> {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text("Dashboard", style: GoogleFonts.openSans(fontWeight: FontWeight.bold)),
         actions: [
           IconButton(
@@ -217,24 +218,38 @@ class _AdminState extends State<Admin> {
         ),
         child: Container(
           width: 380,
-          height: 100,
+          height: 130,
           padding: const EdgeInsets.all(16),
           child: SingleChildScrollView(
             child: Row(
-
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image.asset('assets/images/img.png', width: 60, height: 60),
-                const SizedBox(height: 8),
-                Text(
-                  "Client Complaints",
-                  style: GoogleFonts.openSans(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
-                  ),
-                  textAlign: TextAlign.center,
+                Row(
+
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Image.asset('assets/images/img.png', width: 110, height: 120),
+                    const SizedBox(height: 8),
+
+                  ],
                 ),
+                const SizedBox(width: 12,),
+
+                Center(
+                  child: Text(
+                    "Client Complaints",
+                    style: GoogleFonts.openSans(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                const SizedBox(width:33 ),
+
+
+                Icon(Icons.arrow_forward_ios)
               ],
             ),
           ),
@@ -256,6 +271,7 @@ class _AdminState extends State<Admin> {
           Navigator.of(context).push(MaterialPageRoute(builder: (context) => page));
         },
         child: Card(
+          color: Colors.white,
           elevation: 8,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
