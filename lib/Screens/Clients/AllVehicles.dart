@@ -12,7 +12,7 @@ class Vehicle {
   final String seats;
   final String vehiclenumber;
   final String transmission;
-  // final String engineCapacity;
+  final String engineCapacity;
   final String location;
 
   Vehicle({
@@ -24,7 +24,7 @@ class Vehicle {
     required this.seats,
     required this.vehiclenumber,
     required this.transmission,
-    // required this.engineCapacity,
+     required this.engineCapacity,
     required this.location,
   });
 
@@ -38,7 +38,7 @@ class Vehicle {
       seats: data['seats'].toString(),
       vehiclenumber: data['vehicle_number'],
       transmission: data['Transmission'].toString(),
-      // engineCapacity: data['EngineCapacity'].toString(),
+      engineCapacity: data['EngineCapacity'].toString(),
       location: data['location'],
     );
   }
@@ -53,7 +53,7 @@ class Vehicle {
       'seats': seats,
       'vehicle_number': vehiclenumber,
       'Transmission': transmission,
-      // 'engineCapacity': engineCapacity,
+      'EngineCapacity': engineCapacity,
       'location': location,
     };
   }

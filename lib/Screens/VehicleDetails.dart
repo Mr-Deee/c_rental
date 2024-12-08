@@ -191,7 +191,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
 
                    Center(
                       child: Row(children: [
-                          Text("\$${ widget.vehicleData['price']}/day",style: TextStyle(color: Colors.black,fontSize: 34),),
+                          Text("\$${ widget.vehicleData['price_per_day']}/day",style: TextStyle(color: Colors.black,fontSize: 34),),
 
                         ],
                       )),
