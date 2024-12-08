@@ -10,12 +10,13 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 
-import '../Drawers/DrawerUser.dart';
-import '../assistantmethods.dart';
+import '../../Drawers/DrawerUser.dart';
+import '../../assistantmethods.dart';
+import 'AllVehicles.dart';
 import 'IconVehicles.dart';
 import 'LoginScreen.dart';
-import 'ProfilUserScreen.dart';
-import 'VehicleDetails.dart';
+import '../ProfilUserScreen.dart';
+import '../VehicleDetails.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -144,7 +145,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
-    return Scaffold(
+    return
+      Scaffold(
         drawer: DrawerUser(),
 
         appBar: AppBar(
@@ -208,15 +210,40 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Featured Section Title
+                // Featured Section Title
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 18.0),
-                  child: Text(
-                    "Featured",
-                    style: TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF0047AB),
-                    ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween, // This ensures the "All" text is aligned to the far right
+                    children: [
+                      Text(
+                        "Featured",
+                        style: TextStyle(
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF0047AB),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          // Navigate to the new page showing all vehicles
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AllVehiclesPage(vehicles: vehicles),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          "All",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 // Affordable Vehicles

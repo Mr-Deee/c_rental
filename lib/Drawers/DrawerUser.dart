@@ -7,7 +7,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 import '../Constants/constants.dart';
-import '../Screens/LoginScreen.dart';
+import '../Screens/Clients/LoginScreen.dart';
 import '../Screens/ProfilUserScreen.dart';
 import '../Screens/ReportScreen.dart';
 import '../Users.dart';
@@ -242,19 +242,19 @@ class _DrawerUserState extends State<DrawerUser> {
                               ListTile(
                                 leading: Icon(Icons.email, color: Colors.blue.shade900),
                                 title: const Text('Email'),
-                                subtitle: const Text('support@yourapp.com'),
+                                subtitle: const Text('benjicab3@gmail.com'),
                               ),
                               Divider(color: Colors.blue.shade100),
                               ListTile(
                                 leading: Icon(Icons.phone, color: Colors.blue.shade900),
                                 title: const Text('Phone'),
-                                subtitle: const Text('+123 456 7890'),
+                                subtitle: const Text('0302528381'),
                               ),
                               Divider(color: Colors.blue.shade100),
                               ListTile(
                                 leading: Icon(Icons.location_on, color: Colors.blue.shade900),
                                 title: const Text('Address'),
-                                subtitle: const Text('123 YourApp St, YourCity, Country'),
+                                subtitle: const Text('Ablorh-Adjei community centre Old, Ashongman-Abokobi Rd, Accra'),
                               ),
                             ],
                           ),
@@ -277,6 +277,13 @@ class _DrawerUserState extends State<DrawerUser> {
                     );
                   },
                 ),
+                ListTile(
+                  title: const Text('About us'),
+                  leading: Icon(Icons.info, color: Colors.black),
+                  onTap: () {
+                    _showAboutDialog(context);
+                  },
+                ),
               ]),
 
             ]),
@@ -292,4 +299,122 @@ class _DrawerUserState extends State<DrawerUser> {
     Navigator.pushAndRemoveUntil(context,
         MaterialPageRoute(builder: (context) => LoginScreen()), (_) => false);
   }
+}
+void _showAboutDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) => Dialog(
+      backgroundColor: Colors.transparent,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.8,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.white, Colors.blue.shade100],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.info, size: 50, color: Colors.blue),
+                const SizedBox(height: 20),
+                Text(
+                  'Our Mission, Vision & Core Values',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 15),
+                Text(
+                  'We aim to become the industry leader in car rentals in Ghana by consistently innovating and providing top-notch customer experiences. Below are our core values:',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16),
+                ),
+                const SizedBox(height: 25),
+                GridView.count(
+                  shrinkWrap: true,
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 15,
+                  mainAxisSpacing: 15,
+                  children: [
+                    _buildHoverCardWithPopup(
+                      context: context,
+                      icon: Icons.lightbulb_outline,
+                      title: 'Innovation',
+                      description: 'We constantly innovate to meet customer needs efficiently.',
+                    ),
+                    _buildHoverCardWithPopup(
+                      context: context,
+                      icon: Icons.handshake_outlined,
+                      title: 'Customer Focus',
+                      description: 'Customer satisfaction is at the heart of everything we do.',
+                    ),
+                    _buildHoverCardWithPopup(
+                      context: context,
+                      icon: Icons.attach_money,
+                      title: 'Affordability',
+                      description: 'Affordable solutions tailored to everyone’s needs.',
+                    ),
+                    _buildHoverCardWithPopup(
+                      context: context,
+                      icon: Icons.emoji_events_outlined,
+                      title: 'Growth',
+                      description: 'We strive for growth to lead the rental industry in Ghana.',
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('Close', style: TextStyle(color: Colors.blue)),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+Widget _buildHoverCardWithPopup({
+  required BuildContext context,
+  required IconData icon,
+  required String title,
+  required String description,
+}) {
+  return MouseRegion(
+    onEnter: (event) {
+//      _showPopup(context, title, description);
+    },
+    onExit: (event) {
+      Navigator.pop(context);
+    },
+    child: Card(
+      elevation: 5,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 40, color: Colors.blue),
+            const SizedBox(height: 10),
+            Text(
+              title,
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
 }

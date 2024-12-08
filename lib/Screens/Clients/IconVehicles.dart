@@ -1,9 +1,9 @@
-import 'package:c_rental/Screens/HomeScreen.dart';
+import 'package:c_rental/Screens/Clients/HomeScreen.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'VehicleDetails.dart';
+import '../VehicleDetails.dart';
 
 class VehiclePage extends StatefulWidget {
   final String vehicleName;

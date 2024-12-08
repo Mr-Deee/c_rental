@@ -6,7 +6,7 @@ import 'package:lottie/lottie.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../Constants/constants.dart';
 import '../main.dart';
-import 'LoginScreen.dart';
+import 'Clients/LoginScreen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
