@@ -23,6 +23,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
   TextEditingController vehiclenumber = TextEditingController();
   TextEditingController speed = TextEditingController();
   TextEditingController mobilenumber = TextEditingController();
+  TextEditingController EngineCapacity = TextEditingController();
   TextEditingController type = TextEditingController();
   TextEditingController seat = TextEditingController();
   TextEditingController price = TextEditingController();
@@ -87,6 +88,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
       'color': vColor.text,
       'vehicle_number': vehiclenumber.text,
       'mobile_number': mobilenumber.text,
+      'EngineCapacity': EngineCapacity.text,
       'speed': speed.text,
       'type': type.text,
       'seats': seat.text,
@@ -165,6 +167,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
         return Column(
           children: [
             _buildTextField('Mobile Number', Icons.phone_android_rounded, mobilenumber),
+            _buildTextField('EngineCapacity', Icons.oil_barrel, EngineCapacity),
             _buildTextField('Type', Icons.class_, type),
             _buildTextField('No. of Seats', Icons.chair, seat, isNumber: true),
             _buildDropdownField(),

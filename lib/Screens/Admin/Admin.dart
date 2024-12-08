@@ -26,10 +26,7 @@ class _AdminState extends State<Admin> {
       .child('vehicles')
       .orderByChild("RentedStatus")
       .equalTo("rented");
-
-  final Query _clientRef = FirebaseDatabase.instance
-      .ref()
-      .child('Clients');
+  final Query _clientRef = FirebaseDatabase.instance.ref().child('Clients');
 
   int availableVehiclesCount = 0;
   int availablerentedvehicles = 0;
@@ -38,13 +35,13 @@ class _AdminState extends State<Admin> {
   @override
   void initState() {
     super.initState();
-    _fetchAvailableVehiclesCount();
-    _fetchAvailableRentedVehiclesCount();
-    _fetchAvailableClient();
+    _listenForAvailableVehicles();
+    _listenForRentedVehicles();
+    _listenForClients();
   }
 
-  void _fetchAvailableVehiclesCount() {
-    _vehiclesRef.once().then((DatabaseEvent event) {
+  void _listenForAvailableVehicles() {
+    _vehiclesRef.onValue.listen((DatabaseEvent event) {
       final data = event.snapshot.value as Map<dynamic, dynamic>?;
       if (data != null) {
         int count = 0;
@@ -60,8 +57,8 @@ class _AdminState extends State<Admin> {
     });
   }
 
-  void _fetchAvailableRentedVehiclesCount() {
-    _rentedRef.once().then((DatabaseEvent event) {
+  void _listenForRentedVehicles() {
+    _rentedRef.onValue.listen((DatabaseEvent event) {
       final data = event.snapshot.value as Map<dynamic, dynamic>?;
       if (data != null) {
         int count = 0;
@@ -77,8 +74,8 @@ class _AdminState extends State<Admin> {
     });
   }
 
-  void _fetchAvailableClient() {
-    _clientRef.once().then((DatabaseEvent event) {
+  void _listenForClients() {
+    _clientRef.onValue.listen((DatabaseEvent event) {
       final data = event.snapshot.value as Map<dynamic, dynamic>?;
       if (data != null) {
         int count = 0;
@@ -199,66 +196,58 @@ class _AdminState extends State<Admin> {
               _buildMenuOption(context, "Payment & Users", "assets/images/addc.png", PaymentandUsers()),
             ],
           ),
-
           const SizedBox(height: 16),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-
-          FadeInLeft(
-          child: GestureDetector(
-          onTap: () {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Complaints()));
-    },
-      child: Card(
-        elevation: 8,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: Container(
-          width: 380,
-          height: 130,
-          padding: const EdgeInsets.all(16),
-          child: SingleChildScrollView(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Row(
-
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Image.asset('assets/images/img.png', width: 110, height: 120),
-                    const SizedBox(height: 8),
-
-                  ],
-                ),
-                const SizedBox(width: 12,),
-
-                Center(
-                  child: Text(
-                    "Client Complaints",
-                    style: GoogleFonts.openSans(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
+              FadeInLeft(
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Complaints()));
+                  },
+                  child: Card(
+                    elevation: 8,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
                     ),
-                    textAlign: TextAlign.center,
+                    child: Container(
+                      width: 380,
+                      height: 130,
+                      padding: const EdgeInsets.all(16),
+                      child: SingleChildScrollView(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Image.asset('assets/images/img.png', width: 110, height: 120),
+                                const SizedBox(height: 8),
+                              ],
+                            ),
+                            const SizedBox(width: 12),
+                            Center(
+                              child: Text(
+                                "Client Complaints",
+                                style: GoogleFonts.openSans(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            const SizedBox(width: 33),
+                            const Icon(Icons.arrow_forward_ios),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-                const SizedBox(width:33 ),
-
-
-                Icon(Icons.arrow_forward_ios)
-              ],
-            ),
-          ),
-        ),
-      ),
-    ),
-    )
+              ),
             ],
-          )
+          ),
         ],
       ),
     );
