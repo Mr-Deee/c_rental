@@ -230,7 +230,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => AllVehiclesPage(vehicles: vehicles),
+                              builder: (context) => AllVehiclesPage(),
                             ),
                           );
                         },
@@ -622,7 +622,7 @@ class Vehicle {
       'model_name': name,
       'seats': seats,
       'speed': speed,
-      'price': pricePerDay,
+      'price_per_day': pricePerDay,
       'vehicle_make': vehiclemake,
       'VehicleImages': imageUrl,
       'vehicle_number': vehiclenumber,
@@ -670,7 +670,7 @@ class affordablevehicle {
 
       'seats': seats,
       'speed': speed,
-      'price': pricePerDay,
+      'price_per_day': pricePerDay,
       'VehicleImages': imageUrl,
       'vehicle_number': vehiclenumber,
       'location': location,
