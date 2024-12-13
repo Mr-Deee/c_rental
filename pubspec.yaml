@@ -64,6 +64,8 @@ dependencies:
 
 #  firebase_core_platform_interface:
 
+dependency_overrides:
+  win32: ^5.5.4
 
 dev_dependencies:
   flutter_test:
