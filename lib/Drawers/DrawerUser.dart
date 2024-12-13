@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../Constants/constants.dart';
 import '../Screens/Clients/LoginScreen.dart';
+import '../Screens/Clients/myreservation.dart';
 import '../Screens/ProfilUserScreen.dart';
 import '../Screens/ReportScreen.dart';
 import '../Users.dart';
@@ -196,11 +197,11 @@ class _DrawerUserState extends State<DrawerUser> {
                   title: const Text('My Reservations'),
                   onTap: () {
                     Navigator.pop(context);
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) =>
-                    //             MyReservationsScreen(userId)));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                RentedContainersPage()));
                   },
                 ),
 
