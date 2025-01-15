@@ -102,6 +102,8 @@ class _RentalVehiclesState extends State<RentalVehicles> {
         itemCount: rentedList.length,
         itemBuilder: (context, index) {
           final vehicle = rentedList[index];
+          final documentId = vehicle['id']; // Firebase document ID
+
 
           return Card(
             color: Colors.white,
@@ -126,6 +128,7 @@ class _RentalVehiclesState extends State<RentalVehicles> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('By: ${vehicle['userName'] ?? 'Unknown user'}'),
+                  Text('By: ${vehicle['ID'] ?? 'Unknown user'}'),
                 ],
               ),
               onTap: () {
@@ -156,17 +159,37 @@ class VehicleDetails extends StatelessWidget {
   void sendEmail(String subject, String body) {
     // Implement your email sending logic here
   }
-
   void handleApprove() {
-    String subject = "Vehicle Approved";
-    String body = "Your rental vehicle ${vehicle['brand']} has been approved.";
-    sendEmail(subject, body);
+    // String subject = "Vehicle Approved";
+    // String body = "Your rental vehicle ${vehicle['brand']} has been approved.";
+    // sendEmail(subject, body);
+
+    // Update the status in Firebase to "approved"
+    var vehicleId = vehicle['vehicleId'];
+    print("vecchid:$vehicleId");
+    if (vehicleId != null && vehicleId.isNotEmpty) {
+      final databaseReference = FirebaseDatabase.instance.ref().child("Rented");
+      databaseReference.child(vehicleId).update({'status': 'approved'}).catchError((error) {
+        debugPrint('Failed to update status: $error');
+      });
+    }
   }
 
   void handleReject(BuildContext context) {
     String subject = "Vehicle Rejected";
     String body = "Your rental vehicle ${vehicle['brand']} has been rejected.";
     sendEmail(subject, body);
+
+    // Update the status in Firebase to "rejected"
+    String? vehicleId = vehicle['id'];
+    if (vehicleId != null && vehicleId.isNotEmpty) {
+      final databaseReference = FirebaseDatabase.instance.ref().child("Rented");
+      databaseReference.child(vehicleId).update({'status': 'rejected'}).catchError((error) {
+        debugPrint('Failed to update status: $error');
+      });
+    }
+
+    // Optionally, remove the vehicle if necessary
     _deleteVehicle(vehicle);
   }
 
@@ -211,7 +234,7 @@ class VehicleDetails extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton.icon(
-                  onPressed: handleApprove,
+                  onPressed:() {handleApprove();},
                   icon: Icon(Icons.check_circle, color: Colors.white),
                   label: Text('Approve'),
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.green),

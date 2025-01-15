@@ -40,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
     LogoData("Toyota", "assets/images/toyota.png"),
     LogoData("Escalade", "assets/images/CADILAC.png"),
     LogoData("Hyundai", "assets/images/hyundai.png"),
+    LogoData("Mercedes Benz", "assets/images/merc.png"),
     //   LogoData("Nissan", "assets/nissan_logo.png"),
     //   LogoData("Hyundai", "assets/hyundai_logo.png"),
     //   LogoData("Ford", "assets/ford_logo.png"),

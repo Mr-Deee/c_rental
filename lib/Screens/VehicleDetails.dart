@@ -4,6 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:hubtel_merchant_checkout_sdk/hubtel_merchant_checkout_sdk.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -24,6 +25,11 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
   String? getSelectedVehicleId() {
     return widget.vehicleId;
   }
+  final hubtelConfig = HubtelCheckoutConfiguration(
+      merchantID: "2028852",
+      callbackUrl: "https://webhook.site/84489ff4-28cf-476f-9dfb-67f1ea878c7c",
+      merchantApiKey: "eEdwelEyMzpkMmE2ZGI2NjRiNDE0ZDgwYWQxNGM3NTAxZTM1NjgxOA=="
+  );
 
 
   @override
@@ -201,7 +207,25 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
 
                     GestureDetector(
                       onTap: (){
-                        _showRentDialog();
+
+                        var price =widget.vehicleData['price_per_day'];
+                        Navigator.push(context,
+                            MaterialPageRoute(
+                                builder: (context) {
+                                  return CheckoutScreen(
+                                    purchaseInfo: PurchaseInfo(
+                                        amount:price,
+                                        customerPhoneNumber:"+233503026630",
+                                        purchaseDescription: "BENJI-Rental",
+                                        clientReference: "REFe"),
+                                    configuration:hubtelConfig,
+                                    themeConfig: ThemeConfig(
+                                        primaryColor:
+                                        Colors.black),
+                                  );
+                                }));
+
+                        // _showRentDialog();
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -284,6 +308,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        final userprovider = Provider.of<Users>(context).userInfo;
 
         return AlertDialog(
           title: Text('Enter Number of Days for ${widget.vehicleData['model_name']}',style: TextStyle(fontSize: 15,),),
@@ -300,12 +325,35 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
               },
             ),
             TextButton(
-              child: Text('Submit'),
+              child: Text('Proceed To Pay'),
               onPressed: () {
-                int days = int.parse(daysController.text);
+
+ var price =widget.vehicleData['price_per_day'];
+print("new$price");
+String? FName = userprovider!.firstname;
+String? lName = userprovider!.lastname;
+String? phone = userprovider!.phone;
+Navigator.push(context,
+    MaterialPageRoute(
+        builder: (context) {
+          return CheckoutScreen(
+            purchaseInfo: PurchaseInfo(
+                amount:price,
+                customerPhoneNumber:"+233503026630",
+                purchaseDescription: "BENJI-Rental",
+                clientReference: "REFe"),
+            configuration:hubtelConfig,
+            themeConfig: ThemeConfig(
+                primaryColor:
+                Colors.black),
+          );
+        }));
+
+                // int days = int.parse(daysController.text);
         String? vehicleId = widget.vehicleId;
         if (vehicleId != null && vehicleId.isNotEmpty) {
-        rentVehicle(vehicleId,  days);
+        // rentVehicle(vehicleId,  days);
+
         Navigator.of(context).pop();
         } else {
         print('Invalid vehicle ID');
@@ -353,6 +401,8 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
         'rentedAt': formattedDate,
       });
       _showSuccessMessage();
+
+
       print('Vehicle rented successfully');
     } catch (e) {
       print('Failed to rent vehicle: $e');
