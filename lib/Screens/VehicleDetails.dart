@@ -57,18 +57,27 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                  Text("\$${ widget.vehicleData['price_per_day']}/day",style: TextStyle(color: Colors.black,fontSize: 34),),
+
+                ],
+                )),
+
+            Center(
               child: Container(
                 child: widget.vehicleData != null && widget.vehicleData.containsKey('VehicleImages')
                     ? Image.network(
                   widget.vehicleData['VehicleImages'][0],
-                  height: 250,
+                  height: 220,
                   width: 500,
                 )
                     : Text('No image available'), // Display a message if image data is not available
               ),
             ),
 
-            SizedBox(height: 10),
+            SizedBox(height: 6),
             Container(
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -143,7 +152,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
                           ),
-                          Text("lOCATION"),
+                          Text("LOCATION"),
                         ],
                       ),
                     ],
@@ -195,12 +204,6 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
               children: [
 
 
-                   Center(
-                      child: Row(children: [
-                          Text("\$${ widget.vehicleData['price_per_day']}/day",style: TextStyle(color: Colors.black,fontSize: 34),),
-
-                        ],
-                      )),
                 Row(
 
                   children: [
@@ -208,24 +211,8 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
                     GestureDetector(
                       onTap: (){
 
-                        var price =widget.vehicleData['price_per_day'];
-                        Navigator.push(context,
-                            MaterialPageRoute(
-                                builder: (context) {
-                                  return CheckoutScreen(
-                                    purchaseInfo: PurchaseInfo(
-                                        amount:price,
-                                        customerPhoneNumber:"+233503026630",
-                                        purchaseDescription: "BENJI-Rental",
-                                        clientReference: "REFe"),
-                                    configuration:hubtelConfig,
-                                    themeConfig: ThemeConfig(
-                                        primaryColor:
-                                        Colors.black),
-                                  );
-                                }));
 
-                        // _showRentDialog();
+                    _showRentDialog();
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -260,10 +247,10 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
 
   Widget _buildDetailRow(Image image, String title, String value) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(3.0),
       child: Container(
         height: 135,
-        width: 126,
+        width: 112,
         decoration: BoxDecoration(
             color: Color(0xFF0047AB), borderRadius: BorderRadius.circular(23)),
         child: Padding(
@@ -329,32 +316,45 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
               onPressed: () {
 
  var price =widget.vehicleData['price_per_day'];
-print("new$price");
+
+
+
+ print("new$price");
 String? FName = userprovider!.firstname;
 String? lName = userprovider!.lastname;
 String? phone = userprovider!.phone;
-Navigator.push(context,
-    MaterialPageRoute(
-        builder: (context) {
-          return CheckoutScreen(
-            purchaseInfo: PurchaseInfo(
-                amount:price,
-                customerPhoneNumber:"+233503026630",
-                purchaseDescription: "BENJI-Rental",
-                clientReference: "REFe"),
-            configuration:hubtelConfig,
-            themeConfig: ThemeConfig(
-                primaryColor:
-                Colors.black),
-          );
-        }));
 
-                // int days = int.parse(daysController.text);
+
+                int days = int.parse(daysController.text);
         String? vehicleId = widget.vehicleId;
         if (vehicleId != null && vehicleId.isNotEmpty) {
-        // rentVehicle(vehicleId,  days);
 
-        Navigator.of(context).pop();
+          var finalprice =widget.vehicleData['price_per_day']*days;
+          print(finalprice);
+          final onCheckoutCompleted = Navigator.push(context,
+              MaterialPageRoute(
+                  builder: (context) {
+                    return CheckoutScreen(
+                      purchaseInfo: PurchaseInfo(
+                          amount:finalprice,
+                          customerPhoneNumber:"+233503026630",
+                          purchaseDescription: "BENJI-Rental",
+                          clientReference: "REFe"),
+                      configuration:hubtelConfig,
+                      themeConfig: ThemeConfig(
+                          primaryColor:
+                          Colors.black),
+                    );
+                  }));
+          if (onCheckoutCompleted is CheckoutCompletionStatus){
+
+
+            rentVehicle(vehicleId,  days);
+            Navigator.of(context).pop();
+            //Your activity after checkout Completion.
+          }
+
+
         } else {
         print('Invalid vehicle ID');
         }}
