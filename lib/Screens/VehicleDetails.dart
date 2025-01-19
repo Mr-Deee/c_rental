@@ -25,6 +25,8 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
   String? getSelectedVehicleId() {
     return widget.vehicleId;
   }
+  String? selectedLocation; // State variable for dropdown selection
+
   final hubtelConfig = HubtelCheckoutConfiguration(
       merchantID: "2028852",
       callbackUrl: "https://webhook.site/84489ff4-28cf-476f-9dfb-67f1ea878c7c",
@@ -60,7 +62,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                  Text("\GHS-${ widget.vehicleData['price_per_day']}/day",style: TextStyle(color: Colors.black,fontSize: 29,fontWeight: FontWeight.bold),),
+                  Text("\GHS-${ widget.vehicleData['insideAccraprice_per_day']} - ${ widget.vehicleData['outsideAccraprice_per_day']}  day",style: TextStyle(color: Colors.black,fontSize: 19,fontWeight: FontWeight.bold),),
 
                 ],
                 )),
@@ -152,7 +154,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
                           ),
-                          Text("LOCATION"),
+                          Text("LOCATION",style: TextStyle(color: Colors.white),),
                         ],
                       ),
                     ],
@@ -291,6 +293,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
 
   void _showRentDialog() {
     TextEditingController daysController = TextEditingController();
+    String? selectedLocation;
 
     showDialog(
       context: context,
@@ -298,12 +301,51 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
         final userprovider = Provider.of<Users>(context).userInfo;
 
         return AlertDialog(
-          title: Text('Enter Number of Days for ${widget.vehicleData['model_name']}',style: TextStyle(fontSize: 15,),),
-          content: TextField(
-            controller: daysController,
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(hintText: "Number of days"),
+          title: Row(
+            children: [
+              DropdownButton<String>(
+                value: selectedLocation,
+                hint: const Text("Choose Location"),
+                items: [
+                  DropdownMenuItem(
+                    value: "insideAccra",
+                    child: Text("Inside Accra - GHS ${widget.vehicleData['insideAccraprice_per_day'] ?? 'N/A'}"),
+                  ),
+                  DropdownMenuItem(
+                    value: "outsideAccra",
+                    child: Text("Outside Accra - GHS ${widget.vehicleData['outsideAccraprice_per_day'] ?? 'N/A'}"),
+                  ),
+                ],
+                onChanged: (value) {
+                  setState(() {
+                    selectedLocation = value; // Update the selected location
+                  });
+                },
+              ),
+            ],
           ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Display price based on the selected location
+              Text(
+                selectedLocation == "insideAccra"
+                    ? "Price: GHS ${widget.vehicleData['insideAccraprice_per_day'] ?? 'N/A'}"
+                    : selectedLocation == "outsideAccra"
+                    ? "Price: GHS ${widget.vehicleData['outsideAccraprice_per_day'] ?? 'N/A'}"
+                    : "Select a location",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10),
+              // Number of days input
+              TextField(
+                controller: daysController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(hintText: "Number of days"),
+              ),
+            ],
+          ),
+
           actions: <Widget>[
             TextButton(
               child: Text('Cancel'),
