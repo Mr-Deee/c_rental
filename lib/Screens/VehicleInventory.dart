@@ -90,10 +90,19 @@ class _VehicleInventoryState extends State<VehicleInventory> {
             ),
             title: Text(vehicle['model_name']),
             subtitle: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Column(
                   children: [
-                    Text(vehicle['price_per_day'].toString()),
+                    Text("Out-Accra",),
+                    Text(vehicle['outsideAccraprice_per_day'].toString()),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Text("In-Accra",),
+
+                    Text(vehicle['insideAccraprice_per_day'].toString()),
                   ],
                 ),
               ],

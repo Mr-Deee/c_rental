@@ -58,6 +58,36 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
 
   // Function to save vehicle data along with image URLs
   Future<void> _saveVehicleData(BuildContext context) async {
+    // Check required images
+    if (images.any((image) => image == null)) {
+      _showSnackBar('Please upload all required images.');
+      return;
+    }
+
+    // Validate all fields at once
+    final isAnyFieldEmpty = [
+      modelname.text,
+      transmission.text,
+      vehiclemake.text,
+      vColor.text,
+      vehiclenumber.text,
+      mobilenumber.text,
+      EngineCapacity.text,
+      speed.text,
+      type.text,
+      seat.text,
+      insideaccraprice.text,
+      outsideeaccraprice.text,
+      location.text,
+      selectedClassification
+    ].any((field) => field == null || field.toString().trim().isEmpty);
+
+    if (isAnyFieldEmpty) {
+      _showSnackBar('Please fill all the required fields.');
+      return;
+    }
+
+    // Show a loading dialog
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -74,48 +104,56 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
       },
     );
 
-    List<String?> imageUrls = [];
-    for (var image in images) {
-      if (image != null) {
-        String? url = await _uploadImage(image);
-        imageUrls.add(url);
-      }
-    }
-
-    Map<String, dynamic> vehicleData = {
-      'model_name': modelname.text,
-      'Transmission': transmission.text,
-      'vehicle_make': vehiclemake.text,
-      'color': vColor.text,
-      'vehicle_number': vehiclenumber.text,
-      'mobile_number': mobilenumber.text,
-      'EngineCapacity': EngineCapacity.text,
-      'speed': speed.text,
-      'type': type.text,
-      'seats': seat.text,
-      'outsideAccraprice_per_day': outsideeaccraprice.text,
-      'insideAccraprice_per_day': insideaccraprice.text,
-      'location': location.text,
-      'classification': selectedClassification,
-      'VehicleImages': imageUrls,
-    };
-
     try {
+      // Upload images in parallel
+      List<String?> imageUrls = await Future.wait(
+        images.map((image) async {
+          if (image != null) {
+            return await _uploadImage(image);
+          }
+          return null;
+        }),
+      );
+
+      // Prepare the vehicle data
+      Map<String, dynamic> vehicleData = {
+        'model_name': modelname.text,
+        'Transmission': transmission.text,
+        'vehicle_make': vehiclemake.text,
+        'color': vColor.text,
+        'vehicle_number': vehiclenumber.text,
+        'mobile_number': mobilenumber.text,
+        'EngineCapacity': EngineCapacity.text,
+        'speed': speed.text,
+        'type': type.text,
+        'seats': seat.text,
+        'outsideAccraprice_per_day': outsideeaccraprice.text,
+        'insideAccraprice_per_day': insideaccraprice.text,
+        'location': location.text,
+        'classification': selectedClassification,
+        'VehicleImages': imageUrls,
+      };
+
+      // Save data to Firebase
       await dbRef.push().set(vehicleData);
+
+      // Close the loading dialog
       Navigator.of(context).pop();
 
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Vehicle added successfully!'),
-      ));
+      // Show success message
+      _showSnackBar('Vehicle added successfully!');
       Navigator.of(context).pop();
     } catch (error) {
+      // Close the loading dialog
       Navigator.of(context).pop();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Failed to add vehicle: $error'),
-      ));
+
+      // Show error message
+      _showSnackBar('Failed to add vehicle: $error');
     }
   }
-
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+  }
   Widget _imageSelectorContainer(int index) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
