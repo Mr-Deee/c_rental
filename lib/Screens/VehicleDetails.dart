@@ -60,7 +60,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                  Text("\$${ widget.vehicleData['price_per_day']}/day",style: TextStyle(color: Colors.black,fontSize: 34),),
+                  Text("\GHS-${ widget.vehicleData['price_per_day']}/day",style: TextStyle(color: Colors.black,fontSize: 29,fontWeight: FontWeight.bold),),
 
                 ],
                 )),
@@ -337,7 +337,7 @@ String? phone = userprovider!.phone;
                     return CheckoutScreen(
                       purchaseInfo: PurchaseInfo(
                           amount:finalprice,
-                          customerPhoneNumber:"+233503026630",
+                          customerPhoneNumber:phone.toString(),
                           purchaseDescription: "BENJI-Rental",
                           clientReference: "REFe"),
                       configuration:hubtelConfig,

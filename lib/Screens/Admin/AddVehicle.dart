@@ -26,7 +26,8 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
   TextEditingController EngineCapacity = TextEditingController();
   TextEditingController type = TextEditingController();
   TextEditingController seat = TextEditingController();
-  TextEditingController price = TextEditingController();
+  TextEditingController insideaccraprice = TextEditingController();
+  TextEditingController outsideeaccraprice = TextEditingController();
   TextEditingController location = TextEditingController();
   String? selectedClassification;
 
@@ -92,7 +93,8 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
       'speed': speed.text,
       'type': type.text,
       'seats': seat.text,
-      'price_per_day': price.text,
+      'outsideAccraprice_per_day': outsideeaccraprice.text,
+      'insideAccraprice_per_day': insideaccraprice.text,
       'location': location.text,
       'classification': selectedClassification,
       'VehicleImages': imageUrls,
@@ -171,7 +173,34 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
             _buildTextField('Type', Icons.class_, type),
             _buildTextField('No. of Seats', Icons.chair, seat, isNumber: true),
             _buildDropdownField(),
-            _buildTextField('Price/Day', Icons.attach_money, price, isNumber: true),
+            Row(
+              children: [
+                
+                Expanded(child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top:18.0),
+                      child: Text("Inside Accra",style: TextStyle(color: Colors.blue,fontSize: 16,fontWeight: FontWeight.bold),),
+                    ),
+                    _buildTextField('Price/Day', Icons.attach_money, insideaccraprice, isNumber: true),
+                  ],
+                )),
+                SizedBox(width: 12,),
+                Expanded(child: Column(
+                  children: [
+
+                    Padding(
+                      padding: const EdgeInsets.only(top:18.0),
+                      child: Text("Outside Accra",style: TextStyle(color: Colors.blue,fontSize: 16,fontWeight: FontWeight.bold)),
+                    ),
+
+                    _buildTextField('Price/Day', Icons.attach_money, outsideeaccraprice, isNumber: true),
+                  ],
+                )),
+              ],
+            ),
             _buildTextField('Your Location', Icons.pin_drop, location),
           ],
         );
@@ -264,7 +293,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
       String label, IconData icon, TextEditingController controller,
       {bool isNumber = false}) {
     return Container(
-      margin: EdgeInsets.only(top: 25),
+      margin: EdgeInsets.only(top: 15),
       child: TextField(
         controller: controller,
         keyboardType: isNumber ? TextInputType.number : TextInputType.text,

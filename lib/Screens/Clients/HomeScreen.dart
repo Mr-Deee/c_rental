@@ -77,7 +77,8 @@ class _HomeScreenState extends State<HomeScreen> {
             name: value['model_name'],
             imageUrl: value['VehicleImages'],
             speed: double.parse(value['speed'].toString()),
-            pricePerDay: double.parse(value['price_per_day'].toString()),
+            inseaccrapricePerDay: double.parse(value['price_per_day'].toString()),
+            outsideaccrapricePerDay: double.parse(value['price_per_day'].toString()),
             seats: value['seats'].toString(),
             vehiclenumber: value['vehicle_number'],
             transmission: value['Transmission'].toString(),
@@ -106,12 +107,13 @@ class _HomeScreenState extends State<HomeScreen> {
             name: value['model_name'],
             imageUrl: value['VehicleImages'],
             speed: double.parse(value['speed'].toString()),
-            pricePerDay: double.parse(value['price_per_day'].toString()),
             seats: value['seats'].toString(),
             vehiclenumber: value['vehicle_number'],
             transmission: value['Transmission'],
             EnginCap: value['EngineCapacity'].toString(),
             location: value['location'].toString(), vehiclemake: ['vehicle_make'].toString(),
+            inseaccrapricePerDay: double.parse(value["insideAccraprice_per_day"]),
+            outsideaccrapricePerDay: double.parse(value['outsideAccraprice_per_day'].toString(),)
           ));
         });
       });
@@ -371,7 +373,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 ),
                                                 SizedBox(width: 6),
                                                 Text(
-                                                  '\$${vehicles[index].pricePerDay}',
+                                                  '\$${vehicles[index].inseaccrapricePerDay}',
                                                   style: TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 14,
@@ -500,7 +502,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       borderRadius: BorderRadius.circular(8.0),
                                     ),
                                     child: Text(
-                                      '\$${affordablevehicles[index].pricePerDay}/Day',
+                                      '\$${affordablevehicles[index].outsideaccrapricePerDay}/Day',
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 16,
@@ -600,7 +602,8 @@ class Vehicle {
   final imageUrl;
   final double speed;
   final String transmission;
-  final double pricePerDay;
+  final double inseaccrapricePerDay;
+  final double outsideaccrapricePerDay;
 
   Vehicle({
     required this.id,
@@ -608,7 +611,8 @@ class Vehicle {
     required this.name,
     required this.imageUrl,
     required this.speed,
-    required this.pricePerDay,
+    required this.inseaccrapricePerDay,
+    required this.outsideaccrapricePerDay,
     required this.transmission,
     required this.vehiclenumber,
     required this.seats,
@@ -623,7 +627,7 @@ class Vehicle {
       'model_name': name,
       'seats': seats,
       'speed': speed,
-      'price_per_day': pricePerDay,
+      'price_per_day': outsideaccrapricePerDay,
       'vehicle_make': vehiclemake,
       'VehicleImages': imageUrl,
       'vehicle_number': vehiclenumber,
@@ -645,12 +649,15 @@ class affordablevehicle {
   final String transmission;
   final imageUrl;
   final double speed;
-  final double pricePerDay;
+  final double outsideaccrapricePerDay;
+  final double inseaccrapricePerDay;
 
   affordablevehicle({
     required this.name,
     required this.id,
     required this.vehiclemake,
+    required this.outsideaccrapricePerDay,
+    required this.inseaccrapricePerDay,
 
     required this.vehiclenumber,
     required this.transmission,
@@ -659,7 +666,6 @@ class affordablevehicle {
     required this.seats,
     required this.imageUrl,
     required this.speed,
-    required this.pricePerDay,
   });
 
   // Convert Vehicle object to a Map<String, dynamic>
@@ -668,10 +674,10 @@ class affordablevehicle {
       id: id,
       'model_name': name,
       'vehicle_make': vehiclemake,
-
       'seats': seats,
       'speed': speed,
-      'price_per_day': pricePerDay,
+      'insideAccraprice_per_day': inseaccrapricePerDay,
+      'outsideAccraprice_per_day': outsideaccrapricePerDay,
       'VehicleImages': imageUrl,
       'vehicle_number': vehiclenumber,
       'location': location,

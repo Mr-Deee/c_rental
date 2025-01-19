@@ -68,13 +68,14 @@ class _VehiclePageState extends State<VehiclePage> {
                 name: value['model_name'],
                 seats: value['seats'].toString(),
                 speed: double.parse(value['speed'].toString()),
-                pricePerDay: double.parse(value['price_per_day'].toString()),
+                outsideaccrapricePerDay: double.parse(value['outsideAccraprice_per_day'].toString()),
                 imageUrl: value['VehicleImages'],
                 vehiclenumber: value['vehicle_number'],
                 transmission: value['Transmission'],
                 EnginCap: value['EngineCapacity'].toString(),
                 location: value['location'],
-                 vehiclemake: value['vehicle_make']
+                 vehiclemake: value['vehicle_make'],
+                inseaccrapricePerDay:  double.parse(value["insideAccraprice_per_day"]),
               ),
             );
           });
@@ -185,7 +186,20 @@ class _VehiclePageState extends State<VehiclePage> {
                                         Icon(Icons.monetization_on,
                                             size: 18, color: Colors.green),
                                         Text(
-                                          " \$${vehicles[index].pricePerDay}",
+                                          " \$${vehicles[index].inseaccrapricePerDay}",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.grey.shade100,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Icon(Icons.monetization_on,
+                                            size: 18, color: Colors.green),
+                                        Text(
+                                          " \$${vehicles[index].outsideaccrapricePerDay}",
                                           style: TextStyle(
                                             fontSize: 16,
                                             color: Colors.grey.shade100,
