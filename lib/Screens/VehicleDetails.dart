@@ -300,108 +300,170 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
       builder: (BuildContext context) {
         final userprovider = Provider.of<Users>(context).userInfo;
 
-        return AlertDialog(
-          title: Row(
-            children: [
-              DropdownButton<String>(
-                value: selectedLocation,
-                hint: const Text("Choose Location"),
-                items: [
-                  DropdownMenuItem(
-                    value: "insideAccra",
-                    child: Text("Inside Accra - GHS ${widget.vehicleData['insideAccraprice_per_day'] ?? 'N/A'}"),
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              backgroundColor: Colors.white,
+              titlePadding: const EdgeInsets.all(20),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              title: Text(
+                "Rent a Vehicle",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue[800],
+                ),
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Dropdown for location selection
+                  DropdownButtonFormField<String>(
+                    value: selectedLocation,
+                    hint: Text(
+                      "Choose Location",
+                      style: TextStyle(fontSize: 16, color: Colors.blue[600]),
+                    ),
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.blue[50],
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                    items: [
+                      DropdownMenuItem(
+                        value: "insideAccra",
+                        child: Text(
+                          "Inside Accra - GHS ${widget.vehicleData['insideAccraprice_per_day'] ?? 'N/A'}",
+                          style: TextStyle(color: Colors.blue[800]),
+                        ),
+                      ),
+                      DropdownMenuItem(
+                        value: "outsideAccra",
+                        child: Text(
+                          "Outside Accra - GHS ${widget.vehicleData['outsideAccraprice_per_day'] ?? 'N/A'}",
+                          style: TextStyle(color: Colors.blue[800]),
+                        ),
+                      ),
+                    ],
+                    onChanged: (value) {
+                      setState(() {
+                        selectedLocation = value;
+                      });
+                    },
                   ),
-                  DropdownMenuItem(
-                    value: "outsideAccra",
-                    child: Text("Outside Accra - GHS ${widget.vehicleData['outsideAccraprice_per_day'] ?? 'N/A'}"),
+                  const SizedBox(height: 20),
+                  // Display price based on selected location
+                  Text(
+                    selectedLocation == "insideAccra"
+                        ? "Price: GHS ${widget.vehicleData['insideAccraprice_per_day'] ?? 'N/A'}"
+                        : selectedLocation == "outsideAccra"
+                        ? "Price: GHS ${widget.vehicleData['outsideAccraprice_per_day'] ?? 'N/A'}"
+                        : "Select a location",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.blue[700],
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 20),
+                  // Input for number of days
+                  TextField(
+                    controller: daysController,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      hintText: "Number of days",
+                      filled: true,
+                      fillColor: Colors.blue[50],
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none,
+                      ),
+                      hintStyle: TextStyle(color: Colors.blue[400]),
+                    ),
+                    style: TextStyle(fontSize: 16),
                   ),
                 ],
-                onChanged: (value) {
-                  setState(() {
-                    selectedLocation = value; // Update the selected location
-                  });
-                },
               ),
-            ],
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Display price based on the selected location
-              Text(
-                selectedLocation == "insideAccra"
-                    ? "Price: GHS ${widget.vehicleData['insideAccraprice_per_day'] ?? 'N/A'}"
-                    : selectedLocation == "outsideAccra"
-                    ? "Price: GHS ${widget.vehicleData['outsideAccraprice_per_day'] ?? 'N/A'}"
-                    : "Select a location",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 10),
-              // Number of days input
-              TextField(
-                controller: daysController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(hintText: "Number of days"),
-              ),
-            ],
-          ),
+              actionsPadding: const EdgeInsets.all(20),
+              actions: <Widget>[
+                // Cancel button
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
+                    backgroundColor: Colors.red[400],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: const Text(
+                    'Cancel',
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                // Proceed button
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
+                    backgroundColor: Colors.blue[600],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: const Text(
+                    'Proceed To Pay',
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                  onPressed: () {
+                    var price = selectedLocation == "insideAccra"
+                        ? widget.vehicleData['insideAccraprice_per_day']
+                        : widget.vehicleData['outsideAccraprice_per_day'];
 
-          actions: <Widget>[
-            TextButton(
-              child: Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text('Proceed To Pay'),
-              onPressed: () {
+                    print("Price per day: $price");
+                    String? FName = userprovider!.firstname;
+                    String? lName = userprovider!.lastname;
+                    String? phone = userprovider!.phone;
 
- var price =widget.vehicleData['price_per_day'];
-
-
-
- print("new$price");
-String? FName = userprovider!.firstname;
-String? lName = userprovider!.lastname;
-String? phone = userprovider!.phone;
-
-
-                int days = int.parse(daysController.text);
-        String? vehicleId = widget.vehicleId;
-        if (vehicleId != null && vehicleId.isNotEmpty) {
-
-          var finalprice =widget.vehicleData['price_per_day']*days;
-          print(finalprice);
-          final onCheckoutCompleted = Navigator.push(context,
-              MaterialPageRoute(
-                  builder: (context) {
-                    return CheckoutScreen(
-                      purchaseInfo: PurchaseInfo(
-                          amount:finalprice,
-                          customerPhoneNumber:phone.toString(),
-                          purchaseDescription: "BENJI-Rental",
-                          clientReference: "REFe"),
-                      configuration:hubtelConfig,
-                      themeConfig: ThemeConfig(
-                          primaryColor:
-                          Colors.black),
-                    );
-                  }));
-          if (onCheckoutCompleted is CheckoutCompletionStatus){
-
-
-            rentVehicle(vehicleId,  days);
-            Navigator.of(context).pop();
-            //Your activity after checkout Completion.
-          }
-
-
-        } else {
-        print('Invalid vehicle ID');
-        }}
-            ),
-          ],
+                    int days = int.parse(daysController.text);
+                    String? vehicleId = widget.vehicleId;
+                    if (vehicleId != null && vehicleId.isNotEmpty) {
+                      var finalprice = price * days;
+                      print(finalprice);
+                      final onCheckoutCompleted = Navigator.push(context,
+                          MaterialPageRoute(
+                              builder: (context) {
+                                return CheckoutScreen(
+                                  purchaseInfo: PurchaseInfo(
+                                      amount: finalprice,
+                                      customerPhoneNumber: phone.toString(),
+                                      purchaseDescription: "BENJI-Rental",
+                                      clientReference: "REFe"),
+                                  configuration: hubtelConfig,
+                                  themeConfig: ThemeConfig(primaryColor: Colors.black),
+                                );
+                              }));
+                      if (onCheckoutCompleted is CheckoutCompletionStatus) {
+                        rentVehicle(vehicleId, days);
+                        Navigator.of(context).pop();
+                      }
+                    } else {
+                      print('Invalid vehicle ID');
+                    }
+                  },
+                ),
+              ],
+            );
+          },
         );
       },
     );

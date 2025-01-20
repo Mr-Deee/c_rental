@@ -35,18 +35,12 @@ class _HomeScreenState extends State<HomeScreen> {
   List<affordablevehicle> affordablevehicles = [];
   String selectedLogo = "";
   final DatabaseReference _database = FirebaseDatabase.instance.ref();
-  List<LogoData> logos = [
-    LogoData("Bmw", "assets/images/bmw.png"),
-    LogoData("Toyota", "assets/images/toyota.png"),
-    LogoData("Escalade", "assets/images/CADILAC.png"),
-    LogoData("Hyundai", "assets/images/hyundai.png"),
-    LogoData("Mercedes Benz", "assets/images/merc.png"),
-    //   LogoData("Nissan", "assets/nissan_logo.png"),
-    //   LogoData("Hyundai", "assets/hyundai_logo.png"),
-    //   LogoData("Ford", "assets/ford_logo.png"),
-    //   LogoData("Suzuki", "assets/suzuki_logo.png"),
-    //   LogoData("Honda", "assets/honda_logo.png"),
-    // ];
+  final List<LogoData> logos = [
+    LogoData("Honda", "assets/images/honda2.png", 70.0),
+    LogoData("Toyota", "assets/images/toyota.png", 45.0),
+    LogoData("Mistubishi", "assets/images/Mitsubishi.png", 42.0),
+    LogoData("Hyundai", "assets/images/hyundai.png", 43.0),
+    LogoData("Nissan", "assets/images/Nissa.png", 44.0),
   ];
 
   @override
@@ -112,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
             transmission: value['Transmission'],
             EnginCap: value['EngineCapacity'].toString(),
             location: value['location'].toString(), vehiclemake: ['vehicle_make'].toString(),
-            inseaccrapricePerDay: double.parse(value["insideAccraprice_per_day"]),
+            inseaccrapricePerDay: double.parse(value["insideAccraprice_per_day"].toString()),
             outsideaccrapricePerDay: double.parse(value['outsideAccraprice_per_day'].toString(),)
           ));
         });
@@ -627,7 +621,8 @@ class Vehicle {
       'model_name': name,
       'seats': seats,
       'speed': speed,
-      'price_per_day': outsideaccrapricePerDay,
+      'insideAccraprice_per_day': inseaccrapricePerDay,
+      'outsideAccraprice_per_day': outsideaccrapricePerDay,
       'vehicle_make': vehiclemake,
       'VehicleImages': imageUrl,
       'vehicle_number': vehiclenumber,
@@ -690,8 +685,9 @@ class affordablevehicle {
 class LogoData {
   final String name;
   final String imageUrl;
+  final double size;
 
-  LogoData(this.name, this.imageUrl);
+  LogoData(this.name, this.imageUrl, [this.size = 0.0]); // Default size to 0.0
 }
 
 class Vehicle2 {
