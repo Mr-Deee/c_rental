@@ -47,12 +47,34 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
     return Scaffold(
       // backgroundColor: Color(0xFF0047AB),
       appBar: AppBar(
-        backgroundColor: Color(0xFF0047AB),
+        backgroundColor: const Color(0xFF0D94FF), // Navy blue
         title: Text(
           widget.vehicleData['model_name'].toString(),
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20, // Increased font size for better visibility
+            color: Colors.white,
+            letterSpacing: 1.2, // Slightly increased letter spacing
+          ),
         ),
+        centerTitle: true, // Centers the title
+        elevation: 4, // Adds a shadow effect for better depth
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            Navigator.of(context).pop(); // Navigate back
+          },
+        ),
+        actions: [
+          // IconButton(
+          //   icon: const Icon(Icons.more_vert, color: Colors.white),
+          //   onPressed: () {
+          //     // Add functionality here
+          //   },
+          // ),
+        ],
       ),
+
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.0),
         child: Column(
@@ -115,6 +137,10 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
                     Image.asset('assets/images/gear2.png', width: 74, height: 74),
                     'Plate Number',
                     widget.vehicleData['Transmission'].toString()),
+                _buildDetailRow(
+                    Image.asset('assets/images/gear2.png', width: 74, height: 74),
+                    'location',
+                    widget.vehicleData['location'].toString()),
               ],
             ),
             // Add more details as needed
@@ -122,7 +148,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
             Container(
               height: 123,
               decoration: BoxDecoration(
-                  color: Color(0xFF0047AB),
+                  color: Color(0xFF0D94FF),
                   borderRadius: BorderRadius.circular(30)),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -218,7 +244,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                            color: Color(0xFF0047AB),
+                            color: Color(0xFF0D94FF),
                             borderRadius: BorderRadius.circular(10)
 
                         ),
@@ -254,7 +280,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
         height: 135,
         width: 112,
         decoration: BoxDecoration(
-            color: Color(0xFF0047AB), borderRadius: BorderRadius.circular(23)),
+            color: Color(0xFF0D94FF), borderRadius: BorderRadius.circular(23)),
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 8.0),
           child: Column(
