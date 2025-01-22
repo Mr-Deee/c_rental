@@ -7,38 +7,55 @@ import 'package:flutter/widgets.dart';
 import 'package:hubtel_merchant_checkout_sdk/hubtel_merchant_checkout_sdk.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../Users.dart';
 
 class VehicleDetailsPage extends StatefulWidget {
   final Map<String, dynamic> vehicleData;
-  final String ?vehicleId; // Add vehicleId here
-  VehicleDetailsPage({required this.vehicleData,  required this.vehicleId,  });
-
-
+  final String? vehicleId; // Add vehicleId here
+  VehicleDetailsPage({
+    required this.vehicleData,
+    required this.vehicleId,
+  });
 
   @override
   _VehicleDetailsPageState createState() => _VehicleDetailsPageState();
 }
+
 final DatabaseReference db = FirebaseDatabase.instance.ref();
+
 class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
   String? getSelectedVehicleId() {
     return widget.vehicleId;
   }
+
   String? selectedLocation; // State variable for dropdown selection
 
   final hubtelConfig = HubtelCheckoutConfiguration(
       merchantID: "2028852",
       callbackUrl: "https://webhook.site/84489ff4-28cf-476f-9dfb-67f1ea878c7c",
-      merchantApiKey: "eEdwelEyMzpkMmE2ZGI2NjRiNDE0ZDgwYWQxNGM3NTAxZTM1NjgxOA=="
-  );
-
+      merchantApiKey:
+          "eEdwelEyMzpkMmE2ZGI2NjRiNDE0ZDgwYWQxNGM3NTAxZTM1NjgxOA==");
 
   @override
   void initState() {
     AssistantMethod.getCurrentOnlineUserInfo(context);
     // TODO: implement initState
     super.initState();
+  }
+
+  // The phone number to call
+  final String phoneNumber = "+233540286341"; // Replace with the desired phone number
+
+  // Function to launch the phone dialer
+  void _launchCaller(String number) async {
+    final Uri phoneUri = Uri(scheme: 'tel', path: number);
+    if (await canLaunchUrl(phoneUri)) {
+      await launchUrl(phoneUri);
+    } else {
+      throw "Could not launch $number";
+    }
   }
   @override
   Widget build(BuildContext context) {
@@ -47,7 +64,8 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
     return Scaffold(
       // backgroundColor: Color(0xFF0047AB),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF0D94FF), // Navy blue
+        backgroundColor: const Color(0xFF0D94FF),
+        // Navy blue
         title: Text(
           widget.vehicleData['model_name'].toString(),
           style: const TextStyle(
@@ -57,8 +75,10 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
             letterSpacing: 1.2, // Slightly increased letter spacing
           ),
         ),
-        centerTitle: true, // Centers the title
-        elevation: 4, // Adds a shadow effect for better depth
+        centerTitle: true,
+        // Centers the title
+        elevation: 4,
+        // Adds a shadow effect for better depth
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
@@ -82,36 +102,52 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
           children: [
             Center(
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                  Text("\GHS-${ widget.vehicleData['insideAccraprice_per_day']} - ${ widget.vehicleData['outsideAccraprice_per_day']}  day",style: TextStyle(color: Colors.black,fontSize: 19,fontWeight: FontWeight.bold),),
-
-                ],
-                )),
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  height: 78,
+                    width: 236,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(12),
+                            bottomLeft: Radius.circular(27)),
+                        gradient: LinearGradient(colors: [Color(0xFF040404), Color(0x860D94FF)])),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left:5.0, right: 2.0,top: 30,bottom:20),
+                      child: Text(
+                        "\GHS-${widget.vehicleData['insideAccraprice_per_day']} - ${widget.vehicleData['outsideAccraprice_per_day']}day",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    )),
+              ],
+            )),
 
             Center(
               child: Container(
-                child: widget.vehicleData != null && widget.vehicleData.containsKey('VehicleImages')
+                child: widget.vehicleData != null &&
+                        widget.vehicleData.containsKey('VehicleImages')
                     ? Image.network(
-                  widget.vehicleData['VehicleImages'][0],
-                  height: 220,
-                  width: 500,
-                )
-                    : Text('No image available'), // Display a message if image data is not available
+                        widget.vehicleData['VehicleImages'][0],
+                        height: 220,
+                        width: 500,
+                      )
+                    : Text(
+                        'No image available'), // Display a message if image data is not available
               ),
             ),
 
             SizedBox(height: 6),
-            Container(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
+           Row(
+             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     _buildDetailRow(
                         Image.asset('assets/images/ENGINE.png',
-                            width: 74, height: 74),
+                            width: 78, height: 74),
                         'Model Number',
-                        widget.vehicleData['EngineCapacity']??"".toString()),
+                        widget.vehicleData['EngineCapacity'] ?? "".toString()),
                     _buildDetailRow(
                         Image.asset('assets/images/seats.png',
                             width: 74, height: 74),
@@ -124,148 +160,106 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
                         widget.vehicleData['speed'].toString()),
                   ],
                 ),
-              ),
-            ),
+
+
 
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 _buildDetailRow(
-                    Image.asset('assets/images/PLATE.png', width: 74, height: 74),
+                    Image.asset('assets/images/PLATE.png',
+                        width: 74, height: 74),
                     'Plate Number',
                     widget.vehicleData['vehicle_number'].toString()),
                 _buildDetailRow(
-                    Image.asset('assets/images/gear2.png', width: 74, height: 74),
+                    Image.asset('assets/images/gear2.png',
+                        width: 74, height: 74),
                     'Plate Number',
                     widget.vehicleData['Transmission'].toString()),
                 _buildDetailRow(
-                    Image.asset('assets/images/gear2.png', width: 74, height: 74),
+                    Image.asset('assets/images/gear2.png',
+                        width: 74, height: 74),
                     'location',
                     widget.vehicleData['location'].toString()),
               ],
             ),
-            // Add more details as needed
 
-            Container(
-              height: 123,
-              decoration: BoxDecoration(
-                  color: Color(0xFF0D94FF),
-                  borderRadius: BorderRadius.circular(30)),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            SizedBox(
+              height: 22,
+            ),
+
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            top: 18.0, left: 18, right: 18),
-                        child: Container(
-                          height: 52,
-                          width: 53,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.amber,
-                          ),
-                          child: Center(
-                              child: Text(
-                            "Benjis",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          )),
-                        ),
-                      ),
-                      Column(
+                  Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 14.0, left: 18, right: 18),
+                                child: Container(
+                                  height: 62,
+                                  width: 73,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.amber,
+                                  ),
+                                  child: Center(
+                                      child: Text(
+                                    "Benjis",
+                                    style: TextStyle(fontWeight: FontWeight.bold),
+                                  )),
+                                ),
+                           ),
+                  Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 14.0, left: 18, right: 18),
+                                child: GestureDetector(
+                                  onTap: (){
+
+                                    _launchCaller(phoneNumber); // Launch the dialer when tapped
+
+                                  },
+                                  child: Container(
+                                    height: 62,
+                                    width: 73,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+    gradient: LinearGradient(colors: [Color(0xF50D94FF), Color(0x860D94FF)])),
+
+                                    child: Center(
+                                        child: Icon(
+                                      Icons.call,color: Colors.white,
+                                    )),
+                                  ),
+                                ),
+                           ),
+                  GestureDetector(
+                    onTap: () {
+                      _showRentDialog();
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Color(0xFF0D94FF),
+                          borderRadius: BorderRadius.circular(10)),
+                      height: 53,
+                      width: 120,
+                      child: Center(
+                          child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Text(
-                            widget.vehicleData['location'].toString(),
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                            "Rent Now",
+                            style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.bold),
                           ),
-                          Text("LOCATION",style: TextStyle(color: Colors.white),),
+                          Icon(
+                            Icons.arrow_right_alt,
+                            color: Colors.white,
+                          ),
                         ],
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Container(
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.calendar_view_day,
-                              color: Colors.white,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 18.0),
-                              child: Text(
-                                "Mon - Sun",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.phone,
-                              color: Colors.white,
-                            ),
-                            SizedBox(width: 5),
-                            // Add some space between the icon and text
-                            Text(
-                              "(233)503026630",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ],
-                        ),
-                      ), // Second icon
-                    ],
+                      )),
+                    ),
                   ),
                 ],
-              ),
-            ),
-            SizedBox(height: 22,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-
-
-                Row(
-
-                  children: [
-
-                    GestureDetector(
-                      onTap: (){
-
-
-                    _showRentDialog();
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Color(0xFF0D94FF),
-                            borderRadius: BorderRadius.circular(10)
-
-                        ),
-                        height: 53,
-                        width: 120,
-                        child: Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text("Rent Now",style: TextStyle(color: Colors.white),),
-                                Icon(
-                                  Icons.arrow_right_alt,
-                                  color: Colors.white,
-                                ),
-                              ],
-                            )),
-                      ),
-                    ),
-                  ],
-                )
-            ]),
+              )
 
           ],
         ),
@@ -316,7 +310,6 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
     );
   }
 
-
   void _showRentDialog() {
     TextEditingController daysController = TextEditingController();
     String? selectedLocation;
@@ -334,7 +327,8 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
               ),
               backgroundColor: Colors.white,
               titlePadding: const EdgeInsets.all(20),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               title: Text(
                 "Rent a Vehicle",
                 textAlign: TextAlign.center,
@@ -390,8 +384,8 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
                     selectedLocation == "insideAccra"
                         ? "Price: GHS ${widget.vehicleData['insideAccraprice_per_day'] ?? 'N/A'}"
                         : selectedLocation == "outsideAccra"
-                        ? "Price: GHS ${widget.vehicleData['outsideAccraprice_per_day'] ?? 'N/A'}"
-                        : "Select a location",
+                            ? "Price: GHS ${widget.vehicleData['outsideAccraprice_per_day'] ?? 'N/A'}"
+                            : "Select a location",
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -423,7 +417,8 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
                 // Cancel button
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 25, vertical: 12),
                     backgroundColor: Colors.red[400],
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
@@ -440,7 +435,8 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
                 // Proceed button
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 25, vertical: 12),
                     backgroundColor: Colors.blue[600],
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
@@ -466,18 +462,17 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
                       var finalprice = price * days;
                       print(finalprice);
                       final onCheckoutCompleted = Navigator.push(context,
-                          MaterialPageRoute(
-                              builder: (context) {
-                                return CheckoutScreen(
-                                  purchaseInfo: PurchaseInfo(
-                                      amount: finalprice,
-                                      customerPhoneNumber: phone.toString(),
-                                      purchaseDescription: "BENJI-Rental",
-                                      clientReference: "REFe"),
-                                  configuration: hubtelConfig,
-                                  themeConfig: ThemeConfig(primaryColor: Colors.black),
-                                );
-                              }));
+                          MaterialPageRoute(builder: (context) {
+                        return CheckoutScreen(
+                          purchaseInfo: PurchaseInfo(
+                              amount: finalprice,
+                              customerPhoneNumber: phone.toString(),
+                              purchaseDescription: "BENJI-Rental",
+                              clientReference: "REFe"),
+                          configuration: hubtelConfig,
+                          themeConfig: ThemeConfig(primaryColor: Colors.black),
+                        );
+                      }));
                       if (onCheckoutCompleted is CheckoutCompletionStatus) {
                         rentVehicle(vehicleId, days);
                         Navigator.of(context).pop();
@@ -494,13 +489,16 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
       },
     );
   }
+
 // Convert DateTime to a timestamp (milliseconds since epoch)
   int timestamp = DateTime.now().millisecondsSinceEpoch;
 
 // or convert DateTime to a formatted string
-  String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now());
-  Future<void> rentVehicle(String vehicleId,  int days) async {
-    final userprovider = Provider.of<Users>(context,listen: false).userInfo;
+  String formattedDate =
+      DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now());
+
+  Future<void> rentVehicle(String vehicleId, int days) async {
+    final userprovider = Provider.of<Users>(context, listen: false).userInfo;
 
     if (vehicleId == null || vehicleId.isEmpty) {
       print('Invalid vehicle ID');
@@ -516,22 +514,20 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
 
       // Add entry to rented table
       await rentedRef.push().set({
-        'imageUrl':widget.vehicleData['VehicleImages'],
-
+        'imageUrl': widget.vehicleData['VehicleImages'],
         'vehicleId': vehicleId,
         'userName': userprovider?.lastname,
-        'Email':userprovider?.email,
+        'Email': userprovider?.email,
         'brand': widget.vehicleData['model_name']?.toString() ?? 'Unknown',
-        'EngineCap': widget.vehicleData['EngineCapacity']?? 'Unknown',
-        'Seats':  widget.vehicleData['seats']?? 'Unknown',
-        'Transmission': widget.vehicleData['Transmission']?? 'Unknown',
+        'EngineCap': widget.vehicleData['EngineCapacity'] ?? 'Unknown',
+        'Seats': widget.vehicleData['seats'] ?? 'Unknown',
+        'Transmission': widget.vehicleData['Transmission'] ?? 'Unknown',
         'pricePerDay': widget.vehicleData['price'] ?? 0,
         'totalPrice': (widget.vehicleData['price'] ?? 0) * days,
         'rentalDays': days,
         'rentedAt': formattedDate,
       });
       _showSuccessMessage();
-
 
       print('Vehicle rented successfully');
     } catch (e) {
@@ -548,5 +544,3 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
     );
   }
 }
-
-
