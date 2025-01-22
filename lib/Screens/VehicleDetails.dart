@@ -140,48 +140,54 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
             ),
 
             SizedBox(height: 6),
-           Row(
-             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    _buildDetailRow(
-                        Image.asset('assets/images/ENGINE.png',
-                            width: 78, height: 74),
-                        'Model Number',
-                        widget.vehicleData['EngineCapacity'] ?? "".toString()),
-                    _buildDetailRow(
-                        Image.asset('assets/images/seats.png',
-                            width: 74, height: 74),
-                        'Number of Seats',
-                        widget.vehicleData['seats'].toString()),
-                    _buildDetailRow(
-                        Image.asset('assets/images/SPEEDO.png',
-                            width: 74, height: 74),
-                        'Number of Seats',
-                        widget.vehicleData['speed'].toString()),
-                  ],
-                ),
+           SingleChildScrollView(
+             scrollDirection: Axis.horizontal,
+             child: Row(
+               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _buildDetailRow(
+                          Image.asset('assets/images/ENGINE.png',
+                              width: 78, height: 74),
+                          'Model Number',
+                          widget.vehicleData['EngineCapacity'] ?? "".toString()),
+                      _buildDetailRow(
+                          Image.asset('assets/images/seats.png',
+                              width: 74, height: 74),
+                          'Number of Seats',
+                          widget.vehicleData['seats'].toString()),
+                      _buildDetailRow(
+                          Image.asset('assets/images/SPEEDO.png',
+                              width: 74, height: 74),
+                          'Number of Seats',
+                          widget.vehicleData['speed'].toString()),
+                    ],
+                  ),
+           ),
 
 
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildDetailRow(
-                    Image.asset('assets/images/PLATE.png',
-                        width: 74, height: 74),
-                    'Plate Number',
-                    widget.vehicleData['vehicle_number'].toString()),
-                _buildDetailRow(
-                    Image.asset('assets/images/gear2.png',
-                        width: 74, height: 74),
-                    'Plate Number',
-                    widget.vehicleData['Transmission'].toString()),
-                _buildDetailRow(
-                    Image.asset('assets/images/gear2.png',
-                        width: 74, height: 74),
-                    'location',
-                    widget.vehicleData['location'].toString()),
-              ],
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _buildDetailRow(
+                      Image.asset('assets/images/PLATE.png',
+                          width: 74, height: 74),
+                      'Plate Number',
+                      widget.vehicleData['vehicle_number'].toString()),
+                  _buildDetailRow(
+                      Image.asset('assets/images/gear2.png',
+                          width: 74, height: 74),
+                      'Plate Number',
+                      widget.vehicleData['Transmission'].toString()),
+                  _buildDetailRow(
+                      Image.asset('assets/images/gear2.png',
+                          width: 74, height: 74),
+                      'location',
+                      widget.vehicleData['location'].toString()),
+                ],
+              ),
             ),
 
             SizedBox(

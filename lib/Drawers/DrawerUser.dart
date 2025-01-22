@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../Constants/constants.dart';
 import '../Screens/Clients/LoginScreen.dart';
@@ -12,7 +13,6 @@ import '../Screens/Clients/myreservation.dart';
 import '../Screens/ProfilUserScreen.dart';
 import '../Screens/ReportScreen.dart';
 import '../Users.dart';
-
 
 class DrawerUser extends StatefulWidget {
   const DrawerUser({Key? key}) : super(key: key);
@@ -32,6 +32,20 @@ class _DrawerUserState extends State<DrawerUser> {
     doSomeAsyncStuff();
 
     super.initState();
+  }
+  // Function to launch WhatsApp
+  void _launchWhatsApp(BuildContext context) async {
+    final String phoneNumber = "233540286341"; // Replace with the desired phone number
+
+    final Uri whatsappUri = Uri.parse("https://wa.me/$phoneNumber"); // Opens WhatsApp homepage
+
+    if (await canLaunchUrl(whatsappUri)) {
+      await launchUrl(whatsappUri);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Could not launch WhatsApp")),
+      );
+    }
   }
 
   Future<void> doSomeAsyncStuff() async {
@@ -79,10 +93,10 @@ class _DrawerUserState extends State<DrawerUser> {
                 end: Alignment.bottomRight,
               ),
             ),
-
             child: Row(children: [
-              SizedBox(height: 34,),
-
+              SizedBox(
+                height: 34,
+              ),
               Container(
                 margin: EdgeInsets.only(
                     top: heightDevice * 0.05, left: widthDevice * 0.06),
@@ -92,16 +106,18 @@ class _DrawerUserState extends State<DrawerUser> {
                     children: [
                       Container(
                         child: CircleAvatar(
-                          backgroundColor:Colors.grey,
+                          backgroundColor: Colors.grey,
                           radius: 34,
-                          child: Text(userprovider!.firstname??[0].toString()??"",
+                          child: Text(
+                            userprovider!.firstname ?? [0].toString() ?? "",
                             style: TextStyle(fontSize: 22, color: Colors.white),
                           ),
                         ),
                       ),
                       Container(
                         margin: EdgeInsets.only(
-                            top: heightDevice * 0.015, left: widthDevice * 0.03),
+                            top: heightDevice * 0.015,
+                            left: widthDevice * 0.03),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -113,7 +129,8 @@ class _DrawerUserState extends State<DrawerUser> {
                                       color: Colors.white,
                                       fontSize: 18,
                                       fontWeight: FontWeight.w500),
-                                ),Text(
+                                ),
+                                Text(
                                   userprovider.lastname.toString(),
                                   style: TextStyle(
                                       color: Colors.white,
@@ -122,7 +139,6 @@ class _DrawerUserState extends State<DrawerUser> {
                                 ),
                               ],
                             ),
-                  
                             SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Text(
@@ -136,11 +152,9 @@ class _DrawerUserState extends State<DrawerUser> {
                           ],
                         ),
                       ),
-                  
                       Container(
                         margin: EdgeInsets.only(top: heightDevice * 0.11),
                         child: SizedBox(
-                  
                           child: TextButton(
                             onPressed: signOutFromGoogle,
                             style: TextButton.styleFrom(
@@ -153,7 +167,6 @@ class _DrawerUserState extends State<DrawerUser> {
                                   Icons.logout,
                                   color: Colors.white,
                                 ),
-                  
                               ]),
                             ),
                           ),
@@ -163,17 +176,11 @@ class _DrawerUserState extends State<DrawerUser> {
                   ),
                 ),
               ),
-
-
-
-
             ]),
           ),
           Container(
             child: Column(children: [
               Column(children: [
-
-
                 ListTile(
                   leading: Icon(Icons.person, color: Colors.black),
                   title: const Text('Profile'),
@@ -189,7 +196,7 @@ class _DrawerUserState extends State<DrawerUser> {
                                 // lastName,
                                 // phoneNumber,
                                 // gender
-                         )));
+                                )));
                   },
                 ),
                 ListTile(
@@ -200,11 +207,9 @@ class _DrawerUserState extends State<DrawerUser> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                RentedContainersPage()));
+                            builder: (context) => RentedContainersPage()));
                   },
                 ),
-
                 ListTile(
                   title: const Text('Report'),
                   leading: Icon(Icons.report, color: Colors.black),
@@ -229,7 +234,8 @@ class _DrawerUserState extends State<DrawerUser> {
                           ),
                           title: Row(
                             children: [
-                              Icon(Icons.contact_phone, color: Colors.blue.shade900),
+                              Icon(Icons.contact_phone,
+                                  color: Colors.blue.shade900),
                               const SizedBox(width: 10),
                               const Text(
                                 'Contact Us',
@@ -241,22 +247,45 @@ class _DrawerUserState extends State<DrawerUser> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               ListTile(
-                                leading: Icon(Icons.email, color: Colors.blue.shade900),
+                                leading: Icon(Icons.email,
+                                    color: Colors.blue.shade900),
                                 title: const Text('Email'),
                                 subtitle: const Text('benjicab3@gmail.com'),
                               ),
                               Divider(color: Colors.blue.shade100),
                               ListTile(
-                                leading: Icon(Icons.phone, color: Colors.blue.shade900),
+                                leading: Icon(Icons.phone,
+                                    color: Colors.blue.shade900),
                                 title: const Text('Phone'),
                                 subtitle: const Text('0302528381'),
                               ),
                               Divider(color: Colors.blue.shade100),
                               ListTile(
-                                leading: Icon(Icons.location_on, color: Colors.blue.shade900),
+                                leading: Icon(Icons.location_on,
+                                    color: Colors.blue.shade900),
                                 title: const Text('Address'),
-                                subtitle: const Text('Ablorh-Adjei community centre Old, Ashongman-Abokobi Rd, Accra'),
+                                subtitle: const Text(
+                                    'Ablorh-Adjei community centre Old, Ashongman-Abokobi Rd, Accra'),
                               ),
+                              Divider(color: Colors.blue.shade100),
+                            
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                GestureDetector(
+                                  onTap:(){
+                                    _launchWhatsApp(context);
+                        },
+                                  child: Column(
+                                    children: [
+                                      Image.asset("assets/images/whatsapp.png",height: 29,width: 26,),
+                                      Text("Whatsapp",style: TextStyle(fontWeight: FontWeight.bold),)
+
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            )
                             ],
                           ),
                           actions: [
@@ -286,7 +315,6 @@ class _DrawerUserState extends State<DrawerUser> {
                   },
                 ),
               ]),
-
             ]),
           ),
         ],
@@ -301,6 +329,7 @@ class _DrawerUserState extends State<DrawerUser> {
         MaterialPageRoute(builder: (context) => LoginScreen()), (_) => false);
   }
 }
+
 void _showAboutDialog(BuildContext context) {
   showDialog(
     context: context,
@@ -350,32 +379,37 @@ void _showAboutDialog(BuildContext context) {
                       context: context,
                       icon: Icons.lightbulb_outline,
                       title: 'Innovation',
-                      description: 'We constantly innovate to meet customer needs efficiently.',
+                      description:
+                          'We constantly innovate to meet customer needs efficiently.',
                     ),
                     _buildHoverCardWithPopup(
                       context: context,
                       icon: Icons.handshake_outlined,
                       title: 'Customer Focus',
-                      description: 'Customer satisfaction is at the heart of everything we do.',
+                      description:
+                          'Customer satisfaction is at the heart of everything we do.',
                     ),
                     _buildHoverCardWithPopup(
                       context: context,
                       icon: Icons.attach_money,
                       title: 'Affordability',
-                      description: 'Affordable solutions tailored to everyone’s needs.',
+                      description:
+                          'Affordable solutions tailored to everyone’s needs.',
                     ),
                     _buildHoverCardWithPopup(
                       context: context,
                       icon: Icons.emoji_events_outlined,
                       title: 'Growth',
-                      description: 'We strive for growth to lead the rental industry in Ghana.',
+                      description:
+                          'We strive for growth to lead the rental industry in Ghana.',
                     ),
                   ],
                 ),
                 const SizedBox(height: 20),
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text('Close', style: TextStyle(color: Colors.blue)),
+                  child:
+                      const Text('Close', style: TextStyle(color: Colors.blue)),
                 ),
               ],
             ),
@@ -385,6 +419,7 @@ void _showAboutDialog(BuildContext context) {
     ),
   );
 }
+
 Widget _buildHoverCardWithPopup({
   required BuildContext context,
   required IconData icon,
