@@ -221,7 +221,7 @@ class _AdminState extends State<Admin> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Image.asset('assets/images/img.png', width: 110, height: 120),
+                                Image.asset('assets/images/ic_launcher.png', width: 110, height: 120),
                                 const SizedBox(height: 8),
                               ],
                             ),

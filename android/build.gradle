@@ -17,6 +17,12 @@ buildscript {
 
 
 allprojects {
+
+    configurations.all {
+        resolutionStrategy {
+            force 'androidx.core:core-ktx:1.8.0'
+        }
+    }
     repositories {
         google()
         mavenCentral()
