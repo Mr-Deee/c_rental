@@ -106,8 +106,8 @@ class _HomeScreenState extends State<HomeScreen> {
             transmission: value['Transmission'],
             EnginCap: value['EngineCapacity'].toString(),
             location: value['location'].toString(), vehiclemake: ['vehicle_make'].toString(),
-            inseaccrapricePerDay: double.parse(value["insideAccraprice_per_day"].toString()),
-            outsideaccrapricePerDay: double.parse(value['outsideAccraprice_per_day'].toString(),)
+              inseaccrapricePerDay: double.tryParse(value["insideAccraprice_per_day"]?.toString() ?? '0.0') ?? 0.0,
+            outsideaccrapricePerDay: double.tryParse(value['outsideAccraprice_per_day']?.toString() ?? '0.0') ?? 0.0,
           ));
         });
       });
@@ -127,9 +127,9 @@ class _HomeScreenState extends State<HomeScreen> {
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
         setState(() {
-          lastName = documentSnapshot.get("LastName");
+         // lastName = documentSnapshot.get("LastName");
         });
-        print('Document data: ${documentSnapshot.get("lastName")}');
+        // print('Document data: ${documentSnapshot.get("lastName")}');
       } else {
         print('Document does not exist on the database');
       }

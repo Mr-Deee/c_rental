@@ -37,10 +37,26 @@ class _DrawerUserState extends State<DrawerUser> {
   void _launchWhatsApp(BuildContext context) async {
     final String phoneNumber = "233540286341"; // Replace with the desired phone number
 
-    final Uri whatsappUri = Uri.parse("https://wa.me/$phoneNumber"); // Opens WhatsApp homepage
+    final Uri whatsappUri =Uri.parse("https://wa.me/message/32VHA27N3R2RC1");
+    //Uri.parse("https://wa.me/$phoneNumber"); // Opens WhatsApp homepage
 
     if (await canLaunchUrl(whatsappUri)) {
       await launchUrl(whatsappUri);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Could not launch WhatsApp")),
+      );
+    }
+  }
+
+
+  void _launchMap(BuildContext context) async {
+
+    final Uri mapurl =Uri.parse("https://www.google.com/maps/place/Benji+Rental+Services/@5.704107,-0.2095731,15z/data=!4m5!3m4!1s0xfdf9da4641cf12b:0x27ba24231dc97869!8m2!3d5.7106085!4d-0.2067407");
+    //Uri.parse("https://wa.me/$phoneNumber"); // Opens WhatsApp homepage
+
+    if (await canLaunchUrl(mapurl)) {
+      await launchUrl(mapurl);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Could not launch WhatsApp")),
@@ -264,8 +280,19 @@ class _DrawerUserState extends State<DrawerUser> {
                                 leading: Icon(Icons.location_on,
                                     color: Colors.blue.shade900),
                                 title: const Text('Address'),
-                                subtitle: const Text(
-                                    'Ablorh-Adjei community centre Old, Ashongman-Abokobi Rd, Accra'),
+                                subtitle: Column(
+                                  children: [
+                                    const Text(
+                                        'Ablorh-Adjei community centre Old, Ashongman-Abokobi Rd, Accra'),
+                                    GestureDetector(
+                                      onTap: (){
+                                        _launchMap(context);
+                                      },
+                                      child: const Text(
+                                          'Click here for direction',style: TextStyle(color: Colors.blue),),
+                                    ),
+                                  ],
+                                ),
                               ),
                               Divider(color: Colors.blue.shade100),
                             

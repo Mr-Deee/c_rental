@@ -140,53 +140,57 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
             ),
 
             SizedBox(height: 6),
-           SingleChildScrollView(
-             scrollDirection: Axis.horizontal,
-             child: Row(
-               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      _buildDetailRow(
-                          Image.asset('assets/images/ENGINE.png',
-                              width: 78, height: 74),
-                          'Model Number',
-                          widget.vehicleData['EngineCapacity'] ?? "".toString()),
-                      _buildDetailRow(
-                          Image.asset('assets/images/seats.png',
-                              width: 74, height: 74),
-                          'Number of Seats',
-                          widget.vehicleData['seats'].toString()),
-                      _buildDetailRow(
-                          Image.asset('assets/images/SPEEDO.png',
-                              width: 74, height: 74),
-                          'Number of Seats',
-                          widget.vehicleData['speed'].toString()),
-                    ],
-                  ),
+           Center(
+             child: SingleChildScrollView(
+               scrollDirection: Axis.horizontal,
+               child: Row(
+                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        _buildDetailRow(
+                            Image.asset('assets/images/ENGINE.png',
+                                width: 78, height: 74),
+                            'Model Number',
+                            widget.vehicleData['EngineCapacity'] ?? "".toString()),
+                        _buildDetailRow(
+                            Image.asset('assets/images/seats.png',
+                                width: 74, height: 74),
+                            'Number of Seats',
+                            widget.vehicleData['seats'].toString()),
+                        _buildDetailRow(
+                            Image.asset('assets/images/SPEEDO.png',
+                                width: 74, height: 74),
+                            'Number of Seats',
+                            widget.vehicleData['speed'].toString()),
+                      ],
+                    ),
+             ),
            ),
 
 
 
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _buildDetailRow(
-                      Image.asset('assets/images/PLATE.png',
-                          width: 74, height: 74),
-                      'Plate Number',
-                      widget.vehicleData['vehicle_number'].toString()),
-                  _buildDetailRow(
-                      Image.asset('assets/images/gear2.png',
-                          width: 74, height: 74),
-                      'Plate Number',
-                      widget.vehicleData['Transmission'].toString()),
-                  _buildDetailRow(
-                      Image.asset('assets/images/gear2.png',
-                          width: 74, height: 74),
-                      'location',
-                      widget.vehicleData['location'].toString()),
-                ],
+            Center(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _buildDetailRow(
+                        Image.asset('assets/images/PLATE.png',
+                            width: 74, height: 74),
+                        'Plate Number',
+                        widget.vehicleData['vehicle_number'].toString()),
+                    _buildDetailRow(
+                        Image.asset('assets/images/gear2.png',
+                            width: 74, height: 74),
+                        'Plate Number',
+                        widget.vehicleData['Transmission'].toString()),
+                    _buildDetailRow(
+                        Image.asset('assets/images/gear2.png',
+                            width: 74, height: 74),
+                        'location',
+                        widget.vehicleData['location'].toString()),
+                  ],
+                ),
               ),
             ),
 
@@ -293,21 +297,22 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
                     child: image, // Using the passed image widget
                   ),
 
-                  // Text(
-                  //   '$title: ',
-                  //   style: TextStyle(fontWeight: FontWeight.bold),
-                  // ),
+
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    value,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.white),
-                  ),
-                ],
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      value,
+                      maxLines: 3,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.white),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
