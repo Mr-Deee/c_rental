@@ -1,4 +1,6 @@
 import 'package:c_rental/assistantmethods.dart';
+import 'package:carousel_slider/carousel_options.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -60,6 +62,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
   @override
   Widget build(BuildContext context) {
     final userprovider = Provider.of<Users>(context).userInfo;
+    List<String>? images = widget.vehicleData['VehicleImages']?.cast<String>();
 
     return Scaffold(
       // backgroundColor: Color(0xFF0047AB),
@@ -100,6 +103,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+
             Center(
                 child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -127,15 +131,25 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
 
             Center(
               child: Container(
-                child: widget.vehicleData != null &&
-                        widget.vehicleData.containsKey('VehicleImages')
-                    ? Image.network(
-                        widget.vehicleData['VehicleImages'][0],
-                        height: 220,
-                        width: 500,
-                      )
-                    : Text(
-                        'No image available'), // Display a message if image data is not available
+
+                height: 220,
+                width: 500,
+                child: images != null && images.isNotEmpty
+                    ? CarouselSlider(
+                  options: CarouselOptions(
+                    height: 220,
+                    autoPlay: true, // Enables auto-slide
+                    enlargeCenterPage: true, // Zooms in the center image slightly
+                    viewportFraction: 0.8, // Adjusts the fraction of the screen each image takes
+                  ),
+                  items: images.map((image) {
+                    return Image.network(
+                      image,
+                      fit: BoxFit.cover,
+                    );
+                  }).toList(),
+                )
+                    : const Center(child: Text('No image available')),
               ),
             ),
 
