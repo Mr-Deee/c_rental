@@ -48,13 +48,15 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
   }
 
   // The phone number to call
-  final String phoneNumber = "+233540286341"; // Replace with the desired phone number
+  final String phoneNumber = "+233263909154"; // Replace with the desired phone number
 
   // Function to launch the phone dialer
   void _launchCaller(String number) async {
+    final Uri url = Uri.parse('tel:$phoneNumber');
+
     final Uri phoneUri = Uri(scheme: 'tel', path: number);
-    if (await canLaunchUrl(phoneUri)) {
-      await launchUrl(phoneUri);
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
     } else {
       throw "Could not launch $number";
     }
@@ -137,7 +139,8 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
                 child: images != null && images.isNotEmpty
                     ? CarouselSlider(
                   options: CarouselOptions(
-                    height: 220,
+                    height: 180,
+
                     autoPlay: true, // Enables auto-slide
                     enlargeCenterPage: true, // Zooms in the center image slightly
                     viewportFraction: 0.8, // Adjusts the fraction of the screen each image takes
