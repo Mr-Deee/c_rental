@@ -80,7 +80,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
               ),
             ),
             child: Container(
-              color: Colors.black38.withOpacity(0.6), // Opaque filter
+              color: Colors.white.withOpacity(0.5), // Opaque filter
             ),
           ),
           SingleChildScrollView(
@@ -95,7 +95,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
-                      icon: Icon(Icons.arrow_back, size: 30,color: Colors.white,),
+                      icon: Icon(Icons.arrow_back, size: 30,color: Colors.black,),
                       onPressed: () {
                         Navigator.pop(context);
                       },
@@ -104,7 +104,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
                       child: Text(
                         widget.vehicleData['model_name'].toString(),
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                             fontSize: 34, fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -236,7 +236,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
                             'Plate Number',
                             widget.vehicleData['Transmission'].toString()),
                         _buildDetailRow(
-                            Image.asset('assets/images/gear2.png',
+                            Image.asset('assets/images/location1.png',
                                 width: 74, height: 74),
                             'location',
                             widget.vehicleData['location'].toString()),
