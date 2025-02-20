@@ -113,9 +113,13 @@ class _AllVehiclesPageState extends State<AllVehiclesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('All Vehicles'),
-      // ),
+      extendBodyBehindAppBar: true, // Extend the body behind the AppBar
+
+      appBar: AppBar(
+        backgroundColor: Colors.transparent, // Make AppBar transparent
+
+        title: const Text('All Vehicles'),
+      ),
       body: Stack(
 
         children: [
@@ -123,21 +127,21 @@ class _AllVehiclesPageState extends State<AllVehiclesPage> {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/images/Aud.jpg"),
+                image: AssetImage("assets/images/wal2.jpg"),
                 // Add your background image
                 fit: BoxFit.cover,
               ),
             ),
             child: Container(
-              color: Colors.white.withOpacity(0.2), // Opaque filter
+              color: Colors.white.withOpacity(0.4), // Opaque filter
             ),
           ),
           SizedBox(height: 122,),
-          Positioned(
-            top:63,
-            left: 150,
-            child:   Center(child: Text('All Vehicles',style: TextStyle(color:Colors.black38,fontWeight: FontWeight.bold, fontSize: 23),)),
-          ),
+          // Positioned(
+          //   top:63,
+          //   left: 150,
+          //   child:   Center(child: Text('All Vehicles',style: TextStyle(color:Colors.black38,fontWeight: FontWeight.bold, fontSize: 23),)),
+          // ),
 
           // Background with white and blue gradient grid pattern
           SingleChildScrollView(

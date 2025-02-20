@@ -228,27 +228,27 @@ class RentedContainerCard extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 8.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Price: GHS ${rented['totalPrice'] ?? '0.00'}",
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.green,
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        onDetails(context, rented, rented['key']);
-                      },
-                      child: Text(
-                        "Details",
-                        style: TextStyle(color: Colors.blue),
-                      ),
-                    ),
-                  ],
-                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     Text(
+                //       "Price: GHS ${rented['totalPrice'] ?? '0.00'}",
+                //       style: TextStyle(
+                //         fontSize: 16.0,
+                //         color: Colors.green,
+                //       ),
+                //     ),
+                //     GestureDetector(
+                //       onTap: () {
+                //         onDetails(context, rented, rented['key']);
+                //       },
+                //       child: Text(
+                //         "Details",
+                //         style: TextStyle(color: Colors.blue),
+                //       ),
+                //     ),
+                //   ],
+                // ),
                 SizedBox(height: 8.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -269,16 +269,16 @@ class RentedContainerCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    ElevatedButton(
-                      onPressed: () => _onMakePayment(context, rented),
-                      child: Text("Make Payment", style: TextStyle(color: Colors.white)),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                        ),
-                      ),
-                    ),
+                    // ElevatedButton(
+                    //   onPressed: () => _onMakePayment(context, rented),
+                    //   child: Text("Make Payment", style: TextStyle(color: Colors.white)),
+                    //   style: ElevatedButton.styleFrom(
+                    //     backgroundColor: Colors.blue,
+                    //     shape: RoundedRectangleBorder(
+                    //       borderRadius: BorderRadius.circular(12.0),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ],
