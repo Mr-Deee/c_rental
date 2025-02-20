@@ -64,6 +64,24 @@ class _DrawerUserState extends State<DrawerUser> {
     }
   }
 
+  void _launchGoogleMaps(BuildContext context) async {
+    final Uri googleMapsAppUrl = Uri.parse("geo:5.7106085,-0.2067407?q=Benji+Rental+Services");
+
+    if (await canLaunchUrl(googleMapsAppUrl)) {
+      await launchUrl(googleMapsAppUrl, mode: LaunchMode.externalApplication);
+    } else {
+      // Fallback to browser if Google Maps app is not installed
+      final Uri browserUrl = Uri.parse(
+          "https://www.google.com/maps/place/Benji+Rental+Services/@5.704107,-0.2095731,15z");
+      if (await canLaunchUrl(browserUrl)) {
+        await launchUrl(browserUrl, mode: LaunchMode.externalApplication);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Could not open Google Maps")),
+        );
+      }
+    }
+  }
 
 
   @override
@@ -286,7 +304,8 @@ class _DrawerUserState extends State<DrawerUser> {
                                         'Ablorh-Adjei community centre Old, Ashongman-Abokobi Rd, Accra'),
                                     GestureDetector(
                                       onTap: (){
-                                        _launchMap(context);
+                                        _launchGoogleMaps(context);
+                                        //_launchMap(context);
                                       },
                                       child: const Text(
                                           'Click here for direction',style: TextStyle(color: Colors.blue),),
