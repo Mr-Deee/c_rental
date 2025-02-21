@@ -78,15 +78,37 @@ class _DrawerUserState extends State<DrawerUser> {
         padding: EdgeInsets.zero,
         children: [
           Container(
-            height: heightDevice * 0.3,
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Color(0xFF0047AB), Color(0xFF186CFF)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+              image: DecorationImage(
+                image: AssetImage("assets/images/wallpaper.jpg"),
+                // Add your background image
+                fit: BoxFit.cover,
               ),
             ),
+            child: Container(
+              color: Colors.white10.withOpacity(0.4), // Opaque filter
+            ),
+          ),
+          Container(
+            height: heightDevice * 0.3,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/wallpaper.jpg"),
+                // Add your background image
+                fit: BoxFit.cover,
+              ),
+            ),
+
+            // decoration: BoxDecoration(
+            //   gradient: LinearGradient(
+            //     colors: [Color(0xFF0047AB), Color(0xFF186CFF)],
+            //     begin: Alignment.topLeft,
+            //     end: Alignment.bottomRight,
+            //   ),
+
+            //),
             child: Row(children: [
+
               SizedBox(
                 height: 34,
               ),
@@ -99,11 +121,11 @@ class _DrawerUserState extends State<DrawerUser> {
                     children: [
                       Container(
                         child: CircleAvatar(
-                          backgroundColor: Colors.grey,
+                          backgroundColor: Colors.white,
                           radius: 34,
                           child: Text(
                             userprovider!.firstname ?? [0].toString() ?? "",
-                            style: TextStyle(fontSize: 22, color: Colors.white),
+                            style: TextStyle(fontSize: 22, color: Colors.black38),
                           ),
                         ),
                       ),
@@ -120,15 +142,16 @@ class _DrawerUserState extends State<DrawerUser> {
                                   "${userprovider!.firstname}",
                                   style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500),
+
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold),
                                 ),
                                 Text(
                                   userprovider.lastname.toString(),
                                   style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500),
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ],
                             ),
@@ -137,8 +160,8 @@ class _DrawerUserState extends State<DrawerUser> {
                               child: Text(
                                 userprovider.email.toString(),
                                 style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 12,
+                                    color: Colors.white,
+                                    fontSize: 15,
                                     fontWeight: FontWeight.w500),
                               ),
                             ),
