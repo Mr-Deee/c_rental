@@ -146,131 +146,331 @@ class _HomeScreenState extends State<HomeScreen> {
       Scaffold(
         drawer: DrawerUser(),
 
-        appBar: AppBar(
-          title: Text("Benji's",style: TextStyle(color:Color(0xFF0047AB),fontWeight: FontWeight.bold),),
-          actions: [
-            TextButton(
-              onPressed: () {
-                showDialog<void>(
-                  context: context,
-                  barrierDismissible: false, // user must tap button!
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text('Sign Out'),
-                      backgroundColor: Colors.white,
-                      content: SingleChildScrollView(
-                        child: Column(
-                          children: <Widget>[
-                            Text('Are you certain you want to Sign Out?'),
-                          ],
-                        ),
-                      ),
-                      actions: <Widget>[
-                        TextButton(
-                          child: Text(
-                            'Yes',
-                            style: TextStyle(color: Colors.black),
-                          ),
-                          onPressed: () {
-                            print('yes');
-                            FirebaseAuth.instance.signOut();
-                            Navigator.pushNamedAndRemoveUntil(
-                                context, "/SignIn", (route) => false);
-                            // Navigator.of(context).pop();
-                          },
-                        ),
-                        TextButton(
-                          child: Text(
-                            'Cancel',
-                            style: TextStyle(color: Colors.red),
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-              child: Icon(
-                Icons.logout,
+          extendBodyBehindAppBar: true, // Extend the body behind the AppBar
+          appBar: AppBar(
+            backgroundColor: Colors.transparent, // Make AppBar transparent
+            elevation: 0, // Remove shadow
+            title: Text(
+              "Benji's",
+              style: TextStyle(
                 color: Color(0xFF0047AB),
+                fontWeight: FontWeight.bold,
               ),
-            )
-          ],
-        ),
-        body: Container(
-          height: screenHeight,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Featured Section Title
-                // Featured Section Title
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 18.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween, // This ensures the "All" text is aligned to the far right
-                    children: [
-                      Text(
-                        "Featured",
+            ),
+            actions: [
+              IconButton(
+                icon: Icon(
+                  Icons.logout,
+                  color: Color(0xFF0047AB),
+                ),
+                onPressed: () {
+                  showDialog<void>(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Sign Out'),
+                        backgroundColor: Colors.white,
+                        content: Text('Are you certain you want to Sign Out?'),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text('Yes', style: TextStyle(color: Colors.black)),
+                            onPressed: () {
+                              FirebaseAuth.instance.signOut();
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context, "/SignIn", (route) => false);
+                            },
+                          ),
+                          TextButton(
+                            child: Text('Cancel', style: TextStyle(color: Colors.red)),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
+        body: Stack(
+          children: [
+            SizedBox(),
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/wallpaper.jpg"),
+                  // Add your background image
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Container(
+                color: Colors.white10.withOpacity(0.4), // Opaque filter
+              ),
+            ),
+            Container(
+              height: screenHeight,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Featured Section Title
+                    // Featured Section Title
+                    SizedBox(height: 123,),
+
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 18.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween, // This ensures the "All" text is aligned to the far right
+                        children: [
+                          Text(
+                            "Featured",
+                            style: TextStyle(
+                              fontSize: 26,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF0047AB),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              // Navigate to the new page showing all vehicles
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AllVehiclesPage(),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              "All",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blue,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    // Affordable Vehicles
+                    Container(
+                      height: 284,
+                      width: screenWidth,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: vehicles.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: (){
+                              String vehicleId =vehicles[index]
+                                  .id; // Assuming id is a field in the affordablevehicles model
+                              print(vehicleId);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          VehicleDetailsPage(
+                                            vehicleData:
+                                            vehicles[index]
+                                                .toMap(),
+                                            vehicleId: vehicleId,
+                                          )));
+
+                            },
+                            child: Container(
+                                  margin: const EdgeInsets.all(5.0),
+                                  width: screenWidth * 0.96, // 60% of the screen width
+
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    gradient: LinearGradient(
+                                      colors: [Color(0xFF0047AB), Color(0xFF82B1FF)],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.1),
+                                        blurRadius: 8,
+                                        offset: Offset(0, 4),
+                                      ),
+                                    ],
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Stack(
+                                      children: [
+                                        Image.network(
+                                          vehicles[index].imageUrl[0],
+                                          fit: BoxFit.contain,
+                                          width: double.infinity,
+                                          height: double.infinity,
+                                        ),
+                                        Positioned(
+                                          bottom: 10,
+                                          left: 10,
+                                          right: 10,
+                                          child: Container(
+                                            padding: EdgeInsets.all(10),
+                                            decoration: BoxDecoration(
+                                              color: Colors.black.withOpacity(0.6),
+                                              borderRadius: BorderRadius.circular(10),
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Image.asset(
+                                                      'assets/images/addc.png',
+                                                      width: 24,
+                                                      height: 24,
+                                                    ),
+                                                    SizedBox(width: 6),
+                                                    Text(
+                                                      '${vehicles[index].name}',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Container(
+                                                  width: 1, // Thickness of the divider
+                                                  height: 24, // Adjust height based on your content
+                                                  color: Colors.white.withOpacity(0.5), // Divider color
+                                                ),
+                                                // First Row
+                                                Row(
+                                                  children: [
+                                                    Image.asset(
+                                                      'assets/images/SPEEDO.png',
+                                                      width: 24,
+                                                      height: 24,
+                                                    ),
+                                                    SizedBox(width: 6),
+                                                    Text(
+                                                      '${vehicles[index].speed} mph',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                // Divider
+                                                Container(
+                                                  width: 1, // Thickness of the divider
+                                                  height: 24, // Adjust height based on your content
+                                                  color: Colors.white.withOpacity(0.5), // Divider color
+                                                ),
+                                                // Second Row
+                                                Row(
+                                                  children: [
+                                                    Image.asset(
+                                                      'assets/images/money.png',
+                                                      width: 24,
+                                                      height: 24,
+                                                    ),
+                                                    SizedBox(width: 6),
+                                                    Text(
+                                                      '\$${vehicles[index].inseaccrapricePerDay}',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                // Divider
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                          );
+
+                        },
+                      ),
+                    ),
+
+                    // Logos Section
+                    Container(
+                      margin: const EdgeInsets.symmetric(vertical: 12.0),
+                      height: 52,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: logos
+                            .map((logo) => GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedLogo = logo.name;
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => VehiclePage(
+                                      vehicleName: selectedLogo,
+                                    ),
+                                  ));
+                            });                      },
+                          child: Image.asset(
+                            logo.imageUrl,
+                            width: 50,
+                            height: 40,
+                          ),
+                        ))
+                            .toList(),
+                      ),
+                    ),
+
+                    // Affordables Section Title
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 18.0),
+                      child: Text(
+                        "Affordables",
                         style: TextStyle(
-                          fontSize: 26,
+                          fontSize: 23,
                           fontWeight: FontWeight.bold,
                           color: Color(0xFF0047AB),
                         ),
                       ),
-                      InkWell(
-                        onTap: () {
-                          // Navigate to the new page showing all vehicles
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => AllVehiclesPage(),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          "All",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blue,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                // Affordable Vehicles
-                Container(
-                  height: 284,
-                  width: screenWidth,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: vehicles.length,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: (){
-                          String vehicleId =vehicles[index]
-                              .id; // Assuming id is a field in the affordablevehicles model
-                          print(vehicleId);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      VehicleDetailsPage(
-                                        vehicleData:
-                                        vehicles[index]
-                                            .toMap(),
-                                        vehicleId: vehicleId,
-                                      )));
+                    ),
 
-                        },
-                        child: Container(
-                              margin: const EdgeInsets.all(5.0),
-                              width: screenWidth * 0.96, // 60% of the screen width
+                    // Affordable Vehicles
+                    Container(
+                      height: 284,
+                      width: screenWidth,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: affordablevehicles.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              String vehicleId = affordablevehicles[index]
+                                  .id; // Assuming id is a field in the affordablevehicles model
+                              print(vehicleId);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          VehicleDetailsPage(
+                                            vehicleData:
+                                            affordablevehicles[index]
+                                                .toMap(),
+                                            vehicleId: vehicleId,
+                                          )));                        },
+                            child: Container(
+                              margin: const EdgeInsets.all(15.0),
+                              width: screenWidth * 0.6, // 60% of the screen width
 
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
@@ -287,12 +487,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ],
                               ),
+
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: Stack(
                                   children: [
                                     Image.network(
-                                      vehicles[index].imageUrl[0],
+                                      affordablevehicles[index].imageUrl[0],
                                       fit: BoxFit.contain,
                                       width: double.infinity,
                                       height: double.infinity,
@@ -300,84 +501,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Positioned(
                                       bottom: 10,
                                       left: 10,
-                                      right: 10,
                                       child: Container(
-                                        padding: EdgeInsets.all(10),
+                                        padding: const EdgeInsets.all(8.0),
                                         decoration: BoxDecoration(
-                                          color: Colors.black.withOpacity(0.6),
-                                          borderRadius: BorderRadius.circular(10),
+                                          color: Colors.black54,
+                                          borderRadius: BorderRadius.circular(8.0),
                                         ),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Image.asset(
-                                                  'assets/images/addc.png',
-                                                  width: 24,
-                                                  height: 24,
-                                                ),
-                                                SizedBox(width: 6),
-                                                Text(
-                                                  '${vehicles[index].name}',
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            Container(
-                                              width: 1, // Thickness of the divider
-                                              height: 24, // Adjust height based on your content
-                                              color: Colors.white.withOpacity(0.5), // Divider color
-                                            ),
-                                            // First Row
-                                            Row(
-                                              children: [
-                                                Image.asset(
-                                                  'assets/images/SPEEDO.png',
-                                                  width: 24,
-                                                  height: 24,
-                                                ),
-                                                SizedBox(width: 6),
-                                                Text(
-                                                  '${vehicles[index].speed} mph',
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 14,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            // Divider
-                                            Container(
-                                              width: 1, // Thickness of the divider
-                                              height: 24, // Adjust height based on your content
-                                              color: Colors.white.withOpacity(0.5), // Divider color
-                                            ),
-                                            // Second Row
-                                            Row(
-                                              children: [
-                                                Image.asset(
-                                                  'assets/images/money.png',
-                                                  width: 24,
-                                                  height: 24,
-                                                ),
-                                                SizedBox(width: 6),
-                                                Text(
-                                                  '\$${vehicles[index].inseaccrapricePerDay}',
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            // Divider
-                                          ],
+                                        child: Text(
+                                          '\GHS ${affordablevehicles[index].outsideaccrapricePerDay}/Day',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -385,138 +521,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                             ),
-                      );
-
-                    },
-                  ),
-                ),
-
-                // Logos Section
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 12.0),
-                  height: 52,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: logos
-                        .map((logo) => GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedLogo = logo.name;
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => VehiclePage(
-                                  vehicleName: selectedLogo,
-                                ),
-                              ));
-                        });                      },
-                      child: Image.asset(
-                        logo.imageUrl,
-                        width: 50,
-                        height: 40,
+                          );
+                        },
                       ),
-                    ))
-                        .toList(),
-                  ),
-                ),
-
-                // Affordables Section Title
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 18.0),
-                  child: Text(
-                    "Affordables",
-                    style: TextStyle(
-                      fontSize: 23,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF0047AB),
                     ),
-                  ),
+                  ],
                 ),
+              ),
 
-                // Affordable Vehicles
-                Container(
-                  height: 284,
-                  width: screenWidth,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: affordablevehicles.length,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          String vehicleId = affordablevehicles[index]
-                              .id; // Assuming id is a field in the affordablevehicles model
-                          print(vehicleId);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      VehicleDetailsPage(
-                                        vehicleData:
-                                        affordablevehicles[index]
-                                            .toMap(),
-                                        vehicleId: vehicleId,
-                                      )));                        },
-                        child: Container(
-                          margin: const EdgeInsets.all(15.0),
-                          width: screenWidth * 0.6, // 60% of the screen width
-
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            gradient: LinearGradient(
-                              colors: [Color(0xFF0047AB), Color(0xFF82B1FF)],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                blurRadius: 8,
-                                offset: Offset(0, 4),
-                              ),
-                            ],
-                          ),
-
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Stack(
-                              children: [
-                                Image.network(
-                                  affordablevehicles[index].imageUrl[0],
-                                  fit: BoxFit.contain,
-                                  width: double.infinity,
-                                  height: double.infinity,
-                                ),
-                                Positioned(
-                                  bottom: 10,
-                                  left: 10,
-                                  child: Container(
-                                    padding: const EdgeInsets.all(8.0),
-                                    decoration: BoxDecoration(
-                                      color: Colors.black54,
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    child: Text(
-                                      '\$${affordablevehicles[index].outsideaccrapricePerDay}/Day',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
             ),
-          ),
-
+          ],
         )
 
 

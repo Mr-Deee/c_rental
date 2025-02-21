@@ -29,7 +29,7 @@ class _DrawerUserState extends State<DrawerUser> {
 
   @override
   void initState() {
-    doSomeAsyncStuff();
+    // doSomeAsyncStuff();
 
     super.initState();
   }
@@ -64,30 +64,7 @@ class _DrawerUserState extends State<DrawerUser> {
     }
   }
 
-  Future<void> doSomeAsyncStuff() async {
-    User? user = _auth.currentUser;
-    setState(() {
-      userEmail = user!.email;
-      userId = user.uid;
-    });
-    FirebaseFirestore.instance
-        .collection('Users')
-        .doc(userId)
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-      if (documentSnapshot.exists) {
-        setState(() {
-          lastName = documentSnapshot.get("lastName");
-          firstName = documentSnapshot.get("firstName");
-          gender = documentSnapshot.get("gender");
-          phoneNumber = documentSnapshot.get("phoneNumber");
-        });
-        print('Document data: ${documentSnapshot.get("lastName")}');
-      } else {
-        print('Document does not exist on the database');
-      }
-    });
-  }
+
 
   @override
   Widget build(BuildContext context) {

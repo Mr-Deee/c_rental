@@ -74,52 +74,85 @@ class _AllVehiclesPageState extends State<AllVehiclesPage> {
     super.initState();
     _fetchVehicles();
   }
-
   Future<void> _fetchVehicles() async {
     try {
       final DataSnapshot snapshot = await _vehiclesRef.get();
+      final List<Vehicle> vehicles = [];
+
       if (snapshot.exists) {
-        final List<Vehicle> vehicles = [];
         for (var entry in snapshot.children) {
-          final vehicleData = entry.value as Map<dynamic, dynamic>;
-          vehicles.add(Vehicle.fromMap(entry.key ?? '', vehicleData));
+          try {
+            final vehicleData = entry.value as Map<dynamic, dynamic>?;
+
+            if (vehicleData != null) {
+              vehicles.add(Vehicle.fromMap(entry.key ?? '', vehicleData));
+            } else {
+              print('Invalid data found for key: ${entry.key}');
+            }
+          } catch (e) {
+            print('Error parsing vehicle data for key: ${entry.key}, Error: $e');
+          }
         }
-        setState(() {
-          _vehicles = vehicles;
-          _isLoading = false;
-        });
       } else {
-        setState(() {
-          _isLoading = false;
-        });
+        print('No vehicles found.');
       }
+
+      setState(() {
+        _vehicles = vehicles;
+        _isLoading = false;
+      });
+
     } catch (e) {
+      print('Error fetching vehicles: $e');
       setState(() {
         _isLoading = false;
       });
-      print('Error fetching vehicles: $e');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('All Vehicles'),
-      ),
+      // appBar: AppBar(
+      //   title: const Text('All Vehicles'),
+      // ),
       body: Stack(
+
         children: [
-          // Background with white and blue gradient grid pattern
+
           Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.white, Color(0xFF82B1FF)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/wallpaper.jpg"),
+                // Add your background image
+                fit: BoxFit.cover,
               ),
             ),
-            child: CustomPaint(
-              painter: GridPainter(),
+            child: Container(
+              color: Colors.white.withOpacity(0.1), // Opaque filter
+            ),
+          ),
+          SizedBox(height: 122,),
+          Positioned(
+            top:63,
+            left: 150,
+            child:   Center(child: Text('All Vehicles',style: TextStyle(color:Colors.black38,fontWeight: FontWeight.bold, fontSize: 23),)),
+          ),
+
+          // Background with white and blue gradient grid pattern
+          SingleChildScrollView(
+
+            child: Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Colors.white, Color(0xFF82B1FF)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+              ),
+              child: CustomPaint(
+                painter: GridPainter(),
+              ),
             ),
           ),
           // Main content
@@ -128,7 +161,7 @@ class _AllVehiclesPageState extends State<AllVehiclesPage> {
               : _vehicles.isEmpty
               ? const Center(child: Text('No vehicles found.'))
               : Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.only( top:50.0,left:12, right: 12),
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2, // Number of columns

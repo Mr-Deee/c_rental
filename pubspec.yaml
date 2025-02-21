@@ -65,6 +65,7 @@ dependencies:
   flutter_polyline_points: ^2.1.0
   url_launcher: ^6.3.1
   carousel_slider: ^5.0.0
+  change_app_package_name: ^1.4.0
 
 
 

@@ -48,7 +48,8 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
   }
 
   // The phone number to call
-  final String phoneNumber = "+233263909154"; // Replace with the desired phone number
+  final String phoneNumber =
+      "+233263909154"; // Replace with the desired phone number
 
   // Function to launch the phone dialer
   void _launchCaller(String number) async {
@@ -61,113 +62,148 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
       throw "Could not launch $number";
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final userprovider = Provider.of<Users>(context).userInfo;
     List<String>? images = widget.vehicleData['VehicleImages']?.cast<String>();
 
     return Scaffold(
-      // backgroundColor: Color(0xFF0047AB),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF0D94FF),
-        // Navy blue
-        title: Text(
-          widget.vehicleData['model_name'].toString(),
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 20, // Increased font size for better visibility
-            color: Colors.white,
-            letterSpacing: 1.2, // Slightly increased letter spacing
-          ),
-        ),
-        centerTitle: true,
-        // Centers the title
-        elevation: 4,
-        // Adds a shadow effect for better depth
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
-            Navigator.of(context).pop(); // Navigate back
-          },
-        ),
-        actions: [
-          // IconButton(
-          //   icon: const Icon(Icons.more_vert, color: Colors.white),
-          //   onPressed: () {
-          //     // Add functionality here
-          //   },
-          // ),
-        ],
-      ),
-
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-
-            Center(
-                child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  height: 78,
-                    width: 236,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(12),
-                            bottomLeft: Radius.circular(27)),
-                        gradient: LinearGradient(colors: [Color(0xFF040404), Color(0x860D94FF)])),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left:5.0, right: 2.0,top: 30,bottom:20),
-                      child: Text(
-                        "\GHS-${widget.vehicleData['insideAccraprice_per_day']} - ${widget.vehicleData['outsideAccraprice_per_day']}day",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    )),
-              ],
-            )),
-
-            Center(
-              child: Container(
-
-                height: 220,
-                width: 500,
-                child: images != null && images.isNotEmpty
-                    ? CarouselSlider(
-                  options: CarouselOptions(
-                    height: 180,
-
-                    autoPlay: true, // Enables auto-slide
-                    enlargeCenterPage: true, // Zooms in the center image slightly
-                    viewportFraction: 0.8, // Adjusts the fraction of the screen each image takes
-                  ),
-                  items: images.map((image) {
-                    return Image.network(
-                      image,
-                      fit: BoxFit.cover,
-                    );
-                  }).toList(),
-                )
-                    : const Center(child: Text('No image available')),
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/wallpaper.jpg"),
+                // Add your background image
+                fit: BoxFit.cover,
               ),
             ),
+            child: Container(
+              color: Colors.white.withOpacity(0.1), // Opaque filter
+            ),
+          ),
+          SingleChildScrollView(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 49,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.arrow_back, size: 30),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    Center(
+                      child: Text(
+                        widget.vehicleData['model_name'].toString(),
+                        style: TextStyle(
+                            fontSize: 34, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    SizedBox(width: 48), // Ensures text remains centered
+                  ],
+                ),
+                SizedBox(
+                  height: 23,
+                ),
+                Center(
+                    child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                        height: 75,
+                        width: 236,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(12),
+                                bottomLeft: Radius.circular(27)),
+                            gradient: LinearGradient(colors: [
+                              Color(0xFF040404),
+                              Color(0x860D94FF)
+                            ])),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 5.0, right: 2.0, top: 30, bottom: 20),
+                          child: Text(
+                            "\GHS-${widget.vehicleData['insideAccraprice_per_day']} - ${widget.vehicleData['outsideAccraprice_per_day']}day",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        )),
+                  ],
+                )),
+                SizedBox(
+                  height: 18,
+                ),
+                Center(
+                  child: Container(
+                    height: 220,
+                    width: 500,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 10,
+                          spreadRadius: 2,
+                          offset: Offset(0, 5),
+                        ),
+                      ],
+                      gradient: LinearGradient(
+                        colors: [Colors.blueGrey.shade900, Colors.blue.shade600],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: images != null && images.isNotEmpty
+                          ? CarouselSlider(
+                        options: CarouselOptions(
+                          height: 180,
+                          autoPlay: true, // Enables auto-slide
+                          enlargeCenterPage: true, // Zooms in the center image slightly
+                          viewportFraction: 0.8, // Adjusts the fraction of the screen each image takes
+                        ),
+                        items: images.map((image) {
+                          return Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              image: DecorationImage(
+                                image: NetworkImage(image),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      )
+                          : const Center(child: Text('No image available', style: TextStyle(color: Colors.white))),
+                    ),
+                  ),
+                ),
 
-            SizedBox(height: 6),
-           Center(
-             child: SingleChildScrollView(
-               scrollDirection: Axis.horizontal,
-               child: Row(
-                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                SizedBox(height: 14),
+                Center(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         _buildDetailRow(
                             Image.asset('assets/images/ENGINE.png',
                                 width: 78, height: 74),
                             'Model Number',
-                            widget.vehicleData['EngineCapacity'] ?? "".toString()),
+                            widget.vehicleData['EngineCapacity'] ??
+                                "".toString()),
                         _buildDetailRow(
                             Image.asset('assets/images/seats.png',
                                 width: 74, height: 74),
@@ -180,116 +216,115 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
                             widget.vehicleData['speed'].toString()),
                       ],
                     ),
-             ),
-           ),
-
-
-
-            Center(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    _buildDetailRow(
-                        Image.asset('assets/images/PLATE.png',
-                            width: 74, height: 74),
-                        'Plate Number',
-                        widget.vehicleData['vehicle_number'].toString()),
-                    _buildDetailRow(
-                        Image.asset('assets/images/gear2.png',
-                            width: 74, height: 74),
-                        'Plate Number',
-                        widget.vehicleData['Transmission'].toString()),
-                    _buildDetailRow(
-                        Image.asset('assets/images/gear2.png',
-                            width: 74, height: 74),
-                        'location',
-                        widget.vehicleData['location'].toString()),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-
-            SizedBox(
-              height: 22,
-            ),
-
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 14.0, left: 18, right: 18),
-                                child: Container(
-                                  height: 62,
-                                  width: 73,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.amber,
-                                  ),
-                                  child: Center(
-                                      child: Text(
-                                    "Benjis",
-                                    style: TextStyle(fontWeight: FontWeight.bold),
-                                  )),
-                                ),
-                           ),
-                  Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 14.0, left: 18, right: 18),
-                                child: GestureDetector(
-                                  onTap: (){
-
-                                    _launchCaller(phoneNumber); // Launch the dialer when tapped
-
-                                  },
-                                  child: Container(
-                                    height: 62,
-                                    width: 73,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-    gradient: LinearGradient(colors: [Color(0xF50D94FF), Color(0x860D94FF)])),
-
-                                    child: Center(
-                                        child: Icon(
-                                      Icons.call,color: Colors.white,
-                                    )),
-                                  ),
-                                ),
-                           ),
-                  GestureDetector(
-                    onTap: () {
-                      _showRentDialog();
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Color(0xFF0D94FF),
-                          borderRadius: BorderRadius.circular(10)),
-                      height: 53,
-                      width: 120,
-                      child: Center(
-                          child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            "Rent Now",
-                            style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.bold),
-                          ),
-                          Icon(
-                            Icons.arrow_right_alt,
-                            color: Colors.white,
-                          ),
-                        ],
-                      )),
+                Center(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        _buildDetailRow(
+                            Image.asset('assets/images/PLATE.png',
+                                width: 74, height: 74),
+                            'Plate Number',
+                            widget.vehicleData['vehicle_number'].toString()),
+                        _buildDetailRow(
+                            Image.asset('assets/images/gear2.png',
+                                width: 74, height: 74),
+                            'Plate Number',
+                            widget.vehicleData['Transmission'].toString()),
+                        _buildDetailRow(
+                            Image.asset('assets/images/gear2.png',
+                                width: 74, height: 74),
+                            'location',
+                            widget.vehicleData['location'].toString()),
+                      ],
                     ),
                   ),
-                ],
-              )
-
-          ],
-        ),
+                ),
+                SizedBox(
+                  height: 22,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 14.0, left: 18, right: 18),
+                      child: Container(
+                        height: 62,
+                        width: 73,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.amber,
+                        ),
+                        child: Center(
+                            child: Text(
+                          "Benjis",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )),
+                      ),
+                    ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 14.0, left: 18, right: 18),
+                      child: GestureDetector(
+                        onTap: () {
+                          _launchCaller(
+                              phoneNumber); // Launch the dialer when tapped
+                        },
+                        child: Container(
+                          height: 62,
+                          width: 73,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              gradient: LinearGradient(colors: [
+                                Color(0xF50D94FF),
+                                Color(0x860D94FF)
+                              ])),
+                          child: Center(
+                              child: Icon(
+                            Icons.call,
+                            color: Colors.white,
+                          )),
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        _showRentDialog();
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Color(0xFF0D94FF),
+                            borderRadius: BorderRadius.circular(10)),
+                        height: 53,
+                        width: 120,
+                        child: Center(
+                            child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Rent Now",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
+                        )),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -313,8 +348,6 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
                     padding: const EdgeInsets.all(8.0),
                     child: image, // Using the passed image widget
                   ),
-
-
                 ],
               ),
               SingleChildScrollView(
@@ -357,13 +390,16 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
               titlePadding: const EdgeInsets.all(20),
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              title: Text(
-                "Rent a Vehicle",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blue[800],
+              title: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Rent a Vehicle",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue[800],
+                  ),
                 ),
               ),
               content: Column(
