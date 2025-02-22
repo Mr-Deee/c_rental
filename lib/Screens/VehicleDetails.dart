@@ -74,13 +74,13 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/images/wallpaper.jpg"),
+                image: AssetImage("assets/images/blue.jpg"),
                 // Add your background image
                 fit: BoxFit.cover,
               ),
             ),
             child: Container(
-              color: Colors.white.withOpacity(0.1), // Opaque filter
+              color: Colors.black38.withOpacity(0.6), // Opaque filter
             ),
           ),
           SingleChildScrollView(
@@ -95,7 +95,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
-                      icon: Icon(Icons.arrow_back, size: 30),
+                      icon: Icon(Icons.arrow_back, size: 30,color: Colors.white,),
                       onPressed: () {
                         Navigator.pop(context);
                       },
@@ -104,6 +104,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
                       child: Text(
                         widget.vehicleData['model_name'].toString(),
                         style: TextStyle(
+                          color: Colors.white,
                             fontSize: 34, fontWeight: FontWeight.bold),
                       ),
                     ),

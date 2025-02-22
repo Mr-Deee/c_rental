@@ -78,20 +78,9 @@ class _DrawerUserState extends State<DrawerUser> {
         padding: EdgeInsets.zero,
         children: [
           Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/antique.jpg"),
-                // Add your background image
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: Container(
-              color: Colors.white10.withOpacity(0.4), // Opaque filter
-            ),
-          ),
-          Container(
             height: heightDevice * 0.3,
             decoration: BoxDecoration(
+
               image: DecorationImage(
                 image: AssetImage("assets/images/antique.jpg"),
                 // Add your background image
@@ -107,14 +96,20 @@ class _DrawerUserState extends State<DrawerUser> {
             //   ),
 
             //),
-            child: Row(children: [
+            child: Container(
+              color: Colors.black38.withOpacity(0.6), // Opaque filter
+
+              child:
+
+
+            Row(children: [
 
               SizedBox(
                 height: 34,
               ),
               Container(
                 margin: EdgeInsets.only(
-                    top: heightDevice * 0.05, left: widthDevice * 0.06),
+                    top: heightDevice * 0.08, left: widthDevice * 0.04),
                 child: SingleChildScrollView(
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,6 +124,7 @@ class _DrawerUserState extends State<DrawerUser> {
                           ),
                         ),
                       ),
+                      SizedBox(width: 12,),
                       Container(
                         margin: EdgeInsets.only(
                             top: heightDevice * 0.015,
@@ -146,6 +142,8 @@ class _DrawerUserState extends State<DrawerUser> {
                                       fontSize: 24,
                                       fontWeight: FontWeight.bold),
                                 ),
+                                SizedBox(width: 12,),
+
                                 Text(
                                   userprovider.lastname.toString(),
                                   style: TextStyle(
@@ -155,13 +153,15 @@ class _DrawerUserState extends State<DrawerUser> {
                                 ),
                               ],
                             ),
+
+
                             SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Text(
                                 userprovider.email.toString(),
                                 style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 15,
+                                    fontSize: 13,
                                     fontWeight: FontWeight.w500),
                               ),
                             ),
@@ -181,7 +181,7 @@ class _DrawerUserState extends State<DrawerUser> {
                               child: Row(children: [
                                 Icon(
                                   Icons.logout,
-                                  color: Colors.white,
+                                  color: Colors.black,
                                 ),
                               ]),
                             ),
@@ -193,7 +193,7 @@ class _DrawerUserState extends State<DrawerUser> {
                 ),
               ),
             ]),
-          ),
+            ) ),
           Container(
             child: Column(children: [
               Column(children: [

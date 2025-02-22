@@ -201,13 +201,13 @@ class _HomeScreenState extends State<HomeScreen> {
             Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage("assets/images/wallpaper.jpg"),
+                  image: AssetImage("assets/images/wal2.jpg"),
                   // Add your background image
                   fit: BoxFit.cover,
                 ),
               ),
               child: Container(
-                color: Colors.white10.withOpacity(0.4), // Opaque filter
+                color: Colors.white.withOpacity(0.1), // Opaque filter
               ),
             ),
             Container(
