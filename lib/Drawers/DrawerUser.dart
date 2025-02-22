@@ -80,7 +80,7 @@ class _DrawerUserState extends State<DrawerUser> {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/images/wallpaper.jpg"),
+                image: AssetImage("assets/images/antique.jpg"),
                 // Add your background image
                 fit: BoxFit.cover,
               ),
@@ -93,7 +93,7 @@ class _DrawerUserState extends State<DrawerUser> {
             height: heightDevice * 0.3,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/images/wallpaper.jpg"),
+                image: AssetImage("assets/images/antique.jpg"),
                 // Add your background image
                 fit: BoxFit.cover,
               ),

@@ -123,13 +123,13 @@ class _AllVehiclesPageState extends State<AllVehiclesPage> {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/images/wallpaper.jpg"),
+                image: AssetImage("assets/images/Aud.jpg"),
                 // Add your background image
                 fit: BoxFit.cover,
               ),
             ),
             child: Container(
-              color: Colors.white.withOpacity(0.1), // Opaque filter
+              color: Colors.white.withOpacity(0.2), // Opaque filter
             ),
           ),
           SizedBox(height: 122,),
