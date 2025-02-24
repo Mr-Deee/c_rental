@@ -300,7 +300,7 @@ class _DrawerUserState extends State<DrawerUser> {
                               'benjicab3@gmail.com',
                               style: TextStyle(
                                 color: Colors.blue, // Make it look like a clickable link
-                                decoration: TextDecoration.underline,
+                                // decoration: TextDecoration.underline,
                               ),
                             ),
                           ),
@@ -315,7 +315,7 @@ class _DrawerUserState extends State<DrawerUser> {
                                     '0263909154',
                                     style: TextStyle(
                                       color: Colors.blue, // Make it look tappable
-                                      decoration: TextDecoration.underline,
+                                      // decoration: TextDecoration.underline,
                                     ),
                                   ),
                                 ),
