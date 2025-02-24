@@ -218,7 +218,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     // Featured Section Title
                     // Featured Section Title
-                    SizedBox(height: 123,),
+                    SizedBox(height: 75,),
 
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 18.0),

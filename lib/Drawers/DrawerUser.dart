@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:android_intent_plus/android_intent.dart';
+import 'package:android_intent_plus/flag.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -5,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../Constants/constants.dart';
@@ -66,15 +71,22 @@ class _DrawerUserState extends State<DrawerUser> {
 
   void _launchGoogleMaps(BuildContext context) async {
     final Uri googleMapsAppUrl = Uri.parse("geo:5.7106085,-0.2067407?q=Benji+Rental+Services");
+    final Uri googleMapsWebUrl = Uri.parse("https://www.google.com/maps/place/Benji+Rental+Services/@5.704107,-0.2095731,15z");
+    final Uri googleMapsAppStoreUrl = Uri.parse("https://play.google.com/store/apps/details?id=com.google.android.apps.maps"); // Android
+    final Uri googleMapsAppStoreIosUrl = Uri.parse("https://apps.apple.com/us/app/google-maps/id585027354"); // iOS
 
     if (await canLaunchUrl(googleMapsAppUrl)) {
       await launchUrl(googleMapsAppUrl, mode: LaunchMode.externalApplication);
+    } else if (await canLaunchUrl(googleMapsWebUrl)) {
+      await launchUrl(googleMapsWebUrl, mode: LaunchMode.externalApplication);
     } else {
-      // Fallback to browser if Google Maps app is not installed
-      final Uri browserUrl = Uri.parse(
-          "https://www.google.com/maps/place/Benji+Rental+Services/@5.704107,-0.2095731,15z");
-      if (await canLaunchUrl(browserUrl)) {
-        await launchUrl(browserUrl, mode: LaunchMode.externalApplication);
+      // Open App Store links based on platform
+      final Uri appStoreUrl = Uri.parse(
+        Uri.base.toString().contains("android") ? googleMapsAppStoreUrl.toString() : googleMapsAppStoreIosUrl.toString(),
+      );
+
+      if (await canLaunchUrl(appStoreUrl)) {
+        await launchUrl(appStoreUrl, mode: LaunchMode.externalApplication);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Could not open Google Maps")),
@@ -82,7 +94,6 @@ class _DrawerUserState extends State<DrawerUser> {
       }
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -280,19 +291,36 @@ class _DrawerUserState extends State<DrawerUser> {
                           content: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              ListTile(
-                                leading: Icon(Icons.email,
-                                    color: Colors.blue.shade900),
-                                title: const Text('Email'),
-                                subtitle: const Text('benjicab3@gmail.com'),
+                          ListTile(
+                          leading: Icon(Icons.email, color: Colors.blue.shade900),
+                          title: const Text('Email'),
+                          subtitle: GestureDetector(
+                            onTap: () => _launchEmail('benjicab3@gmail.com'),
+                            child: Text(
+                              'benjicab3@gmail.com',
+                              style: TextStyle(
+                                color: Colors.blue, // Make it look like a clickable link
+                                decoration: TextDecoration.underline,
                               ),
+                            ),
+                          ),
+                          ),
                               Divider(color: Colors.blue.shade100),
                               ListTile(
-                                leading: Icon(Icons.phone,
-                                    color: Colors.blue.shade900),
+                                leading: Icon(Icons.phone, color: Colors.blue.shade900),
                                 title: const Text('Phone'),
-                                subtitle: const Text('0263909154'),
+                                subtitle: GestureDetector(
+                                  onTap: () => _launchPhoneDialer('0263909154'),
+                                  child: const Text(
+                                    '0263909154',
+                                    style: TextStyle(
+                                      color: Colors.blue, // Make it look tappable
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ),
                               ),
+
                               Divider(color: Colors.blue.shade100),
                               ListTile(
                                 leading: Icon(Icons.location_on,
@@ -367,7 +395,34 @@ class _DrawerUserState extends State<DrawerUser> {
       ),
     );
   }
+  void _launchEmail(String email) async {
+    if (Platform.isAndroid) {
+      try {
+        final intent = AndroidIntent(
+          action: 'android.intent.action.SENDTO',
+          data: 'mailto:$email', // Convert Uri to String
+          package: 'com.google.android.gm', // Opens Gmail app
+          flags: [Flag.FLAG_ACTIVITY_NEW_TASK],
+        );
+        await intent.launch();
+        return;
+      } catch (e) {
+        debugPrint("Could not launch Gmail app: $e");
+      }
+    }
 
+    // Fallback for iOS & Android if Gmail fails
+    final Uri emailUri = Uri(
+      scheme: 'mailto',
+      path: email,
+    );
+
+    if (await canLaunchUrl(emailUri)) {
+      await launchUrl(emailUri, mode: LaunchMode.externalApplication);
+    } else {
+      debugPrint("Could not launch email app.");
+    }
+  }
   Future<void> signOutFromGoogle() async {
     await _googleSignIn.signOut();
     await _auth.signOut();
@@ -375,6 +430,35 @@ class _DrawerUserState extends State<DrawerUser> {
         MaterialPageRoute(builder: (context) => LoginScreen()), (_) => false);
   }
 }
+
+void _launchPhoneDialer(String phoneNumber) async {
+  if (Platform.isAndroid) {
+    try {
+      final intent = AndroidIntent(
+        action: 'android.intent.action.DIAL',
+        data: 'tel:$phoneNumber', // Ensures proper format
+        flags: [Flag.FLAG_ACTIVITY_NEW_TASK],
+      );
+      await intent.launch();
+      return;
+    } catch (e) {
+      debugPrint("Could not launch phone dialer: $e");
+    }
+  }
+
+  // Fallback for iOS & Android if Intent fails
+  final Uri phoneUri = Uri(
+    scheme: 'tel',
+    path: phoneNumber,
+  );
+
+  if (await canLaunchUrl(phoneUri)) {
+    await launchUrl(phoneUri, mode: LaunchMode.externalApplication);
+  } else {
+    debugPrint("Could not launch phone dialer.");
+  }
+}
+
 
 void _showAboutDialog(BuildContext context) {
   showDialog(
